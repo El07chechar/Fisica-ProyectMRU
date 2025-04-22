@@ -3,62 +3,86 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="estilosrappidos.css">
     <title>Física-MRU</title>
   </head>
 
   <body>
     <header>
       <nav>
-      <ul>
-        <li><button><a href="pagina.html">Calcular</a></button></li>
-        <li><button><a href="pagina.html">Calcular</a></button></li>
-        <li><button><a href="pagina.html">Calcular</a></button></li>
-        <li><button><a href="pagina.html">Calcular</a></button></li>
-      </ul>
-    </nav>
+        <ul>
+          <li><button><a href="pagina.html">Calcular</a></button></li>
+          <li><button><a href="pagina.html">Encuentros</a></button></li>
+          <li><button><a href="pagina.html">Graficas</a></button></li>
+        </ul>
+      </nav>
     </header>
+
     <h1>Proyecto de MRU</h1>
+
     <main>
       <h2>Ingresar datos</h2>
       <form action="" method="get" class="Calculo-Conversor">
-        <label for="velocidad">Velocidad</label>
-        <input
-          type="number"
-          name="velocidad"
-          id="velocidad"
-          placeholder="Velocidad"
-        />
-        <select name="velocidadUnidad" id="velocidadUnidad">
-          <option value="m/s">m/s</option>
-          <option value="km/h">km/h</option>
-        </select>
-        <label for="tiempo">Tiempo</label>
-        <input type="number" name="tiempo" id="tiempo" placeholder="Tiempo" />
-        <select name="tiempoUnidad" id="tiempoUnidad">
-          <option value="s">S</option>
-          <option value="min">min</option>
-          <option value="h">h</option>
-        </select>
-        <label for="distancia">distancia</label>
-        <input
-          type="number"
-          name="distancia"
-          id="distancia"
-          placeholder="Distancia"
-        />
-        <select name="distanciaUnidad" id="distanciaUnidad">
-          <option value="m">m</option>
-          <option value="km">km</option>
-        </select>
-        <br />
+        <div class="campo">
+          <label for="velocidad">Velocidad:</label>
+          <input
+            type="number"
+            name="velocidad"
+            id="velocidad"
+            placeholder="Velocidad"
+          />
+          <select name="velocidadUnidad" id="velocidadUnidad">
+            <option value="m/s">m/s</option>
+            <option value="km/h">km/h</option>
+          </select>
+        </div>
+
+        <div class="campo">
+          <label for="tiempo">Tiempo:</label>
+          <input
+            type="number"
+            name="tiempo"
+            id="tiempo"
+            placeholder="Tiempo"
+          />
+          <select name="tiempoUnidad" id="tiempoUnidad">
+            <option value="s">S</option>
+            <option value="min">min</option>
+            <option value="h">h</option>
+          </select>
+        </div>
+
+        <div class="campo">
+          <label for="distancia">Distancia:</label>
+          <input
+            type="number"
+            name="distancia"
+            id="distancia"
+            placeholder="Distancia"
+          />
+          <select name="distanciaUnidad" id="distanciaUnidad">
+            <option value="m">m</option>
+            <option value="km">km</option>
+          </select>
+        </div>
+
         <input type="submit" value="Calcular" />
       </form>
 
       <div class="resultados">
         <h2>Resultados</h2>
-        <p id="resultados"></p>
-      </div>
+        <div class="campo">
+          <label for="resultado">Resultado:</label>
+          <input
+            type="number"
+            name="resultado"
+            id="resultado"
+            placeholder="Resultado"
+          />
+        </div>
+      
     </main>
+
     <footer></footer>
   </body>
 </html>

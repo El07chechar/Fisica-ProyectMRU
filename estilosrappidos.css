@@ -1,0 +1,122 @@
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: white;
+    color: black;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+  }
+  
+ 
+  nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    gap: 40px;
+  }
+  
+  nav ul li button {
+    background-color: black;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 30px;
+  }
+  
+  nav ul li button a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+  }
+  
+  
+  h1 {
+    font-size: 32px;
+    margin-top: 20px;
+  }
+  
+  h2 {
+    font-size: 26px;
+    margin-top: 40px;
+    font-weight: bold;
+  }
+  
+  .Calculo-Conversor {
+    margin-top: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    align-items: center;
+  }
+  
+  .Calculo-Conversor label {
+    width: 100%;
+    text-align: left;
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+  
+  .resultados {
+    max-width: 500px;
+    margin: 30px auto;
+    padding: 0;
+  }
+  
+  .resultados h2 {
+    margin-bottom: 20px;
+  }
+  
+  .resultados .campo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 10px;
+  }
+  
+  .resultados label {
+    font-weight: bold;
+    font-size: 14px;
+  }
+  
+  .resultados input[type="number"] {
+    padding: 12px 20px;
+    font-size: 16px;
+    border: 1px solid #242323;
+    border-radius: 20px;
+    min-width: 150px;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
+  }
+  .Calculo-Conversor input[type="number"],
+  .Calculo-Conversor select {
+    padding: 12px 20px;
+    font-size: 16px;
+    border: 1px solid #242323;
+    border-radius: 20px;
+    min-width: 150px;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
+  }
+
+
+  .Calculo-Conversor input[type="submit"] {
+    background-color: #c600ff;
+    color: rgb(255, 255, 255);
+    border: none;
+    padding: 12px 25px;
+    font-size: 16px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
+  .Calculo-Conversor input[type="submit"]:hover {
+    background-color: #9307b6;
+  }
+  
+
+  
