@@ -1,23 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Encuentros</title>
+  <meta charset="UTF-8">
+  <title>Encuentros</title>
+  <link rel="stylesheet" href="css/encuentros.css">
 </head>
 <body>
-    <header>
-        <nav>
-          <ul>
-            <li><button><a href="pagina.html">Calcular</a></button></li>
-            <li><button><a href="pagina.html">Encuentros</a></button></li>
-            <li><button><a href="pagina.html">Graficas</a></button></li>
-          </ul>
-        </nav>
-      </header>
-      <main>
-          <div class="cat--encuentros"><button><a href="#">Opuestos</a></button></div>
-          <div class="cat--encuentros"><button><a href="#">Mismo Lado</a></button></div>
-      </main>
+  <div class="container">
+    <div class="dropdown">
+      <button class="dropdown-button" id="dropdownBtn">SELECCIONAR ▼</button>
+      <div class="dropdown-content" id="dropdownMenu">
+        <div class="dropdown-item">opuestos</div>
+        <div class="dropdown-item">mismo lado</div>
+      </div>
+    </div>
+
+    <form class="formulario">
+      <div class="columna">
+        <label>Posicion inicial x1</label>
+        <input type="text">
+        <label>Posicion inicial x2</label>
+        <input type="text">
+        <label>velocidad x1</label>
+        <input type="text">
+        <label>velocidad x2</label>
+        <input type="text">
+        <label>direccion del movimiento</label>
+        <input type="text">
+      </div>
+      <div class="columna">
+        <label>tiempo de partida x1</label>
+        <input type="text">
+        <label>tiempo de partida x2</label>
+        <input type="text">
+      </div>
+    </form>
+
+    <div class="resultado">
+      <label>Resultado</label>
+      <input type="text" id="resultado" readonly>
+    </div>
+
+  </div>
+
+  <script src="js/menudesplegable.js"></script>
 </body>
 </html>
