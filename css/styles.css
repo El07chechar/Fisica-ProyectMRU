@@ -1,122 +1,215 @@
-
 body {
-    font-family: Arial, sans-serif;
-    background-color: white;
-    color: black;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-  }
-  
- 
-  nav ul {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    padding: 20px;
-    gap: 40px;
-  }
-  
-  nav ul li button {
-    background-color: black;
-    border: none;
-    padding: 15px 30px;
-    border-radius: 30px;
-  }
-  
-  nav ul li button a {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 18px;
-  }
-  
-  
-  h1 {
-    font-size: 32px;
-    margin-top: 20px;
-  }
-  
-  h2 {
-    font-size: 26px;
-    margin-top: 40px;
-    font-weight: bold;
-  }
-  
-  .Calculo-Conversor {
-    margin-top: 30px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px;
-    align-items: center;
-  }
-  
-  .Calculo-Conversor label {
-    width: 100%;
-    text-align: left;
-    font-weight: bold;
-    font-size: 14px;
-    margin-bottom: 5px;
-  }
-  
-  .resultados {
-    max-width: 500px;
-    margin: 30px auto;
-    padding: 0;
-  }
-  
-  .resultados h2 {
-    margin-bottom: 20px;
-  }
-  
-  .resultados .campo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-    margin-top: 10px;
-  }
-  
-  .resultados label {
-    font-weight: bold;
-    font-size: 14px;
-  }
-  
-  .resultados input[type="number"] {
-    padding: 12px 20px;
-    font-size: 16px;
-    border: 1px solid #242323;
-    border-radius: 20px;
-    min-width: 150px;
-    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
-  }
-  .Calculo-Conversor input[type="number"],
-  .Calculo-Conversor select {
-    padding: 12px 20px;
-    font-size: 16px;
-    border: 1px solid #242323;
-    border-radius: 20px;
-    min-width: 150px;
-    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
-  }
+  font-family: Arial, sans-serif;
+  background-color: white;
+  color: black;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  gap: 40px;
+}
+
+nav ul li button {
+  background-color: black;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 30px;
+}
+
+nav ul li button a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+h1 {
+  font-size: 32px;
+  margin-top: 20px;
+}
+
+h2 {
+  font-size: 26px;
+  margin-top: 40px;
+  font-weight: bold;
+}
 
 
-  .Calculo-Conversor input[type="submit"] {
-    background-color: #c600ff;
-    color: rgb(255, 255, 255);
-    border: none;
-    padding: 12px 25px;
-    font-size: 16px;
-    border-radius: 15px;
-    cursor: pointer;
-    font-weight: bold;
-    margin-top: 10px;
-  }
-  
-  .Calculo-Conversor input[type="submit"]:hover {
-    background-color: #9307b6;
-  }
-  
+.Calculo-Conversor {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+}
 
-  
+.Calculo-Conversor .campo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  max-width: 320px;
+}
+
+.Calculo-Conversor label {
+  width: 100%;
+  text-align: left;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.input-select-group {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.input-select-group input[type="number"],
+.input-select-group select {
+  flex: 1;
+  padding: 12px 20px;
+  font-size: 16px;
+  border: 1px solid #242323;
+  border-radius: 20px;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.Calculo-Conversor input[type="submit"] {
+  background-color: #c600ff;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  font-size: 16px;
+  border-radius: 15px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+.Calculo-Conversor input[type="submit"]:hover {
+  background-color: #9307b6;
+}
+
+
+.resultados {
+  max-width: 500px;
+  margin: 30px auto;
+  padding: 0;
+}
+
+.resultados h2 {
+  margin-bottom: 20px;
+}
+
+.resultados .campo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.resultados label {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.resultados input[type="number"] {
+  padding: 12px 20px;
+  font-size: 16px;
+  border: 1px solid #242323;
+  border-radius: 20px;
+  min-width: 150px;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* ENCUENTROS */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 80px;
+}
+
+.dropdown {
+  position: relative;
+  margin-bottom: 40px;
+}
+
+.dropdown-button {
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  font-size: 18px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+  margin-top: 5px;
+  width: 100%;
+  border-radius: 10px;
+  z-index: 1;
+}
+
+.dropdown-item {
+  padding: 10px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.dropdown-item:hover {
+  background-color: #f1f1f1;
+}
+
+.formulario {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  flex-wrap: wrap;
+}
+
+.columna {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.resultado {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.resultado input {
+  padding: 10px;
+  width: 300px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-weight: bold;
+  text-align: center;
+}
+
+label {
+  font-weight: bold;
+}
+
+input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  width: 200px;
+}
