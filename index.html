@@ -71,44 +71,50 @@
   </main>
 
   <!-- Encuentros -->
+
+
   <section id="encuentros" class="container">
     <h2>Encuentros</h2>
 
-    <div class="dropdown">
-      <button class="dropdown-button" id="dropdownBtn">SELECCIONAR ▼</button>
-      <div class="dropdown-content" id="dropdownMenu">
-        <div class="dropdown-item">Opuestos</div>
-        <div class="dropdown-item">Mismo lado</div>
-      </div>
-    </div>
+    <form class="formulario" id="formEncuentros">
+        <div class="columna">
+            <label>Posición inicial x1 (m):</label>
+            <input type="number" id="posicion_x1" placeholder="Ej: 0">
+            
+            <label>Posición inicial x2 (m):</label>
+            <input type="number" id="posicion_x2" placeholder="Ej: 100">
+            
+            <label>Velocidad x1 (m/s):</label>
+            <input type="number" id="velocidad_x1" placeholder="Ej: 5">
+            
+            <label>Velocidad x2 (m/s):</label>
+            <input type="number" id="velocidad_x2" placeholder="Ej: 10">
+        </div>
+        <div class="columna">
+            <label>Tiempo de partida x1 (s):</label>
+            <input type="number" id="tiempo_x1" placeholder="Ej: 0">
+            
+            <label>Tiempo de partida x2 (s):</label>
+            <input type="number" id="tiempo_x2" placeholder="Ej: 0">
 
-    <form class="formulario">
-      <div class="columna">
-        <label>Posición inicial x1</label>
-        <input type="text">
-        <label>Posición inicial x2</label>
-        <input type="text">
-        <label>Velocidad x1</label>
-        <input type="text">
-        <label>Velocidad x2</label>
-        <input type="text">
-        <label>Dirección del movimiento</label>
-        <input type="text">
-      </div>
-      <div class="columna">
-        <label>Tiempo de partida x1</label>
-        <input type="text">
-        <label>Tiempo de partida x2</label>
-        <input type="text">
-      </div>
+            <label>Dirección del movimiento:</label>
+            <select id="direccion_movimiento">
+                <option value="">-- Selecciona --</option>
+                <option value="opuestos">Opuestos (uno hacia el otro)</option>
+                <option value="mismo">Mismo lado (uno detrás del otro)</option>
+            </select>
+        </div>
+        <button type="button" id="calcularEncuentroBtn">Calcular Encuentro</button>
     </form>
 
     <div class="resultado">
-      <label>Resultado</label>
-      <input type="text" id="resultadoEncuentros" readonly>
+        <label>Resultado:</label>
+        <input type="text" id="resultadoEncuentros" readonly placeholder="Aquí aparecerá el resultado">
     </div>
-  </section>
+</section>
 
+
+<script src="js/encuentros.js"></script>
  
 <script src="js/menudesplegable.js"></script>
 
