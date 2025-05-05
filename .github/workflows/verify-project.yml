@@ -1,0 +1,22 @@
+name: Revisión básica del proyecto
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  verify-files:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Descargar código
+      uses: actions/checkout@v3
+
+    - name: Verificar que existan los archivos HTML/CSS/JS
+      run: |
+        test -f index.html && echo "index.html encontrado" || exit 1
+        test -f styles.css && echo "styles.css encontrado" || echo "No se encontró styles.css"
+        test -f encuentros.js && echo "encuentros.js encontrado" || echo "No se encontró encuentros.js"
+        test -f menudesplegable.js && echo "menudesplegable.js encontrado" || "no se encontró menudesplegable.js"
