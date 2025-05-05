@@ -113,10 +113,34 @@
     </div>
 </section>
 
+<section class="grafica">
+  <fieldset class="datos-grafica">
+    <legend class="datos-grafica__titulo">Agregar tramos de movimiento</legend>
+    <input type="number" name="" id="velocidad-grafica" class="datos-grafica__input" step="any" placeholder="Velocidad (m/s)">
+    <input type="number" name="" id="duracion-grafica" class="datos-grafica__input" step="1" placeholder="tiempo maximo (s)">
+    <button class="boton__agregarTramo" onclick="agregarTramo()">Agregar Tramo</button>
+  </fieldset>
+
+<h3 class="listaTramos__titulo">Tramos agregados:</h3>
+<ul id="listaTramos"></ul>
+
+<button class="boton__graficar" onclick="generarGraficas()">Graficar</button>
+
+<div class="contenedor__graficas">
+  <div class="grafica-velocidad">
+    <h3 class="grafica__titulo">velocidad funcion tiempo</h3>
+    <canvas class="grafica" id="graficaVelocidad"></canvas>
+</div>
+<div class="grafica-distancia">
+    <h3 class="grafica__titulo">distancia funcion tiempo</h3>
+    <canvas class="grafica" id="graficaDistancia"></canvas>
+</div>
+</div>
+</section>
 
 <script src="js/encuentros.js"></script>
- 
 <script src="js/menudesplegable.js"></script>
-
+<script src="js/graficas.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>
