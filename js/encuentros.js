@@ -48,7 +48,6 @@ document.addEventListener('DOMContentLoaded', function () {
       return valor;
     }
 
-
     const unidadSalida = unidad_posicion_x1 === 'km' || unidad_posicion_x2 === 'km' ? 'km' : 'm';
     x1 = convertirPosicion(x1, unidad_posicion_x1);
     x2 = convertirPosicion(x2, unidad_posicion_x2);
