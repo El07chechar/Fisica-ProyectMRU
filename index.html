@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="css/styles.css">
   <title>Física-MRU</title>
-
+</head>
 
 <body>
   <header>
@@ -23,7 +23,6 @@
   <main id="calculo">
     <h2>Ingresar datos</h2>
     <form action="" method="get" class="Calculo-Conversor">
-      
       <div class="campo">
         <label for="velocidad">Velocidad:</label>
         <div class="input-select-group">
@@ -70,78 +69,108 @@
     </div>
   </main>
 
-  <!-- Encuentros -->
-
-
   <section id="encuentros" class="container">
     <h2>Encuentros</h2>
-
+  
     <form class="formulario" id="formEncuentros">
-        <div class="columna">
-            <label>Posición inicial x1 (m):</label>
-            <input type="number" id="posicion_x1" placeholder="Ej: 0">
-            
-            <label>Posición inicial x2 (m):</label>
-            <input type="number" id="posicion_x2" placeholder="Ej: 100">
-            
-            <label>Velocidad x1 (m/s):</label>
-            <input type="number" id="velocidad_x1" placeholder="Ej: 5">
-            
-            <label>Velocidad x2 (m/s):</label>
-            <input type="number" id="velocidad_x2" placeholder="Ej: 10">
-        </div>
-        <div class="columna">
-            <label>Tiempo de partida x1 (s):</label>
-            <input type="number" id="tiempo_x1" placeholder="Ej: 0">
-            
-            <label>Tiempo de partida x2 (s):</label>
-            <input type="number" id="tiempo_x2" placeholder="Ej: 0">
-
-            <label>Dirección del movimiento:</label>
-            <select id="direccion_movimiento">
-                <option value="">-- Selecciona --</option>
-                <option value="opuestos">Opuestos (uno hacia el otro)</option>
-                <option value="mismo">Mismo lado (uno detrás del otro)</option>
-            </select>
-        </div>
-        <button type="button" id="calcularEncuentroBtn">Calcular Encuentro</button>
+      <div class="columna">
+        <label>Posición inicial x1:</label>
+        <input type="number" id="posicion_x1" placeholder="Ej: 0">
+        <select id="unidad_posicion_x1">
+          <option value="m">m</option>
+          <option value="km">km</option>
+        </select>
+  
+        <label>Posición inicial x2:</label>
+        <input type="number" id="posicion_x2" placeholder="Ej: 100">
+        <select id="unidad_posicion_x2">
+          <option value="m">m</option>
+          <option value="km">km</option>
+        </select>
+  
+        <label>Velocidad x1:</label>
+        <input type="number" id="velocidad_x1" placeholder="Ej: 5">
+        <select id="unidad_velocidad_x1">
+          <option value="m/s">m/s</option>
+          <option value="km/h">km/h</option>
+        </select>
+  
+        <label>Velocidad x2:</label>
+        <input type="number" id="velocidad_x2" placeholder="Ej: 10">
+        <select id="unidad_velocidad_x2">
+          <option value="m/s">m/s</option>
+          <option value="km/h">km/h</option>
+        </select>
+      </div>
+  
+      <div class="columna">
+        <label>Tiempo de partida x1:</label>
+        <input type="number" id="tiempo_x1" placeholder="Ej: 0">
+        <select id="unidad_tiempo_x1">
+          <option value="s">s</option>
+          <option value="min">min</option>
+          <option value="h">h</option>
+        </select>
+  
+        <label>Tiempo de partida x2:</label>
+        <input type="number" id="tiempo_x2" placeholder="Ej: 0">
+        <select id="unidad_tiempo_x2">
+          <option value="s">s</option>
+          <option value="min">min</option>
+          <option value="h">h</option>
+        </select>
+  
+        <label>Dirección del movimiento:</label>
+        <select id="direccion_movimiento">
+          <option value="">-- Selecciona --</option>
+          <option value="opuestos">Opuestos (uno hacia el otro)</option>
+          <option value="mismo">Mismo lado (uno detrás del otro)</option>
+        </select>
+      </div>
+  
+      <button type="button" id="calcularEncuentroBtn">Calcular Encuentro</button>
+  
+      <div id="canvasContainer" style="width: 800px; height: 200px; border: 1px solid #ccc; background: #f9f9f9; margin-top: 20px;"></div>
     </form>
-
+  
     <div class="resultado">
-        <label>Resultado:</label>
-        <input type="text" id="resultadoEncuentros" readonly placeholder="Aquí aparecerá el resultado">
+      <label>Resultado:</label>
+      <input type="text" id="resultadoEncuentros" readonly placeholder="Aquí aparecerá el resultado">
     </div>
-</section>
+  </section>
+  
 
-<section class="grafica" id="graficas">
-  <fieldset class="datos-grafica">
-    <legend class="datos-grafica__titulo">Agregar tramos de movimiento</legend>
-    <input type="number" name="" id="velocidad-grafica" class="datos-grafica__input" step="any" placeholder="Velocidad (m/s)">
-    <input type="number" name="" id="duracion-grafica" class="datos-grafica__input" step="1" placeholder="tiempo maximo (s)">
-    <button class="boton__agregarTramo" onclick="agregarTramo()">Agregar Tramo</button>
-  </fieldset>
+  <section class="grafica" id="graficas">
+    <fieldset class="datos-grafica">
+      <legend class="datos-grafica__titulo">Agregar tramos de movimiento</legend>
+      <input type="number" name="" id="velocidad-grafica" class="datos-grafica__input" step="any" placeholder="Velocidad (m/s)">
+      <input type="number" name="" id="duracion-grafica" class="datos-grafica__input" step="1" placeholder="tiempo maximo (s)">
+      <button class="boton__agregarTramo" onclick="agregarTramo()">Agregar Tramo</button>
+    </fieldset>
 
-<h3 class="listaTramos__titulo">Tramos agregados:</h3>
-<ul id="listaTramos"></ul>
+    <h3 class="listaTramos__titulo">Tramos agregados:</h3>
+    <ul id="listaTramos"></ul>
 
-<button class="boton__graficar" onclick="generarGraficas()">Graficar</button>
+    <button class="boton__graficar" onclick="generarGraficas()">Graficar</button>
 
-<div class="contenedor__graficas">
-  <div class="grafica-velocidad">
-    <h3 class="grafica__titulo">velocidad funcion tiempo</h3>
-    <canvas class="grafica" id="graficaVelocidad"></canvas>
-</div>
-<div class="grafica-distancia">
-    <h3 class="grafica__titulo">distancia funcion tiempo</h3>
-    <canvas class="grafica" id="graficaDistancia"></canvas>
-</div>
-</div>
-</section>
+    <div class="contenedor__graficas">
+      <div class="grafica-velocidad">
+        <h3 class="grafica__titulo">velocidad función tiempo</h3>
+        <canvas class="grafica" id="graficaVelocidad"></canvas>
+      </div>
+      <div class="grafica-distancia">
+        <h3 class="grafica__titulo">distancia función tiempo</h3>
+        <canvas class="grafica" id="graficaDistancia"></canvas>
+      </div>
+    </div>
+  </section>
 
-<script src="js/calculadora.js"></script>
-<script src="js/encuentros.js"></script>
-<script src="js/menudesplegable.js"></script>
-<script src="js/graficas.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="js/calculadora.js"></script>
+  <script src="js/encuentros.js"></script>
+  <script src="js/menudesplegable.js"></script>
+  <script src="js/graficas.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+  <script src="js/sketch.js"></script>
 </body>
 </html>
