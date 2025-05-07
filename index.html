@@ -69,77 +69,684 @@
     </div>
   </main>
 
-  <section id="encuentros" class="container">
-    <h2>Encuentros</h2>
+  <style>
+    body {
+      font-family: 'Helvetica', Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+    
+    .encuentros-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #f9f9f9;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    
+    h2 {
+      color: #c600ff;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    h3 {
+      color: #c600ff;
+      margin-top: 15px;
+      margin-bottom: 10px;
+    }
+    
+    .instrucciones {
+      background: #d8d6d8;
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+    
+    .formulario-encuentros {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .bloque-formulario {
+      flex: 1;
+      min-width: 250px;
+      background: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    
+    .campo-encuentro {
+      margin-bottom: 15px;
+    }
+    
+    .campo-encuentro label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    
+    .input-grupo {
+      display: flex;
+      gap: 5px;
+    }
+    
+    .input-grupo input {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    
+    .input-grupo select {
+      width: 120px;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background: #f5f5f5;
+    }
+    
+    .direccion-bloque h3 {
+      margin-bottom: 15px;
+    }
+    
+    .opciones-direccion {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+    }
+    
+    .opcion-direccion {
+      flex: 1;
+      text-align: center;
+    }
+    
+    .opcion-direccion label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+    }
+    
+    .ilustracion {
+      width: 100px;
+      height: 50px;
+      background: #f0f0f0;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 10px;
+    }
+    
+    .movil {
+      font-size: 24px;
+    }
+    
+    .opcion-direccion input[type="radio"] {
+      margin-right: 10px;
+    }
+    
+    .boton-calcular {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      background-color: #c600ff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background-color 0.3s;
+    }
+    
+    .boton-calcular:hover {
+      background-color:#c600ff;
+    }
+    
   
-    <form class="formulario" id="formEncuentros">
-      <div class="columna">
-        <label>Posición inicial x1:</label>
-        <input type="number" id="posicion_x1" placeholder="Ej: 0">
-        <select id="unidad_posicion_x1">
-          <option value="m">m</option>
-          <option value="km">km</option>
-        </select>
-  
-        <label>Posición inicial x2:</label>
-        <input type="number" id="posicion_x2" placeholder="Ej: 100">
-        <select id="unidad_posicion_x2">
-          <option value="m">m</option>
-          <option value="km">km</option>
-        </select>
-  
-        <label>Velocidad x1:</label>
-        <input type="number" id="velocidad_x1" placeholder="Ej: 5">
-        <select id="unidad_velocidad_x1">
-          <option value="m/s">m/s</option>
-          <option value="km/h">km/h</option>
-        </select>
-  
-        <label>Velocidad x2:</label>
-        <input type="number" id="velocidad_x2" placeholder="Ej: 10">
-        <select id="unidad_velocidad_x2">
-          <option value="m/s">m/s</option>
-          <option value="km/h">km/h</option>
-        </select>
+    .resultados-encuentro {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      margin-bottom: 20px;
+    }
+    
+    .resultado-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    
+    .etiqueta-resultado {
+      display: flex;
+      align-items: center;
+      width: 200px;
+      margin-right: 15px;
+    }
+    
+    .icono-resultado {
+      width: 24px;
+      margin-right: 10px;
+    }
+    
+    .resultado-item input {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background: #f9f9f9;
+      font-weight: bold;
+    }
+    
+    .visualizacion {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    
+    .canvas-container {
+      width: 100%;
+      height: 250px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+  <section id="encuentros" class="encuentros-container">
+    <h2>Calcular punto de encuentro entre dos móviles</h2>
+    
+    <div class="instrucciones">
+      <p>En esta sección puede calcular cuándo y dónde se encontrarán dos objetos en movimiento.</p>
+      <p>Complete los datos y presione el botón "Calcular Encuentro".</p>
+    </div>
+
+    <form class="formulario-encuentros" id="formEncuentros">
+      <div class="bloque-formulario">
+        <h3>Primer móvil</h3>
+        <div class="campo-encuentro">
+          <label for="posicion_x1">¿Dónde inicia?</label>
+          <div class="input-grupo">
+            <input type="number" id="posicion_x1" placeholder="0" value="0" required step="any">
+            <select id="unidad_posicion_x1">
+              <option value="m">metros</option>
+              <option value="km">kilómetros</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="campo-encuentro">
+          <label for="velocidad_x1">¿A qué velocidad va?</label>
+          <div class="input-grupo">
+            <input type="number" id="velocidad_x1" placeholder="5" value="5" required step="any">
+            <select id="unidad_velocidad_x1">
+              <option value="m/s">metros/segundo</option>
+              <option value="km/h">km/hora</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="campo-encuentro">
+          <label for="tiempo_x1">¿Cuándo inicia?</label>
+          <div class="input-grupo">
+            <input type="number" id="tiempo_x1" placeholder="0" value="0" step="any">
+            <select id="unidad_tiempo_x1">
+              <option value="s">segundos</option>
+              <option value="min">minutos</option>
+              <option value="h">horas</option>
+            </select>
+          </div>
+        </div>
       </div>
-  
-      <div class="columna">
-        <label>Tiempo de partida x1:</label>
-        <input type="number" id="tiempo_x1" placeholder="Ej: 0">
-        <select id="unidad_tiempo_x1">
-          <option value="s">s</option>
-          <option value="min">min</option>
-          <option value="h">h</option>
-        </select>
-  
-        <label>Tiempo de partida x2:</label>
-        <input type="number" id="tiempo_x2" placeholder="Ej: 0">
-        <select id="unidad_tiempo_x2">
-          <option value="s">s</option>
-          <option value="min">min</option>
-          <option value="h">h</option>
-        </select>
-  
-        <label>Dirección del movimiento:</label>
-        <select id="direccion_movimiento">
-          <option value="">-- Selecciona --</option>
-          <option value="opuestos">Opuestos (uno hacia el otro)</option>
-          <option value="mismo">Mismo lado (uno detrás del otro)</option>
-        </select>
+
+      <div class="bloque-formulario">
+        <h3>Segundo móvil</h3>
+        <div class="campo-encuentro">
+          <label for="posicion_x2">¿Dónde inicia?</label>
+          <div class="input-grupo">
+            <input type="number" id="posicion_x2" placeholder="100" value="100" required step="any">
+            <select id="unidad_posicion_x2">
+              <option value="m">metros</option>
+              <option value="km">kilómetros</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="campo-encuentro">
+          <label for="velocidad_x2">¿A qué velocidad va?</label>
+          <div class="input-grupo">
+            <input type="number" id="velocidad_x2" placeholder="3" value="3" required step="any">
+            <select id="unidad_velocidad_x2">
+              <option value="m/s">metros/segundo</option>
+              <option value="km/h">km/hora</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="campo-encuentro">
+          <label for="tiempo_x2">¿Cuándo inicia?</label>
+          <div class="input-grupo">
+            <input type="number" id="tiempo_x2" placeholder="0" value="0" step="any">
+            <select id="unidad_tiempo_x2">
+              <option value="s">segundos</option>
+              <option value="min">minutos</option>
+              <option value="h">horas</option>
+            </select>
+          </div>
+        </div>
       </div>
-  
-      <button type="button" id="calcularEncuentroBtn">Calcular Encuentro</button>
-  
-      <div id="canvasContainer" style="width: 800px; height: 200px; border: 1px solid #ccc; background: #f9f9f9; margin-top: 20px;"></div>
+
+      <div class="bloque-formulario direccion-bloque">
+        <h3>Dirección del movimiento</h3>
+        <div class="opciones-direccion">
+          <div class="opcion-direccion">
+            <input type="radio" id="opcion-opuestos" name="direccion_movimiento" value="opuestos" checked>
+            <label for="opcion-opuestos">
+              <div class="ilustracion opuestos">
+                <div class="movil movil1">→</div>
+                <div class="movil movil2">←</div>
+              </div>
+              <span>Van uno hacia el otro</span>
+            </label>
+          </div>
+          
+          <div class="opcion-direccion">
+            <input type="radio" id="opcion-mismo" name="direccion_movimiento" value="mismo">
+            <label for="opcion-mismo">
+              <div class="ilustracion mismo">
+                <div class="movil movil1">→</div>
+                <div class="movil movil2">→</div>
+              </div>
+              <span>Van en la misma dirección</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="bloque-formulario">
+        <div class="campo-encuentro">
+          <label for="unidadSalida">Mostrar resultados en:</label>
+          <select id="unidadSalida">
+            <option value="m">Metros</option>
+            <option value="km">Kilómetros</option>
+          </select>
+        </div>
+      </div>
+
+      <button type="button" id="calcularEncuentroBtn" class="boton-calcular">Calcular Encuentro</button>
     </form>
-  
-    <div class="resultado">
-      <label>Resultado:</label>
-      <input type="text" id="resultadoEncuentros" readonly placeholder="Aquí aparecerá el resultado">
+
+    <div class="resultados-encuentro">
+      <h3>Resultados</h3>
+      <div class="resultado-item">
+        <div class="etiqueta-resultado">
+          <span>⏱️ Tiempo de encuentro:</span>
+        </div>
+        <input type="text" id="tiempoEncuentro" readonly placeholder="Esperando cálculo...">
+      </div>
+      <div class="resultado-item">
+        <div class="etiqueta-resultado">
+          <span>📍 Posición de encuentro:</span>
+        </div>
+        <input type="text" id="resultadoEncuentros" readonly placeholder="Esperando cálculo...">
+      </div>
+    </div>
+
+    <div class="visualizacion">
+      <h3>Visualización</h3>
+      <div id="canvasContainer" class="canvas-container"></div>
     </div>
   </section>
-  
 
+  <script>
+   
+    let myp5; 
+    let datos;
+
+    document.addEventListener('DOMContentLoaded', function() {
+
+      const sketch = function(p) {
+        p.setup = function() {
+          const container = document.getElementById('canvasContainer');
+          const canvasWidth = container.offsetWidth;
+          const canvasHeight = container.offsetHeight || 250;
+          p.createCanvas(canvasWidth, canvasHeight);
+          p.textFont('Helvetica');
+          p.textSize(15);
+          p.noLoop();
+        };
+
+        p.windowResized = function() {
+          const container = document.getElementById('canvasContainer');
+          const newWidth = container.offsetWidth;
+          const newHeight = container.offsetHeight || 250;
+          p.resizeCanvas(newWidth, newHeight);
+          if (datos) p.draw();
+        };
+
+        p.draw = function() {
+          p.background(255);
+
+          if (!datos) return;
+          
+          p.clear();
+          p.background(255);
+
+          let {
+            x1, x2, v1, v2, direccion, tiempoEncuentro, puntoEncuentro, unidadSalida, t1Base, t2Base
+          } = datos;
+
+          let factor = unidadSalida === 'km' ? 1 / 1000 : 1;
+          let x1Display = x1 * factor;
+          let x2Display = x2 * factor;
+          let puntoEncuentroDisplay = puntoEncuentro * factor;
+
+          let x1EnTiempoMaxPartida = x1 + v1 * (Math.max(t1Base, t2Base) - t1Base);
+          let x2EnTiempoMaxPartida = x2 + v2 * (Math.max(t1Base, t2Base) - t2Base);
+
+          let x1TiempoMaxDisplay = x1EnTiempoMaxPartida * factor;
+          let x2TiempoMaxDisplay = x2EnTiempoMaxPartida * factor;
+
+          const margen = 50;
+          const minPos = Math.min(x1Display, x2Display, x1TiempoMaxDisplay, x2TiempoMaxDisplay, puntoEncuentroDisplay);
+          const maxPos = Math.max(x1Display, x2Display, x1TiempoMaxDisplay, x2TiempoMaxDisplay, puntoEncuentroDisplay);
+          const distanciaTotal = maxPos - minPos;
+          
+          const distanciaConMargen = distanciaTotal * 1.3;
+          const escala = (p.width - 2 * margen) / distanciaConMargen;
+          const origenX = margen - minPos * escala * 0.85;
+
+          function posicionEnCanvas(pos) {
+            return pos * factor * escala + origenX;
+          }
+
+          const inicioX1 = posicionEnCanvas(x1);
+          const inicioX2 = posicionEnCanvas(x2);
+
+          const inicioX1Efectivo = posicionEnCanvas(x1EnTiempoMaxPartida);
+          const inicioX2Efectivo = posicionEnCanvas(x2EnTiempoMaxPartida);
+          
+          const encuentroX = posicionEnCanvas(puntoEncuentro);
+          
+          p.stroke(200);
+          p.strokeWeight(1);
+          p.line(margen, p.height - 30, p.width - margen, p.height - 30);
+          
+          for (let i = 0; i <= 5; i++) {
+            const x = margen + i * (p.width - 2 * margen) / 5;
+            p.line(x, p.height - 35, x, p.height - 25);
+            
+            const valorReal = ((x - origenX) / escala) / factor;
+            
+            p.fill(0);
+            p.noStroke();
+            p.textAlign(p.CENTER);
+            p.textSize(10);
+            p.text(valorReal.toFixed(1) + ' ' + unidadSalida, x, p.height - 15);
+          }
+          
+          if (Math.abs(t1Base - t2Base) > 0.0001) {
+            p.stroke('rgba(0,0,255,0.3)');
+            p.strokeWeight(2);
+            p.drawingContext.setLineDash([5, 5]);
+            p.line(inicioX1, 80, inicioX1Efectivo, 80);
+            p.drawingContext.setLineDash([]);
+            
+            p.stroke('rgba(0,255,0,0.3)');
+            p.strokeWeight(2);
+            p.drawingContext.setLineDash([5, 5]);
+            p.line(inicioX2, 120, inicioX2Efectivo, 120);
+            p.drawingContext.setLineDash([]);
+          }
+          
+          p.stroke('blue');
+          p.strokeWeight(4);
+          p.line(inicioX1Efectivo, 80, encuentroX, 80);
+          
+          p.stroke('green');
+          p.strokeWeight(4);
+          p.line(inicioX2Efectivo, 120, encuentroX, 120);
+          
+          p.noStroke();
+          p.fill('blue');
+          p.text('🚗 Posición inicial Obj1', inicioX1, 60);
+          p.fill('green');
+          p.text('🚙 Posición inicial Obj2', inicioX2, 140);
+          
+          p.fill('blue');
+          p.stroke('black');
+          p.strokeWeight(1);
+          p.ellipse(inicioX1, 80, 8, 8);
+          
+          p.fill('green');
+          p.stroke('black');
+          p.strokeWeight(1);
+          p.ellipse(inicioX2, 120, 8, 8);
+          
+          if (Math.abs(t1Base - t2Base) > 0.0001) {
+            p.fill('darkblue');
+            p.stroke('black');
+            p.strokeWeight(1);
+            p.ellipse(inicioX1Efectivo, 80, 6, 6);
+            
+            p.fill('darkgreen');
+            p.stroke('black');
+            p.strokeWeight(1);
+            p.ellipse(inicioX2Efectivo, 120, 6, 6);
+          }
+          
+          p.fill('red');
+          p.stroke('black');
+          p.strokeWeight(2);
+          p.ellipse(encuentroX, 100, 12, 12);
+          
+          p.noStroke();
+          p.fill('black');
+          p.textAlign(p.CENTER);
+          p.text('Punto de encuentro', encuentroX, 160);
+          p.text(`t = ${tiempoEncuentro.toFixed(2)} s`, encuentroX, 175);
+          p.text(`x = ${puntoEncuentroDisplay.toFixed(2)} ${unidadSalida}`, encuentroX, 190);
+          
+          p.stroke('red');
+          p.strokeWeight(2);
+          p.line(encuentroX, 70, encuentroX, 130);
+          
+          p.noStroke();
+          p.fill('black');
+          p.textAlign(p.LEFT);
+          p.textSize(12);
+          p.text('Leyenda:', p.width - 150, 40);
+          
+          p.fill('blue');
+          p.ellipse(p.width - 140, 55, 8, 8);
+          p.fill('black');
+          p.text('Posición inicial Obj1', p.width - 125, 58);
+          
+          p.fill('green');
+          p.ellipse(p.width - 140, 75, 8, 8);
+          p.fill('black');
+          p.text('Posición inicial Obj2', p.width - 125, 78);
+          
+          p.fill('red');
+          p.ellipse(p.width - 140, 95, 8, 8);
+          p.fill('black');
+          p.text('Punto de encuentro', p.width - 125, 98);
+          
+          drawArrow(inicioX1Efectivo + 20, 80, v1 > 0 ? 10 : -10, 'blue');
+          drawArrow(inicioX2Efectivo + 20, 120, v2 > 0 ? 10 : -10, 'green');
+        };
+
+        function drawArrow(x, y, length, color) {
+          const arrowSize = 5;
+          p.stroke(color);
+          p.strokeWeight(2);
+          
+          p.line(x, y, x + length, y);
+          
+          if (length > 0) {
+            p.line(x + length, y, x + length - arrowSize, y - arrowSize);
+            p.line(x + length, y, x + length - arrowSize, y + arrowSize);
+          } else {
+            p.line(x + length, y, x + length + arrowSize, y - arrowSize);
+            p.line(x + length, y, x + length + arrowSize, y + arrowSize);
+          }
+        }
+      };
+
+      
+      myp5 = new p5(sketch, 'canvasContainer');
+
+   
+      document.getElementById('calcularEncuentroBtn').addEventListener('click', realizarCalculoEncuentro);
+    });
+
+    
+    function convertirAUnidadBase(valor, unidad) {
+      if (!valor) return 0;
+      
+      switch (unidad) {
+        case 'km': return valor * 1000; 
+        case 'km/h': return valor / 3.6; 
+        case 'min': return valor * 60; 
+        case 'h': return valor * 3600; 
+        default: return valor;
+      }
+    }
+    
+    
+    function realizarCalculoEncuentro() {
+      const x1 = parseFloat(document.getElementById('posicion_x1').value || 0);
+      const x2 = parseFloat(document.getElementById('posicion_x2').value || 0);
+      const v1 = parseFloat(document.getElementById('velocidad_x1').value || 0);
+      const v2 = parseFloat(document.getElementById('velocidad_x2').value || 0);
+      const t1 = parseFloat(document.getElementById('tiempo_x1').value || 0);
+      const t2 = parseFloat(document.getElementById('tiempo_x2').value || 0);
+      const direccionElement = document.querySelector('input[name="direccion_movimiento"]:checked');
+      
+      if (!direccionElement) {
+        alert("Por favor selecciona una dirección de movimiento");
+        return;
+      }
+      
+      const direccion = direccionElement.value;
+      const unidadSalida = document.getElementById('unidadSalida').value;
+
+  
+      const x1Base = convertirAUnidadBase(x1, document.getElementById('unidad_posicion_x1').value);
+      const x2Base = convertirAUnidadBase(x2, document.getElementById('unidad_posicion_x2').value);
+      const v1Base = convertirAUnidadBase(v1, document.getElementById('unidad_velocidad_x1').value);
+      const v2Base = convertirAUnidadBase(v2, document.getElementById('unidad_velocidad_x2').value);
+      const t1Base = convertirAUnidadBase(t1, document.getElementById('unidad_tiempo_x1').value);
+      const t2Base = convertirAUnidadBase(t2, document.getElementById('unidad_tiempo_x2').value);
+      
+  
+      let v1Adjusted = v1Base;
+      let v2Adjusted = v2Base;
+      
+      if (direccion === 'opuestos') {
+        if (x1Base < x2Base) {
+          v2Adjusted = -v2Base; 
+        } else {
+          v1Adjusted = -v1Base; 
+        }
+      }
+      
+    
+      let tiempoEncuentro, puntoEncuentro;
+      
+      if (Math.abs(v1Adjusted - v2Adjusted) < 0.0001) {
+        if (Math.abs(x1Base - x2Base) < 0.0001) {
+     
+          tiempoEncuentro = Math.max(t1Base, t2Base);
+        } else {
+          alert("No hay encuentro: los objetos tienen la misma velocidad y diferentes posiciones");
+          return;
+        }
+      } else {
+        
+        tiempoEncuentro = (x2Base - x1Base - v2Adjusted * t2Base + v1Adjusted * t1Base) / (v1Adjusted - v2Adjusted);
+      }
+      
+      
+      if (tiempoEncuentro < Math.max(t1Base, t2Base)) {
+        const pos1EnTiempoMaxPartida = x1Base + v1Adjusted * (Math.max(t1Base, t2Base) - t1Base);
+        const pos2EnTiempoMaxPartida = x2Base + v2Adjusted * (Math.max(t1Base, t2Base) - t2Base);
+        
+        if (Math.abs(pos1EnTiempoMaxPartida - pos2EnTiempoMaxPartida) < 0.0001) {
+          tiempoEncuentro = Math.max(t1Base, t2Base);
+        } else {
+          const tiempoEncuentroRelativoT1 = t1Base + (x2Base - x1Base) / (v1Adjusted - v2Adjusted);
+          const tiempoEncuentroRelativoT2 = t2Base + (x1Base - x2Base) / (v2Adjusted - v1Adjusted);
+          
+          if ((tiempoEncuentroRelativoT1 >= t1Base && tiempoEncuentroRelativoT1 < t2Base) || 
+              (tiempoEncuentroRelativoT2 >= t2Base && tiempoEncuentroRelativoT2 < t1Base)) {
+            alert("Los objetos se cruzaron antes de que ambos partieran");
+            return;
+          }
+          
+          alert("No hay encuentro: el tiempo calculado es anterior al tiempo de partida de uno de los objetos");
+          return;
+        }
+      }
+      
+      
+      puntoEncuentro = x1Base + v1Adjusted * (tiempoEncuentro - t1Base);
+      
+    
+      if (direccion === 'mismo') {
+        const v1Mayor = Math.abs(v1Adjusted) > Math.abs(v2Adjusted);
+        const x1Detras = (x1Base < x2Base && v1Adjusted > 0) || (x1Base > x2Base && v1Adjusted < 0);
+        
+        if (v1Mayor && !x1Detras) {
+          alert("No hay encuentro: el primer objeto es más rápido pero ya pasó al segundo");
+          return;
+        }
+        
+        if (!v1Mayor && x1Detras) {
+          alert("No hay encuentro: el segundo objeto es más rápido pero ya pasó al primero");
+          return;
+        }
+      }
+      
+     
+      document.getElementById('tiempoEncuentro').value = `${tiempoEncuentro.toFixed(2)} s`;
+
+      const factorConversion = unidadSalida === 'km' ? 0.001 : 1;
+      document.getElementById('resultadoEncuentros').value = `${(puntoEncuentro * factorConversion).toFixed(2)} ${unidadSalida}`;
+      
+    
+      datos = {
+        x1: x1Base,
+        x2: x2Base,
+        v1: v1Adjusted,
+        v2: v2Adjusted,
+        direccion: direccion,
+        tiempoEncuentro: tiempoEncuentro,
+        puntoEncuentro: puntoEncuentro,
+        unidadSalida: unidadSalida,
+        t1Base: t1Base,
+        t2Base: t2Base
+      };
+      
+     
+      if (myp5) myp5.draw();
+    }
+  </script>
+  
   <section class="grafica" id="graficas">
     <fieldset class="datos-grafica">
       <legend class="datos-grafica__titulo">Agregar tramos de movimiento</legend>
