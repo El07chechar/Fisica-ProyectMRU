@@ -1,0 +1,48 @@
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  gap: 40px;
+}
+
+nav ul li button {
+  background-color: black;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 30px;
+}
+
+nav ul li button a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+
+.datos-grafica{
+  border-radius: 15px;
+}
+
+.boton__agregarTramo, .boton__graficar{
+  margin: 10px;
+  background-color: #c600ff;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  font-size: 16px;
+  border-radius: 15px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#listaTramos{
+  list-style: none;
+}
+
+.contenedor__graficas{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}

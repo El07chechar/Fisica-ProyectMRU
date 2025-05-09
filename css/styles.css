@@ -5,6 +5,11 @@ body {
   margin: 0;
   padding: 0;
   text-align: center;
+  width: 100vw;
+}
+
+header{
+  width: 100%;
 }
 
 nav ul {
@@ -41,7 +46,7 @@ h2 {
 }
 
 
-.Calculo-Conversor {
+.conversor{
   margin-top: 30px;
   display: flex;
   flex-direction: column;
@@ -49,29 +54,30 @@ h2 {
   gap: 25px;
 }
 
-.Calculo-Conversor .campo {
+.campo{
   display: flex;
   flex-direction: column;
   gap: 8px;
   width: 100%;
   max-width: 320px;
+  border-radius: 20px;
 }
 
-.Calculo-Conversor label {
+.campo__titulo{
   width: 100%;
   text-align: left;
   font-weight: bold;
   font-size: 16px;
 }
 
-.input-select-group {
+.campo__select{
   display: flex;
   gap: 10px;
   width: 100%;
 }
 
-.input-select-group input[type="number"],
-.input-select-group select {
+.campo__valor,
+.campo__select-options{
   flex: 1;
   padding: 12px 20px;
   font-size: 16px;
@@ -80,7 +86,7 @@ h2 {
   box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
 }
 
-.Calculo-Conversor input[type="submit"] {
+.boton__submit {
   background-color: #c600ff;
   color: white;
   border: none;
@@ -92,7 +98,7 @@ h2 {
   margin-top: 20px;
 }
 
-.Calculo-Conversor input[type="submit"]:hover {
+.boton__submit:hover {
   background-color: #9307b6;
 }
 
@@ -103,11 +109,11 @@ h2 {
   padding: 0;
 }
 
-.resultados h2 {
+.resultados__subtitulo{
   margin-bottom: 20px;
 }
 
-.resultados .campo {
+.resultados .resultados__value {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -115,12 +121,12 @@ h2 {
   margin-top: 10px;
 }
 
-.resultados label {
+.resultados__subtitulo{
   font-weight: bold;
   font-size: 14px;
 }
 
-.resultados input[type="number"] {
+.campo__valor{
   padding: 12px 20px;
   font-size: 16px;
   border: 1px solid #242323;
@@ -129,122 +135,3 @@ h2 {
   box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* ENCUENTROS */
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 80px;
-}
-
-.dropdown {
-  position: relative;
-  margin-bottom: 40px;
-}
-
-.dropdown-button {
-  background-color: black;
-  color: white;
-  border: none;
-  padding: 15px 30px;
-  font-size: 18px;
-  border-radius: 20px;
-  cursor: pointer;
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: white;
-  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-  margin-top: 5px;
-  width: 100%;
-  border-radius: 10px;
-  z-index: 1;
-}
-
-.dropdown-item {
-  padding: 10px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.dropdown-item:hover {
-  background-color: #f1f1f1;
-}
-
-.formulario {
-  display: flex;
-  justify-content: center;
-  gap: 60px;
-  flex-wrap: wrap;
-}
-
-.columna {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.resultado {
-  margin-top: 40px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-}
-
-.resultado input {
-  padding: 10px;
-  width: 300px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-weight: bold;
-  text-align: center;
-}
-
-label {
-  font-weight: bold;
-}
-
-input {
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  width: 200px;
-}
-section{
-  margin: 10px;
-}
-
-/* seccion graficas */
-
-.datos-grafica{
-  border-radius: 15px;
-}
-
-.boton__agregarTramo, .boton__graficar{
-  margin: 10px;
-  background-color: #c600ff;
-  color: white;
-  border: none;
-  padding: 12px 25px;
-  font-size: 16px;
-  border-radius: 15px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-#listaTramos{
-  list-style: none;
-}
-
-.contenedor__graficas{
-  display: flex;
-  justify-content: space-between;
-}
-
-.grafica{
-  width: 400;
-  height: 200;
-}

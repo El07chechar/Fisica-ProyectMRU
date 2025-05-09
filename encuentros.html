@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Encuentros MRU</title>
+    <link rel="stylesheet" href="css/encuentros.css" />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <ul>
+          <li>
+            <button><a href="index.html">Calcular</a></button>
+          </li>
+          <li>
+            <button><a href="encuentros.html">Encuentros</a></button>
+          </li>
+          <li>
+            <button><a href="graficas.html">Gráficas</a></button>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main id="encuentros-id" class="encuentros">
+      <h1 class="encuentros__titulo">
+        Calcular punto de encuentro entre dos móviles
+      </h1>
+
+      <div class="encuentros__instrucciones">
+        <p>
+          En esta sección puede calcular cuándo y dónde se encontrarán dos
+          objetos en movimiento.
+          <br />
+          <br />
+          Complete los datos y presione el botón "Calcular Encuentro".
+        </p>
+      </div>
+
+      <form class="encuentros__formulario" id="formEncuentros">
+        <fieldset class="bloque-formulario formulario--primer-movil">
+          <h3 class="bloque-formulario__titulo">Primer móvil</h3>
+          <div class="formulario__campo">
+            <label for="posicion_x1" class="campo__subtitulo"
+              >¿Dónde inicia?</label
+            >
+            <div class="campo__select">
+              <input
+                type="number"
+                id="posicion_x1"
+                placeholder="0"
+                value="0"
+                required
+                step="any"
+                class="campo__valor valor--posicion"
+              />
+              <select
+                id="unidad_posicion_x1"
+                class="campo__select-options select-option--posicion"
+              >
+                <option value="m">metros</option>
+                <option value="km">kilómetros</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="campo-encuentro">
+            <label for="velocidad_x1" class="campo__subtitulo"
+              >¿A qué velocidad va?</label
+            >
+            <div class="formulario__campo">
+              <input
+                type="number"
+                id="velocidad_x1"
+                placeholder="5"
+                value="5"
+                required
+                step="any"
+                class="campo__valor valor--velocidad"
+              />
+              <select
+                id="unidad_velocidad_x1"
+                class="campo__select-options select-option--velocidad"
+              >
+                <option value="m/s">metros/segundo</option>
+                <option value="km/h">km/hora</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="campo-encuentro">
+            <label for="tiempo_x1" class="campo__subtitulo"
+              >¿Cuándo inicia?</label
+            >
+            <div class="formulario__campo">
+              <input
+                type="number"
+                id="tiempo_x1"
+                placeholder="0"
+                value="0"
+                step="any"
+                class="campo__valor valor--tiempo"
+              />
+              <select
+                id="unidad_tiempo_x1"
+                class="campo__select-options select-option--tiempo-inicio"
+              >
+                <option value="s">segundos</option>
+                <option value="min">minutos</option>
+                <option value="h">horas</option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="bloque-formulario formulario--segundo-movil">
+          <h3 class="bloque-formulario__titulo">Segundo móvil</h3>
+          <div class="campo-encuentro">
+            <label for="posicion_x2" class="campo__subtitulo"
+              >¿Dónde inicia?</label
+            >
+            <div class="formulario__campo">
+              <input
+                type="number"
+                id="posicion_x2"
+                placeholder="100"
+                value="100"
+                required
+                step="any"
+                class="campo__valor valor--posicion"
+              />
+              <select
+                id="unidad_posicion_x2"
+                class="campo__select-options select-option--posicion"
+              >
+                <option value="m">metros</option>
+                <option value="km">kilómetros</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="campo-encuentro">
+            <label for="velocidad_x2" class="campo__subtitulo"
+              >¿A qué velocidad va?</label
+            >
+            <div class="formulario__campo">
+              <input
+                type="number"
+                id="velocidad_x2"
+                placeholder="3"
+                value="3"
+                required
+                step="any"
+                class="campo__valor valor--velocidad"
+              />
+              <select
+                id="unidad_velocidad_x2"
+                class="campo__select-options select-option--velocidad"
+              >
+                <option value="m/s">metros/segundo</option>
+                <option value="km/h">km/hora</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="campo-encuentro">
+            <label for="tiempo_x2" class="campo__subtitulo"
+              >¿Cuándo inicia?</label
+            >
+            <div class="formulario__campo">
+              <input
+                type="number"
+                id="tiempo_x2"
+                placeholder="0"
+                value="0"
+                step="any"
+                class="campo__valor valor--tiempo-inicio"
+              />
+              <select
+                id="unidad_tiempo_x2"
+                class="campo__select-options select-option--tiempo"
+              >
+                <option value="s">segundos</option>
+                <option value="min">minutos</option>
+                <option value="h">horas</option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="bloque-formulario formulario--direccion-bloque">
+          <h3 class="bloque-formulario__titulo">Dirección del movimiento</h3>
+
+          <!-- REHACER DIV DIRECCION-BLOQUE__OPCIONES -->
+          <div class="direccion-bloque__opciones">
+            <div class="opciones__direccion">
+              <input
+                type="radio"
+                id="opcion-opuestos"
+                name="direccion_movimiento"
+                value="opuestos"
+                checked
+              />
+              <label for="opcion-opuestos">
+                <div class="ilustracion opuestos">
+                  <div class="movil movil1">→</div>
+                  <div class="movil movil2">←</div>
+                </div>
+                <span>Van uno hacia el otro</span>
+              </label>
+            </div>
+
+            <div class="opciones-direccion">
+              <input
+                type="radio"
+                id="opcion-mismo"
+                name="direccion_movimiento"
+                value="mismo"
+              />
+              <label for="opcion-mismo">
+                <div class="ilustracion mismo">
+                  <div class="movil movil1">→</div>
+                  <div class="movil movil2">→</div>
+                </div>
+                <span>Van en la misma dirección</span>
+              </label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="bloque-formulario formulario--opciones-resultado">
+          <div class="formulario__campo">
+            <label for="unidadSalida" class="campo__texto"
+              >Mostrar resultados en:</label
+            >
+            <select id="unidadSalida" class="campo__select-options">
+              <option value="m">Metros</option>
+              <option value="km">Kilómetros</option>
+            </select>
+          </div>
+        </fieldset>
+
+        <button type="button" id="calcularEncuentroBtn" class="boton-calcular">
+          Calcular Encuentro
+        </button>
+      </form>
+
+      <section class="encuentros__resultados">
+        <h3 class="resultados__titulo">Resultados</h3>
+
+        <div class="resultado__item">
+          <div class="resultado__etiqueta">
+            <span>⏱️ Tiempo de encuentro:</span>
+          </div>
+          <input
+            type="text"
+            id="tiempoEncuentro"
+            readonly
+            placeholder="Esperando cálculo..."
+            class="resultado__value"
+          />
+        </div>
+
+        <div class="resultado__item">
+          <div class="resultado__etiqueta">
+            <span>📍 Posición de encuentro:</span>
+          </div>
+          <input
+            type="text"
+            id="resultadoEncuentros"
+            readonly
+            placeholder="Esperando cálculo..."
+            class="resultado__value"
+          />
+        </div>
+      </section>
+
+      <section class="encuentros__visualizacion">
+        <h3 class="visualizacion__titulo">Visualización</h3>
+
+        <div id="canvasContainer" class="visualizacion__container"></div>
+      </section>
+    </main>
+
+    <script src="js/encuentros.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+  </body>
+</html>
