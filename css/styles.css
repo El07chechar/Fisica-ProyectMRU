@@ -1,6 +1,11 @@
 body {
-  font-family: Arial, sans-serif;
-  background-color: white;
+  font-family: "Cal Sans", sans-serif;
+  font-weight: 200;
+  font-style: normal;
+  background: linear-gradient(to bottom, #ece1d9 0%, #f6f4f2 100%);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
   color: black;
   margin: 0;
   padding: 0;
@@ -21,7 +26,7 @@ nav ul {
 }
 
 nav ul li button {
-  background-color: black;
+  background-color: rgb(0, 0, 0);
   border: none;
   padding: 15px 30px;
   border-radius: 30px;
@@ -64,9 +69,9 @@ h2 {
 }
 
 .campo__titulo{
-  width: 100%;
+  font-weight: 75;
   text-align: left;
-  font-weight: bold;
+
   font-size: 16px;
 }
 
@@ -87,7 +92,7 @@ h2 {
 }
 
 .boton__submit {
-  background-color: #c600ff;
+  background: linear-gradient(to bottom, #796549, #534533);
   color: white;
   border: none;
   padding: 12px 25px;
@@ -99,7 +104,7 @@ h2 {
 }
 
 .boton__submit:hover {
-  background-color: #9307b6;
+  background-color: #555555;
 }
 
 

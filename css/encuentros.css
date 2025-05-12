@@ -1,5 +1,10 @@
 body {
-  font-family: "Helvetica", Arial, sans-serif;
+  font-family: "Cal Sans", sans-serif;
+  font-weight: 200;
+  font-style: normal;
+  background: linear-gradient(to bottom, #e8ddd3 0%, #f6f4f2 100%);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   line-height: 1.6;
   margin: 0;
   padding: 20px;
@@ -15,14 +20,14 @@ nav ul {
 }
 
 nav ul li button {
-  background-color: black;
+  background-color: rgb(0, 0, 0);
   border: none;
-  padding: 15px 30px;
+  padding: 15px 70px;
   border-radius: 30px;
 }
 
 nav ul li button a {
-  color: white;
+  color: rgb(255, 255, 255);
   text-decoration: none;
   font-weight: bold;
   font-size: 18px;
@@ -38,19 +43,20 @@ nav ul li button a {
 }
 
 .encuentros__titulo {
-  color: #c600ff;
+  color:#000000;
   text-align: center;
   margin-bottom: 20px;
 }
 
 h3 {
-  color: #c600ff;
+  font-weight: 200;
+  color: #000000;
   margin-top: 15px;
   margin-bottom: 10px;
 }
 
 .encuentros__instrucciones {
-  background: #d8d6d8;
+  background: #ececec;
   padding: 15px;
   border-radius: 5px;
   margin-bottom: 20px;
@@ -77,9 +83,9 @@ h3 {
 }
 
 .campo__subtitulo {
+  font-weight: 100;
   display: block;
   margin-bottom: 5px;
-  font-weight: bold;
 }
 
 .campo__select {
@@ -99,7 +105,7 @@ h3 {
   padding: 8px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  background: #f5f5f5;
+  background: #fffefe;
 }
 
 .bloque-formulario__titulo {
@@ -122,7 +128,7 @@ h3 {
 .ilustracion {
   width: 100px;
   height: 50px;
-  background: #f0f0f0;
+  background: #ffffff;
   border-radius: 8px;
   margin-bottom: 10px;
   position: relative;
@@ -144,7 +150,7 @@ h3 {
   display: block;
   width: auto;
   padding: 12px;
-  background-color: #c600ff;
+  background: linear-gradient(to bottom, #796549, #534533);
   color: white;
   border: none;
   border-radius: 5px;
@@ -156,7 +162,7 @@ h3 {
 }
 
 .boton-calcular:hover {
-  background-color: #c600ff;
+  background-color: #555555;
 }
 
 .resultado-item {

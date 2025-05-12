@@ -1,3 +1,16 @@
+body {
+  font-family: "Cal Sans", sans-serif;
+  background: linear-gradient(to bottom, #e8ddd3 0%, #f6f4f2 100%);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  line-height: 1.6;
+  margin: 0;
+  padding: 20px;
+  color: #333;
+}
+
+
+
 nav ul {
   list-style: none;
   display: flex;
@@ -9,7 +22,7 @@ nav ul {
 nav ul li button {
   background-color: black;
   border: none;
-  padding: 15px 30px;
+  padding: 15px 70px;
   border-radius: 30px;
 }
 
@@ -22,7 +35,15 @@ nav ul li button a {
 
 
 .datos-grafica{
-  border-radius: 15px;
+  border: 2px solid #333;
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 1000px;
+  
 }
 
 .boton__agregarTramo, .boton__graficar{
