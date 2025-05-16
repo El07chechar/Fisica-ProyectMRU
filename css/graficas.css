@@ -67,3 +67,58 @@ nav ul li button a {
   flex-direction: row;
   width: 100%;
 }
+
+@media (max-width: 768px) {
+  nav ul {
+    flex-direction: column;
+    gap: 15px;
+    align-items: center; 
+    padding: 0;
+  }
+
+  nav ul li {
+    width: 100%;
+    display: flex;
+    justify-content: center; 
+  }
+
+  nav ul li button {
+    padding: 12px 40px;
+    width: auto;
+  }
+
+ 
+  ul.menu-principal {
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    padding: 0;
+  }
+
+  ul.menu-principal li {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  ul.menu-principal li button {
+    padding: 12px 40px;
+    width: auto;
+  }
+
+  .datos-grafica {
+    width: 100%;
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  .contenedor__graficas {
+    flex-direction: column;
+  }
+
+  .boton__agregarTramo,
+  .boton__graficar {
+    width: 100%;
+  }
+}
+

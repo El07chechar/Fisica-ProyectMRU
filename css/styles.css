@@ -13,31 +13,47 @@ body {
   width: 100vw;
 }
 
-header{
+header {
   width: 100%;
 }
 
-nav ul {
+ul {
   list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+
+nav ul {
   display: flex;
   justify-content: center;
-  padding: 20px;
   gap: 40px;
+  flex-wrap: wrap;
+  padding: 0;
+  margin: 20px 0;
 }
 
-nav ul li button {
-  background-color: rgb(0, 0, 0);
-  border: none;
-  padding: 15px 30px;
-  border-radius: 30px;
+nav ul li {
+  list-style: none;
+  display: flex;
 }
 
-nav ul li button a {
+
+.boton-navegacion {
+  background-color: black;
   color: white;
+  padding: 15px 70px;
+  border-radius: 30px;
   text-decoration: none;
-  font-weight: bold;
-  font-size: 18px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
+
+.boton-navegacion:hover {
+  background-color: #333;
+}
+
 
 h1 {
   font-size: 32px;
@@ -51,7 +67,7 @@ h2 {
 }
 
 
-.conversor{
+.conversor {
   margin-top: 30px;
   display: flex;
   flex-direction: column;
@@ -59,7 +75,7 @@ h2 {
   gap: 25px;
 }
 
-.campo{
+.campo {
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -68,21 +84,20 @@ h2 {
   border-radius: 20px;
 }
 
-.campo__titulo{
+.campo__titulo {
   font-weight: 75;
   text-align: left;
-
   font-size: 16px;
 }
 
-.campo__select{
+.campo__select {
   display: flex;
   gap: 10px;
   width: 100%;
 }
 
 .campo__valor,
-.campo__select-options{
+.campo__select-options {
   flex: 1;
   padding: 12px 20px;
   font-size: 16px;
@@ -92,7 +107,7 @@ h2 {
 }
 
 .boton__submit {
-  background: linear-gradient(to bottom, #796549, #534533);
+  background-color: #c600ff;
   color: white;
   border: none;
   padding: 12px 25px;
@@ -104,9 +119,8 @@ h2 {
 }
 
 .boton__submit:hover {
-  background-color: #555555;
+  background-color: #a400d4;
 }
-
 
 .resultados {
   max-width: 500px;
@@ -114,8 +128,10 @@ h2 {
   padding: 0;
 }
 
-.resultados__subtitulo{
+.resultados__subtitulo {
   margin-bottom: 20px;
+  font-weight: bold;
+  font-size: 14px;
 }
 
 .resultados .resultados__value {
@@ -126,12 +142,7 @@ h2 {
   margin-top: 10px;
 }
 
-.resultados__subtitulo{
-  font-weight: bold;
-  font-size: 14px;
-}
-
-.campo__valor{
+.campo__valor {
   padding: 12px 20px;
   font-size: 16px;
   border: 1px solid #242323;
@@ -140,3 +151,64 @@ h2 {
   box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
 }
 
+.contenedor__graficas {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+
+@media (max-width: 768px) {
+  nav ul {
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    padding: 0;
+  }
+
+  nav ul li {
+    width: auto;
+    display: flex;
+    justify-content: center;
+  }
+
+  .datos-grafica {
+    width: 100%;
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  .contenedor__graficas {
+    flex-direction: column;
+  }
+
+  .boton__agregarTramo,
+  .boton__graficar {
+    width: 100%;
+  }
+
+  .encuentros__formulario {
+    flex-direction: column;
+  }
+
+  .opciones-direccion {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .ilustracion {
+    width: 90%;
+    height: auto;
+    padding: 10px;
+  }
+
+  .resultado-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .resultado__etiqueta,
+  .resultado__value {
+    width: 100%;
+  }
+}
