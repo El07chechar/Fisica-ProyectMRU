@@ -8,6 +8,84 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Fredoka:wght@300..700&family=Manrope:wght@200..800&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/encuentros.css" />
+    <style>
+      
+      .campo-con-ayuda {
+        position: relative;
+      }
+      
+      .ayuda-cientifica {
+        position: absolute;
+        right: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: #007bff;
+        color: white;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: bold;
+        cursor: help;
+        z-index: 10;
+      }
+      
+      .tooltip {
+        position: absolute;
+        bottom: 100%;
+        right: 0;
+        background: #333;
+        color: white;
+        padding: 8px 12px;
+        border-radius: 6px;
+        font-size: 12px;
+        white-space: nowrap;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s;
+        z-index: 1000;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      }
+      
+      .tooltip::after {
+        content: '';
+        position: absolute;
+        top: 100%;
+        right: 10px;
+        border: 5px solid transparent;
+        border-top-color: #333;
+      }
+      
+      .ayuda-cientifica:hover .tooltip {
+        opacity: 1;
+        visibility: visible;
+      }
+      
+      .ejemplo-notacion {
+        background: #f8f9fa;
+        border: 1px solid #e9ecef;
+        border-radius: 4px;
+        padding: 8px;
+        margin-top: 4px;
+        font-size: 11px;
+        color: #666;
+      }
+      
+      .campo__valor {
+        padding-right: 35px !important; 
+      }
+      
+      .input-valido {
+        border-left: 3px solid #28a745 !important;
+      }
+      
+      .input-invalido {
+        border-left: 3px solid #dc3545 !important;
+      }
+    </style>
   </head>
   <body>
     <header>
@@ -28,7 +106,7 @@
 
     <main id="encuentros-id" class="encuentros">
       <h1 class="encuentros__titulo">
-        Calcular punto de encuentro entre dos móviles
+        Calcular punto de encuentro entre dos autos
       </h1>
 
       <div class="encuentros__instrucciones">
@@ -38,26 +116,35 @@
           <br />
           <br />
           Complete los datos y presione el botón "Calcular Encuentro".
+          <br />
+          <strong>💡 Tip:</strong> Puede usar notación científica (ej: 1.5e3 = 5 × 10³ = 1500, 2e-4 = 0.0002)
         </p>
       </div>
 
       <form class="encuentros__formulario" id="formEncuentros">
         <fieldset class="bloque-formulario formulario--primer-movil">
-          <h3 class="bloque-formulario__titulo">Primer móvil</h3>
+          <h3 class="bloque-formulario__titulo">Primer auto</h3>
           <div class="formulario__campo">
             <label for="posicion_x1" class="campo__subtitulo"
               >¿Dónde inicia?</label
             >
             <div class="campo__select">
-              <input
-                type="number"
-                id="posicion_x1"
-                placeholder="0"
-                value="0"
-                required
-                step="any"
-                class="campo__valor valor--posicion"
-              />
+              <div class="campo-con-ayuda">
+                <input
+                  type="text"
+                  id="posicion_x1"
+                  placeholder="0 o 1.5e3"
+                  value="0"
+                  required
+                  class="campo__valor valor--posicion"
+                />
+                
+                  <div class="tooltip">
+                    Ejemplos: 1500 o 1.5e3<br>
+                    0.0002 o 2e-4
+                  </div>
+                </div>
+              </div>
               <select
                 id="unidad_posicion_x1"
                 class="campo__select-options select-option--posicion"
@@ -66,22 +153,24 @@
                 <option value="km">kilómetros</option>
               </select>
             </div>
-          </div>
+            
 
           <div class="campo-encuentro">
             <label for="velocidad_x1" class="campo__subtitulo"
               >¿A qué velocidad va?</label
             >
             <div class="formulario__campo">
-              <input
-                type="number"
-                id="velocidad_x1"
-                placeholder="5"
-                value="5"
-                required
-                step="any"
-                class="campo__valor valor--velocidad"
-              />
+              <div class="campo-con-ayuda">
+                <input
+                  type="text"
+                  id="velocidad_x1"
+                  placeholder="5 o 5e0"
+                  value="5"
+                  required
+                  class="campo__valor valor--velocidad"
+                />
+               
+              </div>
               <select
                 id="unidad_velocidad_x1"
                 class="campo__select-options select-option--velocidad"
@@ -90,6 +179,7 @@
                 <option value="km/h">km/hora</option>
               </select>
             </div>
+            
           </div>
 
           <div class="campo-encuentro">
@@ -97,14 +187,16 @@
               >¿Cuándo inicia?</label
             >
             <div class="formulario__campo">
-              <input
-                type="number"
-                id="tiempo_x1"
-                placeholder="0"
-                value="0"
-                step="any"
-                class="campo__valor valor--tiempo"
-              />
+              <div class="campo-con-ayuda">
+                <input
+                  type="text"
+                  id="tiempo_x1"
+                  placeholder="0 o 0e0"
+                  value="0"
+                  class="campo__valor valor--tiempo"
+                />
+                
+              </div>
               <select
                 id="unidad_tiempo_x1"
                 class="campo__select-options select-option--tiempo-inicio"
@@ -114,25 +206,28 @@
                 <option value="h">horas</option>
               </select>
             </div>
+            
           </div>
         </fieldset>
 
         <fieldset class="bloque-formulario formulario--segundo-movil">
-          <h3 class="bloque-formulario__titulo">Segundo móvil</h3>
+          <h3 class="bloque-formulario__titulo">Segundo auto</h3>
           <div class="campo-encuentro">
             <label for="posicion_x2" class="campo__subtitulo"
               >¿Dónde inicia?</label
             >
             <div class="formulario__campo">
-              <input
-                type="number"
-                id="posicion_x2"
-                placeholder="100"
-                value="100"
-                required
-                step="any"
-                class="campo__valor valor--posicion"
-              />
+              <div class="campo-con-ayuda">
+                <input
+                  type="text"
+                  id="posicion_x2"
+                  placeholder="100 o 1e2"
+                  value="100"
+                  required
+                  class="campo__valor valor--posicion"
+                />
+                
+              </div>
               <select
                 id="unidad_posicion_x2"
                 class="campo__select-options select-option--posicion"
@@ -141,6 +236,7 @@
                 <option value="km">kilómetros</option>
               </select>
             </div>
+           
           </div>
 
           <div class="campo-encuentro">
@@ -148,15 +244,17 @@
               >¿A qué velocidad va?</label
             >
             <div class="formulario__campo">
-              <input
-                type="number"
-                id="velocidad_x2"
-                placeholder="3"
-                value="3"
-                required
-                step="any"
-                class="campo__valor valor--velocidad"
-              />
+              <div class="campo-con-ayuda">
+                <input
+                  type="text"
+                  id="velocidad_x2"
+                  placeholder="3 o 3e0"
+                  value="3"
+                  required
+                  class="campo__valor valor--velocidad"
+                />
+                
+              </div>
               <select
                 id="unidad_velocidad_x2"
                 class="campo__select-options select-option--velocidad"
@@ -165,6 +263,7 @@
                 <option value="km/h">km/hora</option>
               </select>
             </div>
+
           </div>
 
           <div class="campo-encuentro">
@@ -172,14 +271,16 @@
               >¿Cuándo inicia?</label
             >
             <div class="formulario__campo">
-              <input
-                type="number"
-                id="tiempo_x2"
-                placeholder="0"
-                value="0"
-                step="any"
-                class="campo__valor valor--tiempo-inicio"
-              />
+              <div class="campo-con-ayuda">
+                <input
+                  type="text"
+                  id="tiempo_x2"
+                  placeholder="0 o 0e0"
+                  value="0"
+                  class="campo__valor valor--tiempo-inicio"
+                />
+                
+              </div>
               <select
                 id="unidad_tiempo_x2"
                 class="campo__select-options select-option--tiempo"
@@ -189,13 +290,12 @@
                 <option value="h">horas</option>
               </select>
             </div>
-          </div>
+            
         </fieldset>
 
         <fieldset class="bloque-formulario formulario--direccion-bloque">
           <h3 class="bloque-formulario__titulo">Dirección del movimiento</h3>
 
-          <!-- REHACER DIV DIRECCION-BLOQUE__OPCIONES -->
           <div class="direccion-bloque__opciones">
             <div class="opciones__direccion">
               <input

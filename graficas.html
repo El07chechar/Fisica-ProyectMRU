@@ -3,73 +3,211 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Grafica MRU</title>
-    <link rel="stylesheet" href="css/graficas.css" />
+    <title>Gráfica MRU</title>
+    <style>
+
+      body {
+        font-family: 'Inter', sans-serif;
+        font-weight: 200;
+        background: linear-gradient(to bottom, #e8ddd3 0%, #f6f4f2 100%);
+        background-attachment: fixed;
+        margin: 0;
+        padding: 20px;
+        color: #333;
+        line-height: 1.6;
+      }
+
+      nav ul {
+        list-style: none;
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        padding: 20px;
+        margin: 0;
+      }
+
+      nav ul li button {
+        background-color: #000;
+        border: none;
+        padding: 15px 60px;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      nav ul li button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      nav ul li button a {
+        color: #fff;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 18px;
+      }
+
+      main {
+        max-width: 1000px;
+        margin: auto;
+        background: #ffffffd0;
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .datos-grafica {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        padding: 20px;
+        border-radius: 12px;
+        background: #f9f9f9;
+        margin-bottom: 30px;
+        border: 1px solid #ddd;
+      }
+
+      .datos-grafica__titulo {
+        font-size: 1.5rem;
+        font-weight: 200;
+        color: #000;
+        margin-bottom: 10px;
+      }
+
+      .datos-grafica__input {
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 1rem;
+        background: #fff;
+        transition: all 0.3s ease;
+      }
+
+      .datos-grafica__input:focus {
+        outline: none;
+        border-color: #796549;
+        box-shadow: 0 0 0 2px rgba(121, 101, 73, 0.2);
+      }
+
+      .boton__agregarTramo,
+      .boton__graficar {
+        padding: 15px;
+        background: linear-gradient(to bottom, #796549, #534533);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 10px;
+        transition: all 0.3s ease;
+      }
+
+      .boton__agregarTramo:hover,
+      .boton__graficar:hover {
+        background: linear-gradient(to bottom, #8a7458, #5e4a37);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(83, 69, 51, 0.3);
+      }
+
+      .listaTramos__titulo {
+        font-size: 1.3rem;
+        font-weight: 200;
+        margin-bottom: 10px;
+      }
+
+      #listaTramos {
+        list-style: none;
+        padding-left: 0;
+        margin-bottom: 30px;
+      }
+
+      #listaTramos li {
+        background: #ececec;
+        margin-bottom: 8px;
+        padding: 10px 15px;
+        border-radius: 8px;
+      }
+
+      .contenedor__graficas {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        margin-top: 30px;
+        justify-content: center;
+      }
+
+      .grafica-velocidad,
+      .grafica-distancia {
+        flex: 1 1 400px;
+        background: #fff;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+
+      .grafica__titulo {
+        font-weight: 200;
+        color: #000000;
+        text-align: center;
+        margin-bottom: 15px;
+        font-size: 1.2rem;
+      }
+
+      canvas {
+        width: 100% !important;
+        height: 300px !important;
+      }
+
+      @media (max-width: 768px) {
+        nav ul {
+          flex-direction: column;
+          gap: 15px;
+          align-items: center;
+        }
+
+        nav ul li button {
+          padding: 12px 40px;
+        }
+
+        .contenedor__graficas {
+          flex-direction: column;
+        }
+      }
+    </style>
   </head>
   <body>
     <header>
       <nav>
         <ul>
-          <li>
-            <button><a href="index.html">Calcular</a></button>
-          </li>
-          <li>
-            <button><a href="encuentros.html">Encuentros</a></button>
-          </li>
-          <li>
-            <button><a href="graficas.html">Gráficas</a></button>
-          </li>
+          <li><button><a href="index.html">Calcular</a></button></li>
+          <li><button><a href="encuentros.html">Encuentros</a></button></li>
+          <li><button><a href="graficas.html">Gráficas</a></button></li>
         </ul>
       </nav>
     </header>
-    
-    <main class="grafica" id="graficas">
+
+    <main>
       <fieldset class="datos-grafica">
-        <legend class="datos-grafica__titulo">
-          Agregar tramos de movimiento
-        </legend>
-        <input
-          type="number"
-          name=""
-          id="velocidad-grafica"
-          class="datos-grafica__input"
-          step="any"
-          placeholder="Velocidad (m/s)"
-        />
-        <input
-          type="number"
-          name=""
-          id="duracion-grafica"
-          class="datos-grafica__input"
-          step="1"
-          placeholder="tiempo maximo (s)"
-        />
-        <button class="boton__agregarTramo" onclick="agregarTramo()">
-          Agregar Tramo
-        </button>
+        <legend class="datos-grafica__titulo">Agregar tramos de movimiento</legend>
+        <input type="number" id="velocidad-grafica" class="datos-grafica__input" step="any" placeholder="Velocidad (m/s)" />
+        <input type="number" id="duracion-grafica" class="datos-grafica__input" step="1" placeholder="Tiempo máximo (s)" />
+        <button class="boton__agregarTramo" onclick="agregarTramo()">Agregar Tramo</button>
       </fieldset>
 
       <h3 class="listaTramos__titulo">Tramos agregados:</h3>
       <ul id="listaTramos"></ul>
 
-      <button class="boton__graficar" onclick="generarGraficas()">
-        Graficar
-      </button>
-
-      <div class="fieldset">
-
-
-
-      </div>
+      <button class="boton__graficar" onclick="generarGraficas()">Graficar</button>
 
       <div class="contenedor__graficas">
         <div class="grafica-velocidad">
-          <h3 class="grafica__titulo">velocidad función tiempo</h3>
-          <canvas class="grafica" id="graficaVelocidad"></canvas>
+          <h3 class="grafica__titulo">Velocidad función tiempo</h3>
+          <canvas id="graficaVelocidad"></canvas>
         </div>
         <div class="grafica-distancia">
-          <h3 class="grafica__titulo">distancia función tiempo</h3>
-          <canvas class="grafica" id="graficaDistancia"></canvas>
+          <h3 class="grafica__titulo">Distancia función tiempo</h3>
+          <canvas id="graficaDistancia"></canvas>
         </div>
       </div>
     </main>

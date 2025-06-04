@@ -3,39 +3,319 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="css/styles.css" />
     <title>Calculo MRU</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Fredoka:wght@300..700&family=Manrope:wght@200..800&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Fredoka:wght@300..700&family=Manrope:wght@200..800&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    
+    <style>
+      body {
+        font-family: "Cal Sans", sans-serif;
+        font-weight: 200;
+        font-style: normal;
+        background: linear-gradient(to bottom, #e8ddd3 0%, #f6f4f2 100%);
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        line-height: 1.6;
+        margin: 0;
+        padding: 20px;
+        color: #333;
+      }
+
+      nav ul {
+        list-style: none;
+        display: flex;
+        justify-content: center;
+        padding: 20px;
+        gap: 40px;
+        margin: 0;
+      }
+
+      nav ul li button {
+        background-color: rgb(0, 0, 0);
+        border: none;
+        padding: 15px 70px;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      nav ul li button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      nav ul li button a {
+        color: rgb(255, 255, 255);
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 18px;
+      }
+
+      .calculo {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 20px;
+        background: #f9f9f9;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .calculo__subtitulo {
+        color: #000000;
+        text-align: center;
+        margin-bottom: 20px;
+        font-weight: 200;
+        font-size: 2.5rem;
+      }
+
+      h3 {
+        font-weight: 200;
+        color: #000000;
+        margin-top: 15px;
+        margin-bottom: 10px;
+      }
+
+      .calculo__instrucciones {
+        background: #ececec;
+        padding: 15px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+      }
+
+      .conversor {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        margin-bottom: 20px;
+      }
+
+      .campo {
+        flex: 1;
+        min-width: 280px;
+        background: #fff;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        border: none;
+      }
+
+      .campo__titulo {
+        font-weight: 100;
+        display: block;
+        margin-bottom: 10px;
+        color: #000000;
+        font-size: 1.1rem;
+      }
+
+      .campo__select {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+      }
+
+      .campo__valor {
+        flex: 1;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background: white;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+      }
+
+      .campo__valor:focus {
+        outline: none;
+        border-color: #796549;
+        box-shadow: 0 0 0 2px rgba(121, 101, 73, 0.1);
+      }
+
+      .campo__select-options {
+        width: 120px;
+        padding: 12px 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background: #fffefe;
+        font-size: 1rem;
+        cursor: pointer;
+      }
+
+      .campo__select-options:focus {
+        outline: none;
+        border-color: #796549;
+      }
+
+      .boton__submit {
+        display: block;
+        width: auto;
+        padding: 15px 40px;
+        background: linear-gradient(to bottom, #796549, #534533);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        margin: 20px auto;
+        transition: all 0.3s ease;
+      }
+
+      .boton__submit:hover {
+        background: linear-gradient(to bottom, #8a7458, #5e4a37);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(83, 69, 51, 0.3);
+      }
+
+      .resultados {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        margin-top: 20px;
+      }
+
+      .resultados__titulo {
+        color: #000000;
+        margin-bottom: 15px;
+        font-weight: 200;
+        font-size: 1.8rem;
+      }
+
+      .resultados__value {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .resultados__subtitulo {
+        display: flex;
+        align-items: center;
+        width: 200px;
+        margin-right: 15px;
+        font-weight: 100;
+        color: #000000;
+      }
+
+      .valor--resultado {
+        flex: 1;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background: #f9f9f9;
+        font-weight: bold;
+        color: #333;
+      }
+
+      .error {
+        background-color: #ffe6e6;
+        border-color: #ff9999;
+        color: #cc0000;
+      }
+
+      .success {
+        background-color: #e6f7e6;
+        border-color: #99cc99;
+        color: #006600;
+      }
+
+      .info-panel {
+        background: #ececec;
+        padding: 15px;
+        border-radius: 5px;
+        margin-top: 20px;
+      }
+
+      .info-panel h3 {
+        color: #000000;
+        margin-bottom: 10px;
+        font-weight: 200;
+      }
+
+      .info-panel p {
+        font-size: 0.95rem;
+        color: #333;
+        line-height: 1.5;
+        margin: 0;
+      }
+
+      @media (max-width: 768px) {
+        nav ul {
+          flex-direction: column;
+          gap: 15px;
+          align-items: center;
+        }
+
+        nav ul li button {
+          padding: 12px 40px;
+        }
+
+        .conversor {
+          flex-direction: column;
+        }
+
+        .campo {
+          min-width: auto;
+        }
+
+        .campo__select {
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .campo__select-options {
+          width: 100%;
+        }
+
+        .resultados__value {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .resultados__subtitulo,
+        .valor--resultado {
+          width: 100%;
+          margin-right: 0;
+          margin-bottom: 10px;
+        }
+
+        .calculo__subtitulo {
+          font-size: 2rem;
+        }
+      }
+    </style>
+  </head>
 
   <body>
     <header>
       <nav>
-        <ul class="menu-principal">
-          <li><a href="index.html" class="boton-navegacion">Calcular</a></li>
-          <li><a href="encuentros.html" class="boton-navegacion">Encuentros</a></li>
-          <li><a href="graficas.html" class="boton-navegacion">Gráficas</a></li>
+        <ul>
+          <li><button><a href="index.html">Calcular</a></button></li>
+          <li><button><a href="encuentros.html">Encuentros</a></button></li>
+          <li><button><a href="graficas.html">Gráficas</a></button></li>
         </ul>
       </nav>
     </header>
-    
-    
 
     <main id="calculo-id" class="calculo">
-
-      <h1 class="calculo__subtitulo">Ingresar datos</h1>
+      <h1 class="calculo__subtitulo">Calculadora MRU</h1>
+      
+      <div class="calculo__instrucciones">
+        <h3>💡 Instrucciones:</h3>
+        <p>
+          Ingresa exactamente 2 valores para calcular el tercero. Puedes usar notación científica 
+          (ej: 1.5e3 = 1500, 2e-3 = 0.002). La fórmula utilizada es: <strong>v = d/t</strong>
+        </p>
+      </div>
+      
       <form action="" method="get" class="conversor">
         <fieldset class="campo campo__velocidad">
           <label for="velocidad" class="campo__titulo">Velocidad:</label>
           <div class="campo__select">
             <input
-              type="number"
+              type="text"
               name="velocidad"
               id="velocidad"
-              placeholder="Velocidad"
+              placeholder="Ej: 15 o 1.5e1"
               class="campo__valor valor--velocidad"
             />
             <select
@@ -45,6 +325,7 @@
             >
               <option value="m/s">m/s</option>
               <option value="km/h">km/h</option>
+              <option value="cm/s">cm/s</option>
             </select>
           </div>
         </fieldset>
@@ -53,10 +334,10 @@
           <label for="tiempo" class="campo__titulo">Tiempo:</label>
           <div class="campo__select">
             <input
-              type="number"
+              type="text"
               name="tiempo"
               id="tiempo"
-              placeholder="Tiempo"
+              placeholder="Ej: 3600 o 3.6e3"
               class="campo__valor valor--tiempo"
             />
             <select
@@ -67,6 +348,7 @@
               <option value="s">s</option>
               <option value="min">min</option>
               <option value="h">h</option>
+              <option value="ms">ms</option>
             </select>
           </div>
         </fieldset>
@@ -75,10 +357,10 @@
           <label for="distancia" class="campo__titulo">Distancia:</label>
           <div class="campo__select">
             <input
-              type="number"
+              type="text"
               name="distancia"
               id="distancia"
-              placeholder="Distancia"
+              placeholder="Ej: 1000 o 1e3"
               class="campo__valor valor--distancia"
             />
             <select
@@ -88,6 +370,8 @@
             >
               <option value="m">m</option>
               <option value="km">km</option>
+              <option value="cm">cm</option>
+              <option value="mm">mm</option>
             </select>
           </div>
         </fieldset>
@@ -96,24 +380,211 @@
       </form>
 
       <section class="resultados">
-        <h2 class="resultados__titulo">Resultados</h2>
+        <h2 class="resultados__titulo">Resultado</h2>
         <div class="resultados__value">
-          <label for="resultado" class="resultados__subtitulo"
-            >Resultado (se muestra en m, m/s, s):</label
-          >
+          <label for="resultado" class="resultados__subtitulo">
+            Valor calculado:
+          </label>
           <input
-            type="number"
+            type="text"
             name="resultado"
             id="resultado"
-            placeholder="Resultado"
-            disabled
-            class="campo__valor valor--resultado"
+            placeholder="El resultado aparecerá aquí"
+            readonly
+            class="valor--resultado"
           />
         </div>
       </section>
+
+      <div class="info-panel">
+        <h3>Información adicional:</h3>
+        <p>
+          • <strong>MRU:</strong> Movimiento Rectilíneo Uniforme<br>
+          • <strong>Fórmula:</strong> velocidad = distancia ÷ tiempo<br>
+          • <strong>Unidades base:</strong> metros (m), segundos (s), metros por segundo (m/s)<br>
+          • <strong>Notación científica:</strong> Útil para números muy grandes o muy pequeños
+        </p>
+      </div>
     </main>
 
-    <script src="js/calculadora.js"></script>
-    <script src="js/menudesplegable.js"></script>
+    <script>
+      document.querySelector("form").addEventListener("submit", function (e) {
+        e.preventDefault();
+        
+
+        function parseNumber(value) {
+          if (!value || value.trim() === '') return NaN;
+          
+          
+          const cleanValue = value.trim().replace(/[eE]/g, 'e');
+          const parsed = parseFloat(cleanValue);
+          
+          return isNaN(parsed) ? NaN : parsed;
+        }
+        
+      
+        function formatNumber(num, decimals = 4) {
+          if (isNaN(num)) return '';
+          
+          
+          if (Math.abs(num) >= 1e6 || (Math.abs(num) < 0.001 && num !== 0)) {
+            return num.toExponential(decimals);
+          }
+          
+      
+          return parseFloat(num.toFixed(decimals)).toString();
+        }
+        
+        
+        function setInputState(element, state) {
+          element.className = element.className.replace(/\b(error|success)\b/g, '');
+          if (state) {
+            element.classList.add(state);
+          }
+        }
+
+        document.querySelectorAll('.campo__valor, .valor--resultado').forEach(input => {
+          setInputState(input, '');
+        });
+        
+     
+        const vInput = document.getElementById("velocidad").value;
+        const vUnidad = document.getElementById("velocidadUnidad").value;
+        
+        const tInput = document.getElementById("tiempo").value;
+        const tUnidad = document.getElementById("tiempoUnidad").value;
+        
+        const dInput = document.getElementById("distancia").value;
+        const dUnidad = document.getElementById("distanciaUnidad").value;
+        
+        const v = parseNumber(vInput);
+        const t = parseNumber(tInput);
+        const d = parseNumber(dInput);
+        
+       
+        const valoresIngresados = [!isNaN(v), !isNaN(t), !isNaN(d)].filter(Boolean).length;
+        
+        if (valoresIngresados !== 2) {
+          alert("⚠️ Debes ingresar exactamente 2 valores para calcular el tercero.");
+          document.getElementById("resultado").value = "";
+          setInputState(document.getElementById("resultado"), 'error');
+          return;
+        }
+        
+   
+        const valores = [v, t, d].filter(val => !isNaN(val));
+        if (valores.some(val => val <= 0)) {
+          alert("⚠️ Todos los valores deben ser positivos.");
+          document.getElementById("resultado").value = "";
+          setInputState(document.getElementById("resultado"), 'error');
+          return;
+        }
+        
+        try {
+         
+          let velocidad = v;
+          if (!isNaN(v)) {
+            switch(vUnidad) {
+              case "km/h":
+                velocidad = v / 3.6;
+                break;
+              case "cm/s":
+                velocidad = v / 100;
+                break;
+             
+            }
+          }
+          
+          let tiempo = t;
+          if (!isNaN(t)) {
+            switch(tUnidad) {
+              case "min":
+                tiempo = t * 60;
+                break;
+              case "h":
+                tiempo = t * 3600;
+                break;
+              case "ms":
+                tiempo = t / 1000;
+                break;
+              
+            }
+          }
+          
+          let distancia = d;
+          if (!isNaN(d)) {
+            switch(dUnidad) {
+              case "km":
+                distancia = d * 1000;
+                break;
+              case "cm":
+                distancia = d / 100;
+                break;
+              case "mm":
+                distancia = d / 1000;
+                break;
+             
+            }
+          }
+          
+          let resultado;
+          let unidadResultado;
+          let tipoCalculo;
+          
+          
+          if (isNaN(v)) {
+          
+            resultado = distancia / tiempo;
+            unidadResultado = "m/s";
+            tipoCalculo = "velocidad";
+          } else if (isNaN(t)) {
+            
+            resultado = distancia / velocidad;
+            unidadResultado = "s";
+            tipoCalculo = "tiempo";
+          } else if (isNaN(d)) {
+       
+            resultado = velocidad * tiempo;
+            unidadResultado = "m";
+            tipoCalculo = "distancia";
+          }
+          
+         
+          if (!isFinite(resultado) || resultado <= 0) {
+            alert("❌ Error en el cálculo. Verifica los valores ingresados.");
+            document.getElementById("resultado").value = "";
+            setInputState(document.getElementById("resultado"), 'error');
+            return;
+          }
+          
+         
+          const resultadoFormateado = formatNumber(resultado);
+          const resultadoCompleto = `${resultadoFormateado} ${unidadResultado}`;
+          
+          document.getElementById("resultado").value = resultadoCompleto;
+          setInputState(document.getElementById("resultado"), 'success');
+          
+     
+          console.log(`✅ Calculado: ${tipoCalculo} = ${resultadoCompleto}`);
+          
+        } catch (error) {
+          console.error("Error en el cálculo:", error);
+          alert("❌ Error inesperado en el cálculo. Verifica los valores ingresados.");
+          document.getElementById("resultado").value = "";
+          setInputState(document.getElementById("resultado"), 'error');
+        }
+      });
+
+      document.querySelectorAll('input[type="text"]').forEach(input => {
+        input.addEventListener('input', function() {
+          if (input.id !== 'resultado') {
+            document.getElementById("resultado").value = "";
+            document.querySelectorAll('.campo__valor, .valor--resultado').forEach(el => {
+              el.className = el.className.replace(/\b(error|success)\b/g, '');
+            });
+          }
+        });
+      });
+    </script>
   </body>
 </html>

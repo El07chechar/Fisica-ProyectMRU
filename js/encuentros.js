@@ -217,10 +217,78 @@ document.addEventListener("DOMContentLoaded", function () {
 
   myp5 = new p5(sketch, "canvasContainer");
 
+
+  const camposNumericos = [
+    'posicion_x1', 'posicion_x2', 'velocidad_x1', 'velocidad_x2', 
+    'tiempo_x1', 'tiempo_x2'
+  ];
+
+  camposNumericos.forEach(id => {
+    const campo = document.getElementById(id);
+    if (campo) {
+      campo.addEventListener('input', function() {
+        validarCampoNumerico(this);
+      });
+      campo.addEventListener('blur', function() {
+        validarCampoNumerico(this);
+      });
+    }
+  });
+
   document
     .getElementById("calcularEncuentroBtn")
     .addEventListener("click", realizarCalculoEncuentro);
 });
+
+
+function interpretarValor(valorString) {
+  if (!valorString || valorString.trim() === '') return 0;
+  
+
+  valorString = valorString.trim();
+  
+
+  if (esNumeroValido(valorString)) {
+    const valor = parseFloat(valorString);
+    return isNaN(valor) ? 0 : valor;
+  }
+  
+  return 0;
+}
+
+function esNumeroValido(str) {
+  if (!str || str.trim() === '') return false;
+  
+  str = str.trim();
+  
+ 
+  const patronNumerico = /^[-+]?(\d+\.?\d*|\.\d+)([eE][-+]?\d+)?$/;
+  
+  return patronNumerico.test(str) && !isNaN(parseFloat(str));
+}
+
+
+function validarCampoNumerico(campo) {
+  const valor = campo.value.trim();
+  
+
+  campo.classList.remove('input-valido', 'input-invalido');
+  
+  if (valor === '') {
+    
+    campo.classList.add('input-valido');
+    return true;
+  }
+  
+  if (esNumeroValido(valor)) {
+    campo.classList.add('input-valido');
+    return true;
+  } else {
+    campo.classList.add('input-invalido');
+    return false;
+  }
+}
+
 
 function convertirAUnidadBase(valor, unidad) {
   if (!valor) return 0;
@@ -239,13 +307,59 @@ function convertirAUnidadBase(valor, unidad) {
   }
 }
 
+
+function validarTodosLosCampos() {
+  const camposRequeridos = [
+    'posicion_x1', 'posicion_x2', 'velocidad_x1', 'velocidad_x2'
+  ];
+  
+  let todosValidos = true;
+  let mensajesError = [];
+  
+  camposRequeridos.forEach(id => {
+    const campo = document.getElementById(id);
+    const valor = campo.value.trim();
+    
+    if (valor === '') {
+      mensajesError.push(`El campo ${campo.previousElementSibling.textContent} es requerido`);
+      todosValidos = false;
+    } else if (!esNumeroValido(valor)) {
+      mensajesError.push(`El valor "${valor}" no es un número válido. Use formato decimal (ej: 123.45) o científico (ej: 1.23e4)`);
+      todosValidos = false;
+    }
+  });
+  
+  
+  const camposTiempo = ['tiempo_x1', 'tiempo_x2'];
+  camposTiempo.forEach(id => {
+    const campo = document.getElementById(id);
+    const valor = campo.value.trim();
+    
+    if (valor !== '' && !esNumeroValido(valor)) {
+      mensajesError.push(`El tiempo "${valor}" no es un número válido. Use formato decimal (ej: 123.45) o científico (ej: 1.23e4)`);
+      todosValidos = false;
+    }
+  });
+  
+  if (!todosValidos) {
+    alert("Errores en los datos ingresados:\n\n" + mensajesError.join('\n'));
+  }
+  
+  return todosValidos;
+}
+
 function realizarCalculoEncuentro() {
-  const x1 = parseFloat(document.getElementById("posicion_x1").value || 0);
-  const x2 = parseFloat(document.getElementById("posicion_x2").value || 0);
-  const v1 = parseFloat(document.getElementById("velocidad_x1").value || 0);
-  const v2 = parseFloat(document.getElementById("velocidad_x2").value || 0);
-  const t1 = parseFloat(document.getElementById("tiempo_x1").value || 0);
-  const t2 = parseFloat(document.getElementById("tiempo_x2").value || 0);
+  
+  if (!validarTodosLosCampos()) {
+    return;
+  }
+
+  const x1 = interpretarValor(document.getElementById("posicion_x1").value);
+  const x2 = interpretarValor(document.getElementById("posicion_x2").value);
+  const v1 = interpretarValor(document.getElementById("velocidad_x1").value);
+  const v2 = interpretarValor(document.getElementById("velocidad_x2").value);
+  const t1 = interpretarValor(document.getElementById("tiempo_x1").value);
+  const t2 = interpretarValor(document.getElementById("tiempo_x2").value);
   const direccionElement = document.querySelector(
     'input[name="direccion_movimiento"]:checked'
   );
@@ -365,14 +479,13 @@ function realizarCalculoEncuentro() {
     }
   }
 
-  document.getElementById("tiempoEncuentro").value = `${tiempoEncuentro.toFixed(
-    2
-  )} s`;
 
+  const tiempoFormateado = formatearNumero(tiempoEncuentro);
   const factorConversion = unidadSalida === "km" ? 0.001 : 1;
-  document.getElementById("resultadoEncuentros").value = `${(
-    puntoEncuentro * factorConversion
-  ).toFixed(2)} ${unidadSalida}`;
+  const puntoEncuentroFormateado = formatearNumero(puntoEncuentro * factorConversion);
+
+  document.getElementById("tiempoEncuentro").value = `${tiempoFormateado} s`;
+  document.getElementById("resultadoEncuentros").value = `${puntoEncuentroFormateado} ${unidadSalida}`;
 
   datos = {
     x1: x1Base,
@@ -388,4 +501,13 @@ function realizarCalculoEncuentro() {
   };
 
   if (myp5) myp5.draw();
+}
+
+
+function formatearNumero(numero) {
+  if (Math.abs(numero) >= 1000000 || (Math.abs(numero) < 0.001 && numero !== 0)) {
+    return numero.toExponential(3);
+  } else {
+    return numero.toFixed(3);
+  }
 }
