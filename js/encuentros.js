@@ -34,7 +34,6 @@ document.addEventListener("DOMContentLoaded", function () {
         x2,
         v1,
         v2,
-        direccion,
         tiempoEncuentro,
         puntoEncuentro,
         unidadSalida,
@@ -219,17 +218,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   const camposNumericos = [
-    'posicion_x1', 'posicion_x2', 'velocidad_x1', 'velocidad_x2', 
+    'posicion_x1', 'posicion_x2', 'velocidad_x1', 'velocidad_x2',
     'tiempo_x1', 'tiempo_x2'
   ];
 
   camposNumericos.forEach(id => {
     const campo = document.getElementById(id);
     if (campo) {
-      campo.addEventListener('input', function() {
+      campo.addEventListener('input', function () {
         validarCampoNumerico(this);
       });
-      campo.addEventListener('blur', function() {
+      campo.addEventListener('blur', function () {
         validarCampoNumerico(this);
       });
     }
@@ -243,43 +242,43 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function interpretarValor(valorString) {
   if (!valorString || valorString.trim() === '') return 0;
-  
+
 
   valorString = valorString.trim();
-  
+
 
   if (esNumeroValido(valorString)) {
     const valor = parseFloat(valorString);
     return isNaN(valor) ? 0 : valor;
   }
-  
+
   return 0;
 }
 
 function esNumeroValido(str) {
   if (!str || str.trim() === '') return false;
-  
+
   str = str.trim();
-  
- 
+
+
   const patronNumerico = /^[-+]?(\d+\.?\d*|\.\d+)([eE][-+]?\d+)?$/;
-  
+
   return patronNumerico.test(str) && !isNaN(parseFloat(str));
 }
 
 
 function validarCampoNumerico(campo) {
   const valor = campo.value.trim();
-  
+
 
   campo.classList.remove('input-valido', 'input-invalido');
-  
+
   if (valor === '') {
-    
+
     campo.classList.add('input-valido');
     return true;
   }
-  
+
   if (esNumeroValido(valor)) {
     campo.classList.add('input-valido');
     return true;
@@ -312,14 +311,14 @@ function validarTodosLosCampos() {
   const camposRequeridos = [
     'posicion_x1', 'posicion_x2', 'velocidad_x1', 'velocidad_x2'
   ];
-  
+
   let todosValidos = true;
   let mensajesError = [];
-  
+
   camposRequeridos.forEach(id => {
     const campo = document.getElementById(id);
     const valor = campo.value.trim();
-    
+
     if (valor === '') {
       mensajesError.push(`El campo ${campo.previousElementSibling.textContent} es requerido`);
       todosValidos = false;
@@ -328,28 +327,28 @@ function validarTodosLosCampos() {
       todosValidos = false;
     }
   });
-  
-  
+
+
   const camposTiempo = ['tiempo_x1', 'tiempo_x2'];
   camposTiempo.forEach(id => {
     const campo = document.getElementById(id);
     const valor = campo.value.trim();
-    
+
     if (valor !== '' && !esNumeroValido(valor)) {
       mensajesError.push(`El tiempo "${valor}" no es un número válido. Use formato decimal (ej: 123.45) o científico (ej: 1.23e4)`);
       todosValidos = false;
     }
   });
-  
+
   if (!todosValidos) {
     alert("Errores en los datos ingresados:\n\n" + mensajesError.join('\n'));
   }
-  
+
   return todosValidos;
 }
 
 function realizarCalculoEncuentro() {
-  
+
   if (!validarTodosLosCampos()) {
     return;
   }

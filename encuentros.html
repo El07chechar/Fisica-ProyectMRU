@@ -8,84 +8,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Fredoka:wght@300..700&family=Manrope:wght@200..800&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/encuentros.css" />
-    <style>
-      
-      .campo-con-ayuda {
-        position: relative;
-      }
-      
-      .ayuda-cientifica {
-        position: absolute;
-        right: 8px;
-        top: 50%;
-        transform: translateY(-50%);
-        background: #007bff;
-        color: white;
-        border-radius: 50%;
-        width: 20px;
-        height: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 12px;
-        font-weight: bold;
-        cursor: help;
-        z-index: 10;
-      }
-      
-      .tooltip {
-        position: absolute;
-        bottom: 100%;
-        right: 0;
-        background: #333;
-        color: white;
-        padding: 8px 12px;
-        border-radius: 6px;
-        font-size: 12px;
-        white-space: nowrap;
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.3s;
-        z-index: 1000;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-      }
-      
-      .tooltip::after {
-        content: '';
-        position: absolute;
-        top: 100%;
-        right: 10px;
-        border: 5px solid transparent;
-        border-top-color: #333;
-      }
-      
-      .ayuda-cientifica:hover .tooltip {
-        opacity: 1;
-        visibility: visible;
-      }
-      
-      .ejemplo-notacion {
-        background: #f8f9fa;
-        border: 1px solid #e9ecef;
-        border-radius: 4px;
-        padding: 8px;
-        margin-top: 4px;
-        font-size: 11px;
-        color: #666;
-      }
-      
-      .campo__valor {
-        padding-right: 35px !important; 
-      }
-      
-      .input-valido {
-        border-left: 3px solid #28a745 !important;
-      }
-      
-      .input-invalido {
-        border-left: 3px solid #dc3545 !important;
-      }
-    </style>
   </head>
   <body>
     <header>
@@ -121,7 +43,7 @@
         </p>
       </div>
 
-      <form class="encuentros__formulario" id="formEncuentros">
+      <form class="encuentros__formulario" id="formEncuentros" action="#canvasContainer">
         <fieldset class="bloque-formulario formulario--primer-movil">
           <h3 class="bloque-formulario__titulo">Primer auto</h3>
           <div class="formulario__campo">
@@ -134,7 +56,6 @@
                   type="text"
                   id="posicion_x1"
                   placeholder="0 o 1.5e3"
-                  value="0"
                   required
                   class="campo__valor valor--posicion"
                 />
@@ -165,7 +86,6 @@
                   type="text"
                   id="velocidad_x1"
                   placeholder="5 o 5e0"
-                  value="5"
                   required
                   class="campo__valor valor--velocidad"
                 />
@@ -192,7 +112,6 @@
                   type="text"
                   id="tiempo_x1"
                   placeholder="0 o 0e0"
-                  value="0"
                   class="campo__valor valor--tiempo"
                 />
                 
@@ -222,7 +141,6 @@
                   type="text"
                   id="posicion_x2"
                   placeholder="100 o 1e2"
-                  value="100"
                   required
                   class="campo__valor valor--posicion"
                 />
@@ -249,7 +167,6 @@
                   type="text"
                   id="velocidad_x2"
                   placeholder="3 o 3e0"
-                  value="3"
                   required
                   class="campo__valor valor--velocidad"
                 />
@@ -276,7 +193,6 @@
                   type="text"
                   id="tiempo_x2"
                   placeholder="0 o 0e0"
-                  value="0"
                   class="campo__valor valor--tiempo-inicio"
                 />
                 
@@ -303,7 +219,6 @@
                 id="opcion-opuestos"
                 name="direccion_movimiento"
                 value="opuestos"
-                checked
               />
               <label for="opcion-opuestos">
                 <div class="ilustracion opuestos">
@@ -343,10 +258,7 @@
             </select>
           </div>
         </fieldset>
-
-        <button type="button" id="calcularEncuentroBtn" class="boton-calcular">
-          Calcular Encuentro
-        </button>
+        <input type="submit" id="calcularEncuentroBtn" value="Calcular Encuentro" class="boton-calcular" id="submitEncuentros" />
       </form>
 
       <section class="encuentros__resultados">
@@ -385,7 +297,6 @@
         <div id="canvasContainer" class="visualizacion__container"></div>
       </section>
     </main>
-
     <script src="js/encuentros.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
   </body>

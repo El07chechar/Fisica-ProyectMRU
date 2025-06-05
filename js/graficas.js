@@ -11,8 +11,6 @@ function agregarTramo() {
 
   mostrarTramos();
 
-  alert(`Tramo agregado: Vel = ${v} m/s por ${d} s`);
-
   // Limpiar campos
   document.getElementById("velocidad-grafica").value = "";
   document.getElementById("duracion-grafica").value = "";
