@@ -9,8 +9,6 @@ body {
   color: #333;
 }
 
-
-
 nav ul {
   list-style: none;
   display: flex;
@@ -19,22 +17,29 @@ nav ul {
   gap: 40px;
 }
 
+nav ul li {
+  display: flex;
+}
+
 nav ul li button {
   background-color: black;
   border: none;
   padding: 15px 70px;
   border-radius: 30px;
-}
-
-nav ul li button a {
+  cursor: pointer;
+  transition: all 0.3s ease;
   color: white;
-  text-decoration: none;
   font-weight: bold;
   font-size: 18px;
+  text-decoration: none;
 }
 
+nav ul li button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
 
-.datos-grafica{
+.datos-grafica {
   border: 2px solid #333;
   border-radius: 10px;
   padding: 15px;
@@ -43,10 +48,9 @@ nav ul li button a {
   justify-content: center;
   align-items: center;
   width: 1000px;
-  
 }
 
-.boton__agregarTramo, .boton__graficar{
+.boton__agregarTramo, .boton__graficar {
   margin: 10px;
   background-color: #c600ff;
   color: white;
@@ -58,11 +62,11 @@ nav ul li button a {
   font-weight: bold;
 }
 
-#listaTramos{
+#listaTramos {
   list-style: none;
 }
 
-.contenedor__graficas{
+.contenedor__graficas {
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -87,25 +91,6 @@ nav ul li button a {
     width: auto;
   }
 
- 
-  ul.menu-principal {
-    flex-direction: column;
-    gap: 15px;
-    align-items: center;
-    padding: 0;
-  }
-
-  ul.menu-principal li {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
-
-  ul.menu-principal li button {
-    padding: 12px 40px;
-    width: auto;
-  }
-
   .datos-grafica {
     width: 100%;
     flex-direction: column;
@@ -121,4 +106,3 @@ nav ul li button a {
     width: 100%;
   }
 }
-

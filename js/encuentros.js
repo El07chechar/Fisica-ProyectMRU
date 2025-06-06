@@ -22,12 +22,10 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     p.draw = function () {
+      // Solo limpiar el fondo una vez
       p.background(255);
 
       if (!datos) return;
-
-      p.clear();
-      p.background(255);
 
       let {
         x1,
@@ -216,7 +214,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   myp5 = new p5(sketch, "canvasContainer");
 
-
+  // MEJORADO: Validación visual sin modificar contenido + prevenir recarga
   const camposNumericos = [
     'posicion_x1', 'posicion_x2', 'velocidad_x1', 'velocidad_x2',
     'tiempo_x1', 'tiempo_x2'
@@ -225,61 +223,92 @@ document.addEventListener("DOMContentLoaded", function () {
   camposNumericos.forEach(id => {
     const campo = document.getElementById(id);
     if (campo) {
-      campo.addEventListener('input', function () {
-        validarCampoNumerico(this);
-      });
+      // Solo validar visualmente al perder el foco
       campo.addEventListener('blur', function () {
-        validarCampoNumerico(this);
+        validarCampoVisualmente(this);
+      });
+      
+      // NUEVO: Prevenir cualquier intento de limpiar con Enter
+      campo.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault(); // Evitar submit del form
+          // Solo disparar el cálculo si hay datos
+          if (this.value.trim() !== '') {
+            realizarCalculoEncuentro();
+          }
+        }
       });
     }
   });
 
-  document
-    .getElementById("calcularEncuentroBtn")
-    .addEventListener("click", realizarCalculoEncuentro);
+  // MEJORADO: Cambio de dirección sin borrar campos
+  const radiosDireccion = document.querySelectorAll('input[name="direccion_movimiento"]');
+  radiosDireccion.forEach(radio => {
+    radio.addEventListener('change', function(e) {
+      e.preventDefault(); // Prevenir cualquier comportamiento por defecto
+      // Solo recalcular si ya tenemos datos válidos
+      if (datos && validarCamposBasicos()) {
+        realizarCalculoEncuentro();
+      }
+    });
+  });
+
+  // MEJORADO: Botón de cálculo con prevención de recarga
+  const btnCalcular = document.getElementById("calcularEncuentroBtn");
+  if (btnCalcular) {
+    btnCalcular.addEventListener('click', function(e) {
+      e.preventDefault(); // CRÍTICO: Prevenir submit del formulario
+      e.stopPropagation(); // Evitar propagación del evento
+      realizarCalculoEncuentro();
+    });
+  }
+
+  // NUEVO: Prevenir submit del formulario si existe
+  const forms = document.querySelectorAll('form');
+  forms.forEach(form => {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault(); // Evitar recarga de página
+      realizarCalculoEncuentro();
+    });
+  });
 });
 
-
+// FUNCIÓN COMPLETAMENTE SEGURA: Solo lee valores, NUNCA los modifica
 function interpretarValor(valorString) {
+  // Si está vacío, devolver 0 sin tocar el campo original
   if (!valorString || valorString.trim() === '') return 0;
 
+  const valorLimpio = valorString.trim();
 
-  valorString = valorString.trim();
-
-
-  if (esNumeroValido(valorString)) {
-    const valor = parseFloat(valorString);
+  // Si es un número válido, convertirlo
+  if (esNumeroValido(valorLimpio)) {
+    const valor = parseFloat(valorLimpio);
     return isNaN(valor) ? 0 : valor;
   }
 
+  // Si no es válido, devolver 0 sin modificar el campo
   return 0;
 }
 
+// FUNCIÓN COMPLETAMENTE SEGURA: Solo valida formato
 function esNumeroValido(str) {
   if (!str || str.trim() === '') return false;
 
-  str = str.trim();
-
-
+  const strLimpio = str.trim();
   const patronNumerico = /^[-+]?(\d+\.?\d*|\.\d+)([eE][-+]?\d+)?$/;
 
-  return patronNumerico.test(str) && !isNaN(parseFloat(str));
+  return patronNumerico.test(strLimpio) && !isNaN(parseFloat(strLimpio));
 }
 
-
-function validarCampoNumerico(campo) {
+// FUNCIÓN COMPLETAMENTE SEGURA: Solo validación visual, NUNCA modifica contenido
+function validarCampoVisualmente(campo) {
   const valor = campo.value.trim();
 
-
+  // Remover clases anteriores
   campo.classList.remove('input-valido', 'input-invalido');
 
-  if (valor === '') {
-
-    campo.classList.add('input-valido');
-    return true;
-  }
-
-  if (esNumeroValido(valor)) {
+  // Aplicar clase según validez, pero NUNCA cambiar el valor
+  if (valor === '' || esNumeroValido(valor)) {
     campo.classList.add('input-valido');
     return true;
   } else {
@@ -287,7 +316,6 @@ function validarCampoNumerico(campo) {
     return false;
   }
 }
-
 
 function convertirAUnidadBase(valor, unidad) {
   if (!valor) return 0;
@@ -306,8 +334,55 @@ function convertirAUnidadBase(valor, unidad) {
   }
 }
 
+function obtenerNombreCampo(id) {
+  const nombres = {
+    'posicion_x1': 'Posición del objeto 1',
+    'posicion_x2': 'Posición del objeto 2', 
+    'velocidad_x1': 'Velocidad del objeto 1',
+    'velocidad_x2': 'Velocidad del objeto 2',
+    'tiempo_x1': 'Tiempo de inicio del objeto 1',
+    'tiempo_x2': 'Tiempo de inicio del objeto 2'
+  };
+  return nombres[id] || id;
+}
 
-function validarTodosLosCampos() {
+function crearMensajeError(campo, valor, tipo) {
+  const nombreCampo = obtenerNombreCampo(campo.id);
+  
+  if (tipo === 'requerido') {
+    return `${nombreCampo}: Campo requerido`;
+  } else if (tipo === 'formato') {
+    return `${nombreCampo}: "${valor}" no es un número válido`;
+  }
+  return `Error en ${nombreCampo}`;
+}
+
+function mostrarErroresAmigables(errores) {
+  if (errores.length === 0) return;
+  
+  let mensaje = "🔧 Necesitas completar estos campos:\n\n";
+  
+  errores.forEach((error, index) => {
+    mensaje += `${index + 1}. ${error}\n`;
+  });
+  
+  alert(mensaje);
+}
+
+function mostrarErrorEspecifico(tipo, detalles = '') {
+  const mensajes = {
+    'direccion': "🧭 Selecciona cómo se mueven los objetos:\n\n• MISMO SENTIDO: Van hacia la misma dirección (ej: dos autos en la misma carretera)\n• SENTIDOS OPUESTOS: Van uno hacia el otro (ej: dos trenes que se aproximan)",
+    'velocidades_iguales': "⚠️ Los objetos tienen la misma velocidad pero están en posiciones diferentes.\n\n✅ Para solucionarlo:\n• Cambia una de las velocidades, O\n• Pon ambos objetos en la misma posición inicial",
+    'encuentro_pasado': "⏰ El encuentro habría ocurrido en el pasado.\n\n✅ Para solucionarlo:\n• Reduce los tiempos de inicio, O\n• Cambia las posiciones iniciales, O\n• Ajusta las velocidades",
+    'imposible_mismo_sentido_1_adelante': "🏃‍♂️ El Objeto 1 es más rápido pero ya está adelante del Objeto 2.\n\n✅ Para que se encuentren:\n• Pon al Objeto 1 DETRÁS del Objeto 2, O\n• Haz al Objeto 2 más rápido que el Objeto 1",
+    'imposible_mismo_sentido_2_adelante': "🏃‍♀️ El Objeto 2 es más rápido pero ya está adelante del Objeto 1.\n\n✅ Para que se encuentren:\n• Pon al Objeto 2 DETRÁS del Objeto 1, O\n• Haz al Objeto 1 más rápido que el Objeto 2"
+  };
+  
+  alert(mensajes[tipo] || "Error desconocido");
+}
+
+// FUNCIÓN COMPLETAMENTE SEGURA: Validación que NUNCA modifica valores de campos
+function validarCamposBasicos() {
   const camposRequeridos = [
     'posicion_x1', 'posicion_x2', 'velocidad_x1', 'velocidad_x2'
   ];
@@ -315,193 +390,193 @@ function validarTodosLosCampos() {
   let todosValidos = true;
   let mensajesError = [];
 
+  // Validar campos requeridos - SOLO marcar como válidos/inválidos
   camposRequeridos.forEach(id => {
     const campo = document.getElementById(id);
+    if (!campo) return; // Protección adicional
+    
     const valor = campo.value.trim();
 
     if (valor === '') {
-      mensajesError.push(`El campo ${campo.previousElementSibling.textContent} es requerido`);
+      mensajesError.push(crearMensajeError(campo, valor, 'requerido'));
       todosValidos = false;
+      campo.classList.remove('input-valido');
+      campo.classList.add('input-invalido');
     } else if (!esNumeroValido(valor)) {
-      mensajesError.push(`El valor "${valor}" no es un número válido. Use formato decimal (ej: 123.45) o científico (ej: 1.23e4)`);
+      mensajesError.push(crearMensajeError(campo, valor, 'formato'));
       todosValidos = false;
+      campo.classList.remove('input-valido');
+      campo.classList.add('input-invalido');
+    } else {
+      campo.classList.remove('input-invalido');
+      campo.classList.add('input-valido');
     }
   });
 
-
+  // Validar campos opcionales de tiempo - SOLO marcar como válidos/inválidos
   const camposTiempo = ['tiempo_x1', 'tiempo_x2'];
   camposTiempo.forEach(id => {
     const campo = document.getElementById(id);
+    if (!campo) return; // Protección adicional
+    
     const valor = campo.value.trim();
 
     if (valor !== '' && !esNumeroValido(valor)) {
-      mensajesError.push(`El tiempo "${valor}" no es un número válido. Use formato decimal (ej: 123.45) o científico (ej: 1.23e4)`);
+      mensajesError.push(crearMensajeError(campo, valor, 'formato'));
       todosValidos = false;
+      campo.classList.remove('input-valido');
+      campo.classList.add('input-invalido');
+    } else if (valor !== '') {
+      campo.classList.remove('input-invalido');
+      campo.classList.add('input-valido');
     }
   });
 
   if (!todosValidos) {
-    alert("Errores en los datos ingresados:\n\n" + mensajesError.join('\n'));
+    mostrarErroresAmigables(mensajesError);
   }
 
   return todosValidos;
 }
 
+// FUNCIÓN PRINCIPAL 100% SEGURA - NUNCA TOCA CAMPOS DE ENTRADA
 function realizarCalculoEncuentro() {
-
-  if (!validarTodosLosCampos()) {
-    return;
-  }
-
-  const x1 = interpretarValor(document.getElementById("posicion_x1").value);
-  const x2 = interpretarValor(document.getElementById("posicion_x2").value);
-  const v1 = interpretarValor(document.getElementById("velocidad_x1").value);
-  const v2 = interpretarValor(document.getElementById("velocidad_x2").value);
-  const t1 = interpretarValor(document.getElementById("tiempo_x1").value);
-  const t2 = interpretarValor(document.getElementById("tiempo_x2").value);
-  const direccionElement = document.querySelector(
-    'input[name="direccion_movimiento"]:checked'
-  );
-
-  if (!direccionElement) {
-    alert("Por favor selecciona una dirección de movimiento");
-    return;
-  }
-
-  const direccion = direccionElement.value;
-  const unidadSalida = document.getElementById("unidadSalida").value;
-
-  const x1Base = convertirAUnidadBase(
-    x1,
-    document.getElementById("unidad_posicion_x1").value
-  );
-  const x2Base = convertirAUnidadBase(
-    x2,
-    document.getElementById("unidad_posicion_x2").value
-  );
-  const v1Base = convertirAUnidadBase(
-    v1,
-    document.getElementById("unidad_velocidad_x1").value
-  );
-  const v2Base = convertirAUnidadBase(
-    v2,
-    document.getElementById("unidad_velocidad_x2").value
-  );
-  const t1Base = convertirAUnidadBase(
-    t1,
-    document.getElementById("unidad_tiempo_x1").value
-  );
-  const t2Base = convertirAUnidadBase(
-    t2,
-    document.getElementById("unidad_tiempo_x2").value
-  );
-
-  let v1Adjusted = v1Base;
-  let v2Adjusted = v2Base;
-
-  if (direccion === "opuestos") {
-    if (x1Base < x2Base) {
-      v2Adjusted = -v2Base;
-    } else {
-      v1Adjusted = -v1Base;
+  try {
+    // 1. VALIDACIÓN BÁSICA (solo marca campos, no los modifica)
+    if (!validarCamposBasicos()) {
+      return; // Salir si hay errores, pero sin tocar nada
     }
-  }
 
-  let tiempoEncuentro, puntoEncuentro;
+    // 2. OBTENER VALORES (solo lectura, nunca escritura en campos)
+    const x1 = interpretarValor(document.getElementById("posicion_x1")?.value);
+    const x2 = interpretarValor(document.getElementById("posicion_x2")?.value);
+    const v1 = interpretarValor(document.getElementById("velocidad_x1")?.value);
+    const v2 = interpretarValor(document.getElementById("velocidad_x2")?.value);
+    const t1 = interpretarValor(document.getElementById("tiempo_x1")?.value);
+    const t2 = interpretarValor(document.getElementById("tiempo_x2")?.value);
+    const direccionElement = document.querySelector('input[name="direccion_movimiento"]:checked');
 
-  if (Math.abs(v1Adjusted - v2Adjusted) < 0.0001) {
-    if (Math.abs(x1Base - x2Base) < 0.0001) {
-      tiempoEncuentro = Math.max(t1Base, t2Base);
-    } else {
-      alert(
-        "No hay encuentro: los objetos tienen la misma velocidad y diferentes posiciones"
-      );
-      return;
+    // 3. VALIDAR DIRECCIÓN
+    if (!direccionElement) {
+      mostrarErrorEspecifico('direccion');
+      return; // Solo salir, no tocar campos
     }
-  } else {
-    tiempoEncuentro =
-      (x2Base - x1Base - v2Adjusted * t2Base + v1Adjusted * t1Base) /
-      (v1Adjusted - v2Adjusted);
-  }
 
-  if (tiempoEncuentro < Math.max(t1Base, t2Base)) {
-    const pos1EnTiempoMaxPartida =
-      x1Base + v1Adjusted * (Math.max(t1Base, t2Base) - t1Base);
-    const pos2EnTiempoMaxPartida =
-      x2Base + v2Adjusted * (Math.max(t1Base, t2Base) - t2Base);
+    const direccion = direccionElement.value;
+    const unidadSalida = document.getElementById("unidadSalida")?.value || "m";
 
-    if (Math.abs(pos1EnTiempoMaxPartida - pos2EnTiempoMaxPartida) < 0.0001) {
-      tiempoEncuentro = Math.max(t1Base, t2Base);
-    } else {
-      const tiempoEncuentroRelativoT1 =
-        t1Base + (x2Base - x1Base) / (v1Adjusted - v2Adjusted);
-      const tiempoEncuentroRelativoT2 =
-        t2Base + (x1Base - x2Base) / (v2Adjusted - v1Adjusted);
+    // 4. CONVERTIR A UNIDADES BASE
+    const x1Base = convertirAUnidadBase(x1, document.getElementById("unidad_posicion_x1")?.value || "m");
+    const x2Base = convertirAUnidadBase(x2, document.getElementById("unidad_posicion_x2")?.value || "m");
+    const v1Base = convertirAUnidadBase(v1, document.getElementById("unidad_velocidad_x1")?.value || "m/s");
+    const v2Base = convertirAUnidadBase(v2, document.getElementById("unidad_velocidad_x2")?.value || "m/s");
+    const t1Base = convertirAUnidadBase(t1, document.getElementById("unidad_tiempo_x1")?.value || "s");
+    const t2Base = convertirAUnidadBase(t2, document.getElementById("unidad_tiempo_x2")?.value || "s");
 
-      if (
-        (tiempoEncuentroRelativoT1 >= t1Base &&
-          tiempoEncuentroRelativoT1 < t2Base) ||
-        (tiempoEncuentroRelativoT2 >= t2Base &&
-          tiempoEncuentroRelativoT2 < t1Base)
-      ) {
-        alert("Los objetos se cruzaron antes de que ambos partieran");
-        return;
+    // 5. AJUSTAR VELOCIDADES SEGÚN DIRECCIÓN
+    let v1Adjusted = v1Base;
+    let v2Adjusted = v2Base;
+
+    if (direccion === "opuestos") {
+      if (x1Base < x2Base) {
+        v2Adjusted = -v2Base;
+      } else {
+        v1Adjusted = -v1Base;
       }
-
-      alert(
-        "No hay encuentro: el tiempo calculado es anterior al tiempo de partida de uno de los objetos"
-      );
-      return;
     }
+
+    // 6. REALIZAR CÁLCULOS
+    let tiempoEncuentro, puntoEncuentro;
+
+    if (Math.abs(v1Adjusted - v2Adjusted) < 0.0001) {
+      if (Math.abs(x1Base - x2Base) < 0.0001) {
+        tiempoEncuentro = Math.max(t1Base, t2Base);
+        puntoEncuentro = x1Base;
+      } else {
+        mostrarErrorEspecifico('velocidades_iguales');
+        return; // Solo salir, no tocar campos
+      }
+    } else {
+      tiempoEncuentro = (x2Base - x1Base - v2Adjusted * t2Base + v1Adjusted * t1Base) / (v1Adjusted - v2Adjusted);
+      puntoEncuentro = x1Base + v1Adjusted * (tiempoEncuentro - t1Base);
+    }
+
+    // 7. VALIDAR RESULTADO
+    if (tiempoEncuentro < Math.max(t1Base, t2Base)) {
+      mostrarErrorEspecifico('encuentro_pasado');
+      return; // Solo salir, no tocar campos
+    }
+
+    // 8. VALIDAR LÓGICA DE MOVIMIENTO
+    if (direccion === "mismo") {
+      const v1EsMayor = Math.abs(v1Adjusted) > Math.abs(v2Adjusted);
+      const x1EstaDetras = (v1Adjusted > 0 && x1Base < x2Base) || (v1Adjusted < 0 && x1Base > x2Base);
+      
+      if (v1EsMayor && !x1EstaDetras) {
+        mostrarErrorEspecifico('imposible_mismo_sentido_1_adelante');
+        return; // Solo salir, no tocar campos
+      }
+      
+      if (!v1EsMayor && x1EstaDetras) {
+        mostrarErrorEspecifico('imposible_mismo_sentido_2_adelante');
+        return; // Solo salir, no tocar campos
+      }
+    }
+
+    // 9. ✅ ÉXITO: Actualizar SOLO resultados (nunca campos de entrada)
+    actualizarResultados(tiempoEncuentro, puntoEncuentro, unidadSalida, {
+      x1: x1Base, x2: x2Base, v1: v1Adjusted, v2: v2Adjusted,
+      t1Base, t2Base, direccion
+    });
+
+  } catch (error) {
+    console.error("Error en cálculo:", error);
+    alert("Error en el cálculo. Por favor, verifica los datos ingresados.");
+    // NO tocar campos de entrada bajo ninguna circunstancia
   }
-
-  puntoEncuentro = x1Base + v1Adjusted * (tiempoEncuentro - t1Base);
-
-  if (direccion === "mismo") {
-    const v1Mayor = Math.abs(v1Adjusted) > Math.abs(v2Adjusted);
-    const x1Detras =
-      (x1Base < x2Base && v1Adjusted > 0) ||
-      (x1Base > x2Base && v1Adjusted < 0);
-
-    if (v1Mayor && !x1Detras) {
-      alert(
-        "No hay encuentro: el primer objeto es más rápido pero ya pasó al segundo"
-      );
-      return;
-    }
-
-    if (!v1Mayor && x1Detras) {
-      alert(
-        "No hay encuentro: el segundo objeto es más rápido pero ya pasó al primero"
-      );
-      return;
-    }
-  }
-
-
-  const tiempoFormateado = formatearNumero(tiempoEncuentro);
-  const factorConversion = unidadSalida === "km" ? 0.001 : 1;
-  const puntoEncuentroFormateado = formatearNumero(puntoEncuentro * factorConversion);
-
-  document.getElementById("tiempoEncuentro").value = `${tiempoFormateado} s`;
-  document.getElementById("resultadoEncuentros").value = `${puntoEncuentroFormateado} ${unidadSalida}`;
-
-  datos = {
-    x1: x1Base,
-    x2: x2Base,
-    v1: v1Adjusted,
-    v2: v2Adjusted,
-    direccion: direccion,
-    tiempoEncuentro: tiempoEncuentro,
-    puntoEncuentro: puntoEncuentro,
-    unidadSalida: unidadSalida,
-    t1Base: t1Base,
-    t2Base: t2Base,
-  };
-
-  if (myp5) myp5.draw();
 }
 
+// FUNCIÓN 100% SEGURA: Solo actualiza resultados, nunca campos de entrada
+function actualizarResultados(tiempoEncuentro, puntoEncuentro, unidadSalida, datosCalculo) {
+  try {
+    // Formatear resultados
+    const tiempoFormateado = formatearNumero(tiempoEncuentro);
+    const factorConversion = unidadSalida === "km" ? 0.001 : 1;
+    const puntoEncuentroFormateado = formatearNumero(puntoEncuentro * factorConversion);
+
+    // Actualizar SOLO campos de resultado (nunca los de entrada)
+    const campoTiempo = document.getElementById("tiempoEncuentro");
+    const campoResultado = document.getElementById("resultadoEncuentros");
+    
+    if (campoTiempo) {
+      campoTiempo.value = `${tiempoFormateado} s`;
+    }
+    
+    if (campoResultado) {
+      campoResultado.value = `${puntoEncuentroFormateado} ${unidadSalida}`;
+    }
+
+    // Actualizar datos para el gráfico
+    datos = {
+      x1: datosCalculo.x1,
+      x2: datosCalculo.x2,
+      v1: datosCalculo.v1,
+      v2: datosCalculo.v2,
+      direccion: datosCalculo.direccion,
+      tiempoEncuentro: tiempoEncuentro,
+      puntoEncuentro: puntoEncuentro,
+      unidadSalida: unidadSalida,
+      t1Base: datosCalculo.t1Base,
+      t2Base: datosCalculo.t2Base,
+    };
+
+    // Redibujar gráfico
+    if (myp5) myp5.draw();
+    
+  } catch (error) {
+    console.error("Error actualizando resultados:", error);
+  }
+}
 
 function formatearNumero(numero) {
   if (Math.abs(numero) >= 1000000 || (Math.abs(numero) < 0.001 && numero !== 0)) {

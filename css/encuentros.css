@@ -26,7 +26,11 @@ nav ul li button {
   border-radius: 30px;
   cursor: pointer;
   transition: all 0.3s ease;
+  color: white; /* <<< Esto hace que el texto se vea blanco */
+  font-weight: bold;
+  font-size: 18px;
 }
+
 
 nav ul li button:hover {
   transform: translateY(-2px);

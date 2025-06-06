@@ -7,130 +7,516 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Fredoka:wght@300..700&family=Manrope:wght@200..800&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css">
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Open Sans', sans-serif;
+        background: linear-gradient(135deg, #f7fafc 0%, #e2e8f0 100%);
+        min-height: 100vh;
+        color: #4a5568;
+        font-size: 16px;
+        line-height: 1.6;
+      }
+
+      header {
+        background: white;
+        padding: 1rem 0;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        margin-bottom: 2rem;
+      }
+
+      nav ul {
+        display: flex;
+        justify-content: center;
+        list-style: none;
+        gap: 2rem;
+      }
+
+      nav button {
+        background: #8B9DC3;
+        color: white;
+        border: none;
+        padding: 0.75rem 2rem;
+        border-radius: 25px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: inherit;
+      }
+
+      nav button:hover {
+        background: #718096;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(139, 157, 195, 0.3);
+      }
+      
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        align-items: start;
+      }
+
+      .calculo {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        border: 1px solid #e8e8e8;
+      }
+
+      .calculo__subtitulo {
+        font-size: 2rem;
+        color: #4a5568;
+        margin-bottom: 20px;
+        text-align: center;
+        font-weight: 700;
+      }
+
+      .calculo__instrucciones {
+        background: #f7fafc;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 25px;
+        border-left: 4px solid #8B9DC3;
+      }
+
+      .calculo__instrucciones h3 {
+        color: #4a5568;
+        margin-bottom: 10px;
+        font-size: 1.1rem;
+      }
+
+      .calculo__instrucciones p {
+        color: #718096;
+        line-height: 1.5;
+        font-size: 0.95rem;
+      }
+
+      .conversor {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .campo {
+        border: none;
+        padding: 0;
+      }
+
+      .campo__titulo {
+        display: block;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 8px;
+      }
+
+      .campo__select {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+
+      .campo__valor {
+        flex: 1;
+        padding: 15px;
+        border: 2px solid #ddd;
+        border-radius: 10px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+        background: white;
+      }
+
+      .campo__valor:focus {
+        outline: none;
+        border-color: #2196F3;
+        box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+      }
+
+      .campo__select-options {
+        padding: 15px;
+        border: 2px solid #ddd;
+        border-radius: 10px;
+        background: white;
+        font-size: 1rem;
+        min-width: 80px;
+      }
+
+      .boton__submit {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 18px 40px;
+        border-radius: 25px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+      }
+
+      .boton__submit:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+      }
+
+      .panel-derecho {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .resultados {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      }
+
+      .resultados__titulo {
+        font-size: 1.5rem;
+        color: #333;
+        margin-bottom: 20px;
+        text-align: center;
+        font-weight: 700;
+      }
+
+      .resultados__value {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .resultados__subtitulo {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #333;
+      }
+
+      .valor--resultado {
+        padding: 15px;
+        border: 2px solid #4CAF50;
+        border-radius: 10px;
+        font-size: 1.1rem;
+        background: #f8fff8;
+        color: #2E7D32;
+        font-weight: 600;
+        text-align: center;
+      }
+
+      .info-panel {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 25px;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      }
+
+      .info-panel h3 {
+        color: #333;
+        margin-bottom: 15px;
+        font-size: 1.2rem;
+        font-weight: 600;
+      }
+
+      .info-panel p {
+        color: #555;
+        line-height: 1.6;
+        font-size: 0.95rem;
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
+        
+        .calculo, .resultados, .info-panel {
+          padding: 20px;
+        }
+        
+        .campo__select {
+          flex-direction: column;
+          gap: 8px;
+        }
+        
+        .campo__valor, .campo__select-options {
+          width: 100%;
+        }
+      }
+    </style>
   </head>
 
   <body>
     <header>
       <nav>
         <ul>
-          <li><button><a href="index.html">Calcular</a></button></li>
-          <li><button><a href="encuentros.html">Encuentros</a></button></li>
-          <li><button><a href="graficas.html">Gráficas</a></button></li>
+          <li><a href="index.html"><button type="button">Calcular</button></a></li>
+          <li><a href="encuentros.html"><button type="button">Encuentros</button></a></li>
+          <li><a href="graficas.html"><button type="button">Gráficas</button></a></li>
         </ul>
       </nav>
     </header>
 
-    <main id="calculo-id" class="calculo">
-      <h1 class="calculo__subtitulo">Calculadora MRU</h1>
-      
-      <div class="calculo__instrucciones">
-        <h3>💡 Instrucciones:</h3>
-        <p>
-          Ingresa exactamente 2 valores para calcular el tercero. Puedes usar notación científica 
-          (ej: 1.5e3 = 1500, 2e-3 = 0.002). La fórmula utilizada es: <strong>v = d/t</strong>
-        </p>
-      </div>
-      
-      <form action="" method="get" class="conversor">
-        <fieldset class="campo campo__velocidad">
-          <label for="velocidad" class="campo__titulo">Velocidad:</label>
-          <div class="campo__select">
-            <input
-              type="text"
-              name="velocidad"
-              id="velocidad"
-              placeholder="Ej: 15 o 1.5e1"
-              class="campo__valor valor--velocidad"
-            />
-            <select
-              name="velocidadUnidad"
-              id="velocidadUnidad"
-              class="campo__select-options select-options--velocidad"
-            >
-              <option value="m/s">m/s</option>
-              <option value="km/h">km/h</option>
-              <option value="cm/s">cm/s</option>
-            </select>
-          </div>
-        </fieldset>
-
-        <fieldset class="campo campo__tiempo">
-          <label for="tiempo" class="campo__titulo">Tiempo:</label>
-          <div class="campo__select">
-            <input
-              type="text"
-              name="tiempo"
-              id="tiempo"
-              placeholder="Ej: 3600 o 3.6e3"
-              class="campo__valor valor--tiempo"
-            />
-            <select
-              name="tiempoUnidad"
-              id="tiempoUnidad"
-              class="campo__select-options select-options--tiempo"
-            >
-              <option value="s">s</option>
-              <option value="min">min</option>
-              <option value="h">h</option>
-              <option value="ms">ms</option>
-            </select>
-          </div>
-        </fieldset>
-
-        <fieldset class="campo campo__distancia">
-          <label for="distancia" class="campo__titulo">Distancia:</label>
-          <div class="campo__select">
-            <input
-              type="text"
-              name="distancia"
-              id="distancia"
-              placeholder="Ej: 1000 o 1e3"
-              class="campo__valor valor--distancia"
-            />
-            <select
-              name="distanciaUnidad"
-              id="distanciaUnidad"
-              class="campo__select-options select-options--distancia"
-            >
-              <option value="m">m</option>
-              <option value="km">km</option>
-              <option value="cm">cm</option>
-              <option value="mm">mm</option>
-            </select>
-          </div>
-        </fieldset>
-
-        <input type="submit" value="Calcular" class="boton__submit" />
-      </form>
-
-      <section class="resultados">
-        <h2 class="resultados__titulo">Resultado</h2>
-        <div class="resultados__value">
-          <label for="resultado" class="resultados__subtitulo">
-            Valor calculado:
-          </label>
-          <input
-            type="text"
-            name="resultado"
-            id="resultado"
-            placeholder="El resultado aparecerá aquí"
-            readonly
-            class="valor--resultado"
-          />
+    <div class="container">
+      <!-- Panel Izquierdo: Calculadora -->
+      <main class="calculo">
+        <h1 class="calculo__subtitulo">Calculadora MRU</h1>
+        
+        <div class="calculo__instrucciones">
+          <h3>💡 Instrucciones:</h3>
+          <p>
+            Complete 2 valores para calcular el tercero automaticamente.<br>
+            <strong>Fórmula:</strong> velocidad = distancia ÷ tiempo
+          </p>
         </div>
-      </section>
+        
+        <form action="" method="get" class="conversor">
+          <fieldset class="campo campo__velocidad">
+            <label for="velocidad" class="campo__titulo">Velocidad:</label>
+            <div class="campo__select">
+              <input
+                type="text"
+                name="velocidad"
+                id="velocidad"
+                placeholder="Ej: 15"
+                class="campo__valor valor--velocidad"
+              />
+              <select
+                name="velocidadUnidad"
+                id="velocidadUnidad"
+                class="campo__select-options select-options--velocidad"
+              >
+                <option value="m/s">m/s</option>
+                <option value="km/h">km/h</option>
+                <option value="cm/s">cm/s</option>
+              </select>
+            </div>
+          </fieldset>
 
-      <div class="info-panel">
-        <h3>Información adicional:</h3>
-        <p>
-          • <strong>MRU:</strong> Movimiento Rectilíneo Uniforme<br>
-          • <strong>Fórmula:</strong> velocidad = distancia ÷ tiempo<br>
-          • <strong>Unidades base:</strong> metros (m), segundos (s), metros por segundo (m/s)<br>
-          • <strong>Notación científica:</strong> Útil para números muy grandes o muy pequeños
-        </p>
+          <fieldset class="campo campo__tiempo">
+            <label for="tiempo" class="campo__titulo">Tiempo:</label>
+            <div class="campo__select">
+              <input
+                type="text"
+                name="tiempo"
+                id="tiempo"
+                placeholder="Ej: 3600"
+                class="campo__valor valor--tiempo"
+              />
+              <select
+                name="tiempoUnidad"
+                id="tiempoUnidad"
+                class="campo__select-options select-options--tiempo"
+              >
+                <option value="s">s</option>
+                <option value="min">min</option>
+                <option value="h">h</option>
+                <option value="ms">ms</option>
+              </select>
+            </div>
+          </fieldset>
+
+          <fieldset class="campo campo__distancia">
+            <label for="distancia" class="campo__titulo">Distancia:</label>
+            <div class="campo__select">
+              <input
+                type="text"
+                name="distancia"
+                id="distancia"
+                placeholder="Ej: 1000"
+                class="campo__valor valor--distancia"
+              />
+              <select
+                name="distanciaUnidad"
+                id="distanciaUnidad"
+                class="campo__select-options select-options--distancia"
+              >
+                <option value="m">m</option>
+                <option value="km">km</option>
+                <option value="cm">cm</option>
+                <option value="mm">mm</option>
+              </select>
+            </div>
+          </fieldset>
+
+          <input type="submit" value="Calcular" class="boton__submit" />
+        </form>
+      </main>
+
+      <!-- Panel Derecho: Resultados e Información -->
+      <div class="panel-derecho">
+        <section class="resultados">
+          <h2 class="resultados__titulo">Resultado</h2>
+          <div class="resultados__value">
+            <label for="resultado" class="resultados__subtitulo">
+              Valor calculado:
+            </label>
+            <input
+              type="text"
+              name="resultado"
+              id="resultado"
+              placeholder="El resultado aparecerá aquí"
+              readonly
+              class="valor--resultado"
+            />
+          </div>
+        </section>
+
+        <div class="info-panel">
+          <h3>Información básica:</h3>
+          <p>
+            • <strong>MRU:</strong> Movimiento Rectilíneo Uniforme<br>
+            • <strong>Fórmula:</strong> velocidad = distancia ÷ tiempo<br>
+            • <strong>Ejemplo:</strong> Si recorro 100 metros en 10 segundos, mi velocidad es 10 m/s
+          </p>
+        </div>
       </div>
-    </main>
-    <script src="js/calculadora.js"></script>
+    </div>
+
+    <script>
+      // Función para convertir unidades a unidades base
+      function convertirAUnidadBase(valor, unidad, tipo) {
+        if (tipo === 'velocidad') {
+          switch (unidad) {
+            case 'km/h': return valor / 3.6;
+            case 'cm/s': return valor / 100;
+            default: return valor; // m/s
+          }
+        } else if (tipo === 'tiempo') {
+          switch (unidad) {
+            case 'min': return valor * 60;
+            case 'h': return valor * 3600;
+            case 'ms': return valor / 1000;
+            default: return valor; // s
+          }
+        } else if (tipo === 'distancia') {
+          switch (unidad) {
+            case 'km': return valor * 1000;
+            case 'cm': return valor / 100;
+            case 'mm': return valor / 1000;
+            default: return valor; // m
+          }
+        }
+        return valor;
+      }
+
+      // Función para convertir de unidades base a la unidad deseada
+      function convertirDeUnidadBase(valor, unidad, tipo) {
+        if (tipo === 'velocidad') {
+          switch (unidad) {
+            case 'km/h': return valor * 3.6;
+            case 'cm/s': return valor * 100;
+            default: return valor; // m/s
+          }
+        } else if (tipo === 'tiempo') {
+          switch (unidad) {
+            case 'min': return valor / 60;
+            case 'h': return valor / 3600;
+            case 'ms': return valor * 1000;
+            default: return valor; // s
+          }
+        } else if (tipo === 'distancia') {
+          switch (unidad) {
+            case 'km': return valor / 1000;
+            case 'cm': return valor * 100;
+            case 'mm': return valor * 1000;
+            default: return valor; // m
+          }
+        }
+        return valor;
+      }
+
+      // Función principal de cálculo
+      function calcular() {
+        const velocidadInput = document.getElementById('velocidad');
+        const tiempoInput = document.getElementById('tiempo');
+        const distanciaInput = document.getElementById('distancia');
+        const resultadoInput = document.getElementById('resultado');
+
+        const velocidadUnidad = document.getElementById('velocidadUnidad').value;
+        const tiempoUnidad = document.getElementById('tiempoUnidad').value;
+        const distanciaUnidad = document.getElementById('distanciaUnidad').value;
+
+        // Obtener valores y convertir notación científica
+        const velocidadValor = velocidadInput.value ? parseFloat(velocidadInput.value) : null;
+        const tiempoValor = tiempoInput.value ? parseFloat(tiempoInput.value) : null;
+        const distanciaValor = distanciaInput.value ? parseFloat(distanciaInput.value) : null;
+
+        // Contar cuántos valores están llenos
+        const valoresLlenos = [velocidadValor, tiempoValor, distanciaValor].filter(v => v !== null && !isNaN(v));
+
+        if (valoresLlenos.length !== 2) {
+          resultadoInput.value = 'Complete exactamente 2 valores';
+          return;
+        }
+
+        try {
+          // Convertir a unidades base
+          const velocidadBase = velocidadValor ? convertirAUnidadBase(velocidadValor, velocidadUnidad, 'velocidad') : null;
+          const tiempoBase = tiempoValor ? convertirAUnidadBase(tiempoValor, tiempoUnidad, 'tiempo') : null;
+          const distanciaBase = distanciaValor ? convertirAUnidadBase(distanciaValor, distanciaUnidad, 'distancia') : null;
+
+          let resultado, unidadResultado, tipoResultado;
+
+          // Determinar qué calcular
+          if (velocidadBase === null) {
+            // Calcular velocidad: v = d/t
+            resultado = distanciaBase / tiempoBase;
+            resultado = convertirDeUnidadBase(resultado, velocidadUnidad, 'velocidad');
+            unidadResultado = velocidadUnidad;
+            tipoResultado = 'Velocidad';
+          } else if (tiempoBase === null) {
+            // Calcular tiempo: t = d/v
+            resultado = distanciaBase / velocidadBase;
+            resultado = convertirDeUnidadBase(resultado, tiempoUnidad, 'tiempo');
+            unidadResultado = tiempoUnidad;
+            tipoResultado = 'Tiempo';
+          } else {
+            // Calcular distancia: d = v*t
+            resultado = velocidadBase * tiempoBase;
+            resultado = convertirDeUnidadBase(resultado, distanciaUnidad, 'distancia');
+            unidadResultado = distanciaUnidad;
+            tipoResultado = 'Distancia';
+          }
+
+          // Formatear resultado
+          if (Math.abs(resultado) >= 1000 || Math.abs(resultado) <= 0.001) {
+            resultadoInput.value = `${tipoResultado}: ${resultado.toExponential(3)} ${unidadResultado}`;
+          } else {
+            resultadoInput.value = `${tipoResultado}: ${resultado.toFixed(3)} ${unidadResultado}`;
+          }
+
+        } catch (error) {
+          resultadoInput.value = 'Error en el cálculo';
+        }
+      }
+
+      // Event listeners
+      document.querySelector('.conversor').addEventListener('submit', function(e) {
+        e.preventDefault();
+        calcular();
+      });
+
+      // Calcular automáticamente cuando se cambian los valores
+      document.getElementById('velocidad').addEventListener('input', calcular);
+      document.getElementById('tiempo').addEventListener('input', calcular);
+      document.getElementById('distancia').addEventListener('input', calcular);
+      document.getElementById('velocidadUnidad').addEventListener('change', calcular);
+      document.getElementById('tiempoUnidad').addEventListener('change', calcular);
+      document.getElementById('distanciaUnidad').addEventListener('change', calcular);
+    </script>
   </body>
 </html>
