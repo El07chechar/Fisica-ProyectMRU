@@ -58,6 +58,15 @@
         transform: translateY(-2px);
         box-shadow: 0 4px 15px rgba(139, 157, 195, 0.3);
       }
+
+
+      /* input deshabilitado */
+      input:disabled {
+    background-color: #e0e0e0;  /* Gris claro */
+    color: #777;                /* Texto gris */
+    cursor: not-allowed;        /* Cursor visual de deshabilitado */
+    border: 1px solid #ccc;     /* Borde más suave */
+  }
       
       .container {
         max-width: 1200px;
@@ -491,13 +500,22 @@
             unidadResultado = distanciaUnidad;
             tipoResultado = 'Distancia';
           }
+function formatearExponencial(numero, decimales = 2) {
+  const exp = numero.toExponential(decimales); // ejemplo: "1.234e+5"
+  const [base, exponente] = exp.split("e");
 
-          // Formatear resultado
-          if (Math.abs(resultado) >= 1000 || Math.abs(resultado) <= 0.001) {
-            resultadoInput.value = `${tipoResultado}: ${resultado.toExponential(3)} ${unidadResultado}`;
-          } else {
-            resultadoInput.value = `${tipoResultado}: ${resultado.toFixed(3)} ${unidadResultado}`;
-          }
+  const baseFormateada = parseFloat(base).toFixed(decimales);
+  const exponenteFormateado = exponente.replace("+", ""); // quitamos el signo +
+
+  return `${baseFormateada} × 10^${exponenteFormateado}`;
+}
+
+if (Math.abs(resultado) >= 1000 || Math.abs(resultado) <= 0.001) {
+  const resultadoFormateado = formatearExponencial(resultado, 2);
+  resultadoInput.value = `${tipoResultado}: ${resultadoFormateado} ${unidadResultado}`;
+} else {
+  resultadoInput.value = `${tipoResultado}: ${resultado.toFixed(2)} ${unidadResultado}`;
+}
 
         } catch (error) {
           resultadoInput.value = 'Error en el cálculo';
@@ -510,7 +528,7 @@
         calcular();
       });
 
-      // Calcular automáticamente cuando se cambian los valores
+      // Calcular automáticamente cuando se cambian los valores 
       document.getElementById('velocidad').addEventListener('input', calcular);
       document.getElementById('tiempo').addEventListener('input', calcular);
       document.getElementById('distancia').addEventListener('input', calcular);
@@ -518,5 +536,63 @@
       document.getElementById('tiempoUnidad').addEventListener('change', calcular);
       document.getElementById('distanciaUnidad').addEventListener('change', calcular);
     </script>
+
+    <script id="input-control">
+  const inputs = [
+    document.getElementById('velocidad'),
+    document.getElementById('tiempo'),
+    document.getElementById('distancia')
+  ];
+
+  function actualizarEstados() {
+    const llenos = inputs.filter(input => input.value.trim() !== '');
+    const vacíos = inputs.filter(input => input.value.trim() === '');
+
+    if (llenos.length === 2) {
+      vacíos.forEach(input => input.disabled = true);
+    } else {
+      inputs.forEach(input => input.disabled = false);
+    }
+  }
+
+  inputs.forEach(input => {
+    input.addEventListener('input', actualizarEstados);
+  });
+</script>
+<script id="validarcampos">
+  // Función para validar caracteres permitidos
+  function filtrarInput(event) {
+    const input = event.target;
+    // Solo permitimos dígitos, punto, e, signo + y -
+    // Además permitimos mayúscula y minúscula para 'e'
+    const valorOriginal = input.value;
+
+    // Regex para permitir solo estos caracteres
+    const regex = /[^0-9eE\+\-\.]/g;
+
+    // Eliminamos los caracteres no permitidos
+    const nuevoValor = valorOriginal.replace(regex, '');
+
+    if (valorOriginal !== nuevoValor) {
+      input.value = nuevoValor;
+    }
+  }
+
+  // Asociamos el filtro a cada input
+  ['velocidad', 'tiempo', 'distancia'].forEach(id => {
+    document.getElementById(id).addEventListener('input', filtrarInput);
+  });
+
+  // Validar que el valor completo sea un número válido (incluye notación científica)
+  function esNumeroValido(valor) {
+    // El parseFloat acepta notación científica, pero también permite cadenas parcialmente válidas
+    // Mejor usamos regex para validar todo el string:
+
+    // Regex para número con notación científica (ej: -3.5e+2)
+    const regexNumero = /^[\+\-]?(\d+(\.\d*)?|\.\d+)([eE][\+\-]?\d+)?$/;
+
+    return regexNumero.test(valor.trim());
+  }
+</script>
   </body>
 </html>
