@@ -37,6 +37,8 @@
         justify-content: center;
         list-style: none;
         gap: 2rem;
+        flex-wrap: wrap;
+        padding: 0 1rem;
       }
 
       nav button {
@@ -50,6 +52,7 @@
         cursor: pointer;
         transition: all 0.3s ease;
         font-family: inherit;
+        min-width: 120px;
       }
 
       nav button:hover {
@@ -65,7 +68,7 @@
       }
 
       .encuentros__titulo {
-          font-size: 1.5rem;
+        font-size: 1.5rem;
         color: #333;
         margin-bottom: 20px;
         text-align: center;
@@ -220,6 +223,8 @@
 
       .opciones__direccion, .opciones-direccion {
         text-align: center;
+        flex: 1;
+        max-width: 200px;
       }
 
       .opciones__direccion input, .opciones-direccion input {
@@ -234,6 +239,7 @@
         cursor: pointer;
         transition: all 0.3s ease;
         background: white;
+        height: 100%;
       }
 
       .opciones__direccion input:checked + label,
@@ -260,6 +266,7 @@
         gap: 1rem;
         justify-content: center;
         margin: 1.5rem 0;
+        flex-wrap: wrap;
       }
 
       .campo__texto {
@@ -267,8 +274,14 @@
         font-weight: 600;
       }
 
-      .boton-calcular {
-        width: 100%;
+      .botones-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .boton-calcular, .boton-limpiar {
         background: linear-gradient(135deg, #8B9DC3 0%, #718096 100%);
         color: white;
         border: none;
@@ -278,12 +291,19 @@
         font-weight: 600;
         cursor: pointer;
         transition: all 0.3s ease;
-        margin-top: 1rem;
       }
 
-      .boton-calcular:hover {
+      .boton-limpiar {
+        background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+      }
+
+      .boton-calcular:hover, .boton-limpiar:hover {
         transform: translateY(-2px);
         box-shadow: 0 8px 25px rgba(139, 157, 195, 0.3);
+      }
+
+      .boton-limpiar:hover {
+        box-shadow: 0 8px 25px rgba(229, 62, 62, 0.3);
       }
 
       .resultados__titulo, .visualizacion__titulo {
@@ -319,6 +339,7 @@
         font-weight: 500;
       }
 
+      /* STYLES ESPECÍFICOS PARA EL CANVAS RESPONSIVE */
       .visualizacion__container {
         min-height: 300px;
         background: white;
@@ -329,9 +350,30 @@
         align-items: center;
         justify-content: center;
         color: #718096;
+        position: relative;
+        width: 100%;
+        overflow: hidden;
       }
 
-      /* Responsive */
+      /* Canvas responsive wrapper */
+      .canvas-wrapper {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Hacer que el canvas sea responsive */
+      .visualizacion__container canvas {
+        max-width: 100% !important;
+        max-height: 100% !important;
+        width: auto !important;
+        height: auto !important;
+        object-fit: contain;
+      }
+
+      /* Responsive Styles */
       @media (max-width: 1200px) {
         .container-principal {
           grid-template-columns: 1fr;
@@ -355,6 +397,99 @@
         .encuentros {
           padding: 1rem;
         }
+
+        .formulario-seccion,
+        .resultados-seccion {
+          padding: 1.5rem;
+        }
+
+        .bloque-formulario {
+          padding: 1rem;
+        }
+
+        .botones-container {
+          grid-template-columns: 1fr;
+        }
+
+        .formulario__campo.unidad-salida {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        nav ul {
+          gap: 1rem;
+        }
+
+        nav button {
+          padding: 0.5rem 1.5rem;
+          font-size: 14px;
+          min-width: 100px;
+        }
+
+        /* Canvas responsive en móviles */
+        .visualizacion__container {
+          min-height: 250px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .encuentros {
+          padding: 0.5rem;
+        }
+
+        .formulario__campo {
+          flex-direction: column;
+          gap: 0.75rem;
+          align-items: stretch;
+        }
+
+        .campo__select-options {
+          min-width: auto;
+          width: 100%;
+        }
+
+        .ilustracion {
+          font-size: 1.5rem;
+          gap: 1rem;
+        }
+
+        .opciones__direccion label, 
+        .opciones-direccion label {
+          padding: 0.75rem;
+        }
+
+        .bloque-formulario__titulo {
+          font-size: 1.1rem;
+        }
+
+        .resultados__titulo, 
+        .visualizacion__titulo {
+          font-size: 1.2rem;
+        }
+
+        .boton-calcular, 
+        .boton-limpiar {
+          font-size: 16px;
+          padding: 0.875rem 1.5rem;
+        }
+
+        .visualizacion__container {
+          min-height: 200px;
+        }
+      }
+
+      @media (max-width: 360px) {
+        .encuentros__instrucciones {
+          padding: 1rem;
+        }
+
+        .encuentros__instrucciones p {
+          font-size: 14px;
+        }
+
+        .visualizacion__container {
+          min-height: 180px;
+        }
       }
     </style>
   </head>
@@ -370,10 +505,6 @@
     </header>
 
     <main id="encuentros-id" class="encuentros">
-      <h1 class="encuentros__titulo">
-        Calcular punto de encuentro entre dos autos
-      </h1>
-
       <div class="encuentros__instrucciones">
         <p> 
           Complete los datos y presione "Calcular Encuentro" para ver cuándo y dónde se encontrarán los vehículos.
@@ -574,7 +705,10 @@
               </div>
             </fieldset>
 
-            <input type="submit" id="calcularEncuentroBtn" value="Calcular Encuentro" class="boton-calcular" />
+            <div class="botones-container">
+              <input type="submit" id="calcularEncuentroBtn" value="Calcular Encuentro" class="boton-calcular" />
+              <button type="button" id="limpiarCamposBtn" class="boton-limpiar">🗑️ Limpiar Campos</button>
+            </div>
           </form>
         </div>
 
@@ -612,12 +746,91 @@
           <section class="encuentros__visualizacion">
             <h3 class="visualizacion__titulo">🎯 Visualización</h3>
             <div id="canvasContainer" class="visualizacion__container">
-              Aquí aparecerá la gráfica del movimiento
+              <!-- El canvas se insertará aquí -->
             </div>
           </section>
         </div>
       </div>
     </main>
+
+<script>
+  // Variables globales para manejo del canvas responsive
+  let canvasInstance = null;
+  let canvasContainer = null;
+
+  // Función para redimensionar el canvas
+  function resizeCanvas() {
+    if (canvasInstance && canvasContainer) {
+      const container = document.getElementById('canvasContainer');
+      if (container) {
+        const containerRect = container.getBoundingClientRect();
+        const maxWidth = Math.min(containerRect.width - 20, 400); // 20px de padding
+        const maxHeight = Math.min(containerRect.height - 20, 300);
+        if (typeof canvasInstance.resizeCanvas === 'function') {
+          canvasInstance.resizeCanvas(maxWidth, maxHeight);
+        }
+      }
+    }
+  }
+
+  // Redimensionar en cambios de tamaño de ventana
+  window.addEventListener('resize', function () {
+    clearTimeout(window.resizeTimeout);
+    window.resizeTimeout = setTimeout(resizeCanvas, 100);
+  });
+
+  // Botón para limpiar campos
+  document.getElementById('limpiarCamposBtn').addEventListener('click', function () {
+    // Limpiar inputs de texto
+    document.querySelectorAll('input[type="text"]').forEach(input => {
+      if (!input.readOnly) input.value = '';
+    });
+
+    // Limpiar radio buttons
+    document.querySelectorAll('input[type="radio"]').forEach(radio => {
+      radio.checked = false;
+    });
+
+    // Resetear selects
+    document.querySelectorAll('select').forEach(select => {
+      select.selectedIndex = 0;
+    });
+
+    // Limpiar resultados
+    document.getElementById('tiempoEncuentro').value = '';
+    document.getElementById('resultadoEncuentros').value = '';
+    document.getElementById('tiempoEncuentro').placeholder = 'Esperando cálculo...';
+    document.getElementById('resultadoEncuentros').placeholder = 'Esperando cálculo...';
+
+    // Limpiar canvas
+    const container = document.getElementById('canvasContainer');
+    if (container) {
+      const existingCanvas = container.querySelector('canvas');
+      if (existingCanvas) existingCanvas.remove();
+
+      container.innerHTML = '';
+      container.style.display = 'flex';
+      container.style.alignItems = 'center';
+      container.style.justifyContent = 'center';
+      container.style.color = '#718096';
+
+      canvasInstance = null;
+    }
+
+    if (typeof window.limpiarCanvas === 'function') {
+      window.limpiarCanvas();
+    }
+
+    console.log('Campos limpiados correctamente');
+  });
+
+  // Función global para establecer la instancia del canvas
+  window.setCanvasInstance = function (instance) {
+    canvasInstance = instance;
+    canvasContainer = document.getElementById('canvasContainer');
+    setTimeout(resizeCanvas, 100);
+  };
+</script>
 
     <script src="js/encuentros.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>

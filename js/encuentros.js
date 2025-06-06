@@ -37,7 +37,35 @@ document.addEventListener("DOMContentLoaded", function () {
         unidadSalida,
         t1Base,
         t2Base,
+        encuentroEnTiempoCero
       } = datos;
+
+      // NUEVO: Manejo especial para encuentro en tiempo 0
+      if (encuentroEnTiempoCero) {
+        p.fill(50);
+        p.textAlign(p.CENTER);
+        p.textSize(16);
+        p.text(" ENCUENTRO INMEDIATO", p.width / 2, 50);
+        
+        p.textSize(14);
+        p.fill(100);
+        p.text("Los objetos ya se encuentran en la misma posición", p.width / 2, 75);
+        p.text("al inicio del movimiento", p.width / 2, 95);
+        
+        let factor = unidadSalida === "km" ? 1 / 1000 : 1;
+        let posicionDisplay = puntoEncuentro * factor;
+        
+        p.fill(200, 100, 100);
+        p.rect(p.width / 2 - 100, 120, 200, 60, 10);
+        
+        p.fill(255);
+        p.textSize(12);
+        p.text("Posición del encuentro:", p.width / 2, 140);
+        p.text(`${posicionDisplay.toFixed(2)} ${unidadSalida}`, p.width / 2, 155);
+        p.text(`Tiempo: ${tiempoEncuentro.toFixed(2)} s`, p.width / 2, 170);
+        
+        return; // Salir aquí para mostrar solo el mensaje especial
+      }
 
       let factor = unidadSalida === "km" ? 1 / 1000 : 1;
       let x1Display = x1 * factor;
@@ -263,6 +291,16 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  // NUEVO: Función para limpiar todos los campos
+  const btnLimpiar = document.getElementById("limpiarCamposBtn");
+  if (btnLimpiar) {
+    btnLimpiar.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      limpiarTodosCampos();
+    });
+  }
+
   // NUEVO: Prevenir submit del formulario si existe
   const forms = document.querySelectorAll('form');
   forms.forEach(form => {
@@ -272,6 +310,61 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 });
+
+// NUEVA FUNCIÓN: Limpiar todos los campos de entrada y resultados
+function limpiarTodosCampos() {
+  try {
+    // Lista de todos los campos de entrada
+    const camposEntrada = [
+      'posicion_x1', 'posicion_x2', 
+      'velocidad_x1', 'velocidad_x2',
+      'tiempo_x1', 'tiempo_x2'
+    ];
+
+    // Lista de campos de resultado
+    const camposResultado = [
+      'tiempoEncuentro', 'resultadoEncuentros'
+    ];
+
+    // Limpiar campos de entrada
+    camposEntrada.forEach(id => {
+      const campo = document.getElementById(id);
+      if (campo) {
+        campo.value = '';
+        // Remover clases de validación
+        campo.classList.remove('input-valido', 'input-invalido');
+      }
+    });
+
+    // Limpiar campos de resultado
+    camposResultado.forEach(id => {
+      const campo = document.getElementById(id);
+      if (campo) {
+        campo.value = '';
+      }
+    });
+
+    // Limpiar selección de dirección
+    const radiosDireccion = document.querySelectorAll('input[name="direccion_movimiento"]');
+    radiosDireccion.forEach(radio => {
+      radio.checked = false;
+    });
+
+    // Limpiar datos del gráfico
+    datos = null;
+
+    // Limpiar canvas
+    if (myp5) {
+      myp5.background(255);
+    }
+
+    console.log("✅ Todos los campos han sido limpiados");
+    
+  } catch (error) {
+    console.error("Error al limpiar campos:", error);
+    alert("Error al limpiar los campos. Recarga la página si el problema persiste.");
+  }
+}
 
 // FUNCIÓN COMPLETAMENTE SEGURA: Solo lee valores, NUNCA los modifica
 function interpretarValor(valorString) {
@@ -487,11 +580,17 @@ function realizarCalculoEncuentro() {
 
     // 6. REALIZAR CÁLCULOS
     let tiempoEncuentro, puntoEncuentro;
+    let encuentroEnTiempoCero = false; // NUEVO: Flag para detectar encuentro inmediato
 
     if (Math.abs(v1Adjusted - v2Adjusted) < 0.0001) {
       if (Math.abs(x1Base - x2Base) < 0.0001) {
         tiempoEncuentro = Math.max(t1Base, t2Base);
         puntoEncuentro = x1Base;
+        
+        // NUEVO: Detectar si se encuentran inmediatamente
+        if (Math.abs(tiempoEncuentro) < 0.0001) {
+          encuentroEnTiempoCero = true;
+        }
       } else {
         mostrarErrorEspecifico('velocidades_iguales');
         return; // Solo salir, no tocar campos
@@ -499,16 +598,22 @@ function realizarCalculoEncuentro() {
     } else {
       tiempoEncuentro = (x2Base - x1Base - v2Adjusted * t2Base + v1Adjusted * t1Base) / (v1Adjusted - v2Adjusted);
       puntoEncuentro = x1Base + v1Adjusted * (tiempoEncuentro - t1Base);
+      
+      // NUEVO: Detectar si se encuentran inmediatamente
+      if (Math.abs(tiempoEncuentro) < 0.0001) {
+        encuentroEnTiempoCero = true;
+        tiempoEncuentro = 0; // Asegurar que sea exactamente 0
+      }
     }
 
-    // 7. VALIDAR RESULTADO
-    if (tiempoEncuentro < Math.max(t1Base, t2Base)) {
+    // 7. VALIDAR RESULTADO (excepto si es encuentro inmediato)
+    if (!encuentroEnTiempoCero && tiempoEncuentro < Math.max(t1Base, t2Base)) {
       mostrarErrorEspecifico('encuentro_pasado');
       return; // Solo salir, no tocar campos
     }
 
-    // 8. VALIDAR LÓGICA DE MOVIMIENTO
-    if (direccion === "mismo") {
+    // 8. VALIDAR LÓGICA DE MOVIMIENTO (excepto si es encuentro inmediato)
+    if (!encuentroEnTiempoCero && direccion === "mismo") {
       const v1EsMayor = Math.abs(v1Adjusted) > Math.abs(v2Adjusted);
       const x1EstaDetras = (v1Adjusted > 0 && x1Base < x2Base) || (v1Adjusted < 0 && x1Base > x2Base);
       
@@ -526,7 +631,7 @@ function realizarCalculoEncuentro() {
     // 9. ✅ ÉXITO: Actualizar SOLO resultados (nunca campos de entrada)
     actualizarResultados(tiempoEncuentro, puntoEncuentro, unidadSalida, {
       x1: x1Base, x2: x2Base, v1: v1Adjusted, v2: v2Adjusted,
-      t1Base, t2Base, direccion
+      t1Base, t2Base, direccion, encuentroEnTiempoCero // NUEVO: Pasar el flag
     });
 
   } catch (error) {
@@ -549,7 +654,12 @@ function actualizarResultados(tiempoEncuentro, puntoEncuentro, unidadSalida, dat
     const campoResultado = document.getElementById("resultadoEncuentros");
     
     if (campoTiempo) {
-      campoTiempo.value = `${tiempoFormateado} s`;
+      // NUEVO: Mensaje especial para encuentro inmediato
+      if (datosCalculo.encuentroEnTiempoCero) {
+        campoTiempo.value = `${tiempoFormateado} s (Encuentro inmediato)`;
+      } else {
+        campoTiempo.value = `${tiempoFormateado} s`;
+      }
     }
     
     if (campoResultado) {
@@ -568,6 +678,7 @@ function actualizarResultados(tiempoEncuentro, puntoEncuentro, unidadSalida, dat
       unidadSalida: unidadSalida,
       t1Base: datosCalculo.t1Base,
       t2Base: datosCalculo.t2Base,
+      encuentroEnTiempoCero: datosCalculo.encuentroEnTiempoCero // NUEVO: Incluir flag
     };
 
     // Redibujar gráfico
