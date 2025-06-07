@@ -145,7 +145,8 @@
       }
 
       .boton__agregarTramo,
-      .boton__graficar {
+      .boton__graficar,
+      .boton__limpiar {
         width: 100%;
         background: linear-gradient(135deg, #8B9DC3 0%, #718096 100%);
         color: white;
@@ -160,7 +161,8 @@
       }
 
       .boton__agregarTramo:hover,
-      .boton__graficar:hover {
+      .boton__graficar:hover,
+      .boton__limpiar:hover {
         transform: translateY(-2px);
         box-shadow: 0 8px 25px rgba(139, 157, 195, 0.3);
       }
@@ -342,6 +344,7 @@
             <ul id="listaTramos">
               <li class="estado-vacio">No hay tramos agregados</li>
             </ul>
+            <button class="boton__limpiar" onclick="limpiarTodo()">🗑️ Limpiar</button>
             <button class="boton__graficar" onclick="generarGraficas()">
               📈 Generar Gráficas
             </button>

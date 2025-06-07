@@ -1,5 +1,9 @@
 let tramos = [];
 
+// Variables globales para los gráficos
+let graficaVelocidad = null;
+let graficaDistancia = null;
+
 function agregarTramo() {
   const v = parseFloat(document.getElementById("velocidad-grafica").value);
   const d = parseInt(document.getElementById("duracion-grafica").value);
@@ -20,45 +24,50 @@ function mostrarTramos() {
   const lista = document.getElementById("listaTramos");
   lista.innerHTML = ""; // Limpiamos lo anterior
 
+  if (tramos.length === 0) {
+    lista.innerHTML = '<li class="estado-vacio">No hay tramos agregados</li>';
+    return;
+  }
+
   tramos.forEach((tramo, index) => {
     const item = document.createElement("li");
-    item.textContent = `Tramo ${index + 1}: Velocidad = ${tramo.velocidad
-      } m/s, Duración = ${tramo.duracion} s`;
+    item.textContent = `Tramo ${index + 1}: Velocidad = ${tramo.velocidad} m/s, Duración = ${tramo.duracion} s`;
     lista.appendChild(item);
   });
 }
 
-// graficacion
-// velocidad funcion tiempo
-let tiempo = [];
-let velocidad = [];
-let t = 0;
+function limpiarTodo() {
+  // Vaciar array
+  tramos = [];
 
-tramos.forEach((tramo) => {
-  for (let i = 0; i < tramo.duracion; i++) {
-    tiempo.push(t);
-    velocidad.push(tramo.velocidad);
-    t++;
+  // Actualizar lista
+  mostrarTramos();
+
+  // Destruir gráficos si existen
+  if (graficaVelocidad) {
+    graficaVelocidad.destroy();
+    graficaVelocidad = null;
   }
-});
-
-// distancia funcion tiempo
-
-let distancia = [];
-let posicion = 0;
-t = 0;
-
-tramos.forEach((tramo) => {
-  for (let i = 0; i < tramo.duracion; i++) {
-    posicion += tramo.velocidad; // desplazamiento en 1s
-    distancia.push(posicion);
-    t++;
+  if (graficaDistancia) {
+    graficaDistancia.destroy();
+    graficaDistancia = null;
   }
-});
-
-// charts
+}
 
 function generarGraficas() {
+  if (tramos.length === 0) {
+    alert("No hay tramos para graficar.");
+    return;
+  }
+
+  // Primero destruir gráficos anteriores si existen para evitar superposiciones
+  if (graficaVelocidad) {
+    graficaVelocidad.destroy();
+  }
+  if (graficaDistancia) {
+    graficaDistancia.destroy();
+  }
+
   let tiempo = [];
   let velocidadY = [];
   let distanciaY = [];
@@ -70,14 +79,15 @@ function generarGraficas() {
     for (let i = 0; i < tramo.duracion; i++) {
       tiempo.push(t);
       velocidadY.push(tramo.velocidad);
-      posicion += tramo.velocidad;
+      posicion += tramo.velocidad; // incremento de distancia en 1s
       distanciaY.push(posicion);
       t++;
     }
   });
 
-  // Crear gráfico de velocidad vs tiempo
-  new Chart(document.getElementById("graficaVelocidad"), {
+  // Crear gráfico de velocidad vs tiempo y asignar a variable global
+  const ctxVel = document.getElementById("graficaVelocidad").getContext("2d");
+  graficaVelocidad = new Chart(ctxVel, {
     type: "line",
     data: {
       labels: tiempo,
@@ -88,7 +98,7 @@ function generarGraficas() {
           fill: false,
           borderColor: "blue",
           tension: 0,
-          stepped: true, // Para que la gráfica sea tipo escalón
+          stepped: true,
         },
       ],
     },
@@ -96,28 +106,21 @@ function generarGraficas() {
       scales: {
         x: {
           title: { display: true, text: "Tiempo (s)" },
-          grid: {
-            color: (context) => (context.tick.value === 0 ? "#000" : "#ccc"),
-          },
-          ticks: {
-            color: (context) => (context.tick.value === 0 ? "#000" : "#333"),
-          },
+          grid: { color: (context) => (context.tick.value === 0 ? "#000" : "#ccc") },
+          ticks: { color: (context) => (context.tick.value === 0 ? "#000" : "#333") },
         },
         y: {
           title: { display: true, text: "Velocidad (m/s)" },
-          grid: {
-            color: (context) => (context.tick.value === 0 ? "#000" : "#ccc"),
-          },
-          ticks: {
-            color: (context) => (context.tick.value === 0 ? "#000" : "#333"),
-          },
+          grid: { color: (context) => (context.tick.value === 0 ? "#000" : "#ccc") },
+          ticks: { color: (context) => (context.tick.value === 0 ? "#000" : "#333") },
         },
       },
     },
   });
 
-  // Crear gráfico de distancia vs tiempo
-  new Chart(document.getElementById("graficaDistancia"), {
+  // Crear gráfico de distancia vs tiempo y asignar a variable global
+  const ctxDist = document.getElementById("graficaDistancia").getContext("2d");
+  graficaDistancia = new Chart(ctxDist, {
     type: "line",
     data: {
       labels: tiempo,
@@ -135,21 +138,13 @@ function generarGraficas() {
       scales: {
         x: {
           title: { display: true, text: "Tiempo (s)" },
-          grid: {
-            color: (context) => (context.tick.value === 0 ? "#000" : "#ccc"),
-          },
-          ticks: {
-            color: (context) => (context.tick.value === 0 ? "#000" : "#333"),
-          },
+          grid: { color: (context) => (context.tick.value === 0 ? "#000" : "#ccc") },
+          ticks: { color: (context) => (context.tick.value === 0 ? "#000" : "#333") },
         },
         y: {
-          title: { display: true, text: "Velocidad (m/s)" },
-          grid: {
-            color: (context) => (context.tick.value === 0 ? "#000" : "#ccc"),
-          },
-          ticks: {
-            color: (context) => (context.tick.value === 0 ? "#000" : "#333"),
-          },
+          title: { display: true, text: "Distancia (m)" },
+          grid: { color: (context) => (context.tick.value === 0 ? "#000" : "#ccc") },
+          ticks: { color: (context) => (context.tick.value === 0 ? "#000" : "#333") },
         },
       },
     },
