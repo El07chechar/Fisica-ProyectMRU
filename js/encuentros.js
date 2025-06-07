@@ -21,8 +21,8 @@ document.addEventListener("DOMContentLoaded", function () {
       if (datos) p.draw();
     };
 
-    p.draw = function () {
-      // Solo limpiar el fondo una vez
+   p.draw = function () {
+   
       p.background(255);
 
       if (!datos) return;
@@ -40,31 +40,25 @@ document.addEventListener("DOMContentLoaded", function () {
         encuentroEnTiempoCero
       } = datos;
 
-      // NUEVO: Manejo especial para encuentro en tiempo 0
+      
       if (encuentroEnTiempoCero) {
-        p.fill(50);
-        p.textAlign(p.CENTER);
-        p.textSize(16);
-        p.text(" ENCUENTRO INMEDIATO", p.width / 2, 50);
-        
-        p.textSize(14);
-        p.fill(100);
-        p.text("Los objetos ya se encuentran en la misma posición", p.width / 2, 75);
-        p.text("al inicio del movimiento", p.width / 2, 95);
-        
         let factor = unidadSalida === "km" ? 1 / 1000 : 1;
         let posicionDisplay = puntoEncuentro * factor;
         
-        p.fill(200, 100, 100);
-        p.rect(p.width / 2 - 100, 120, 200, 60, 10);
+        let mensaje = `🔴 ENCUENTRO INMEDIATO DETECTADO\n\n`;
+        mensaje += `Los objetos ya se encuentran en la misma posición al inicio del movimiento.\n\n`;
+        mensaje += `📍 Posición del encuentro: ${posicionDisplay.toFixed(2)} ${unidadSalida}\n`;
+        mensaje += `⏰ Tiempo: ${tiempoEncuentro.toFixed(2)} s\n\n`;
+        mensaje += `✅ Para evitar esto, puedes:\n`;
+        mensaje += `• Cambiar las posiciones iniciales de los objetos\n`;
+        mensaje += `• Modificar los tiempos de inicio\n`;
+        mensaje += `• Ajustar las velocidades`;
         
-        p.fill(255);
-        p.textSize(12);
-        p.text("Posición del encuentro:", p.width / 2, 140);
-        p.text(`${posicionDisplay.toFixed(2)} ${unidadSalida}`, p.width / 2, 155);
-        p.text(`Tiempo: ${tiempoEncuentro.toFixed(2)} s`, p.width / 2, 170);
+        alert(mensaje);
         
-        return; // Salir aquí para mostrar solo el mensaje especial
+ 
+        datos = null;
+        return;
       }
 
       let factor = unidadSalida === "km" ? 1 / 1000 : 1;
@@ -115,18 +109,43 @@ document.addEventListener("DOMContentLoaded", function () {
       p.strokeWeight(1);
       p.line(margen, p.height - 30, p.width - margen, p.height - 30);
 
-      for (let i = 0; i <= 5; i++) {
-        const x = margen + (i * (p.width - 2 * margen)) / 5;
-        p.line(x, p.height - 35, x, p.height - 25);
+  // Calcular rango de valores para crear escala amigable
+const valorMin = (margen - origenX) / escala / factor;
+const valorMax = (p.width - margen - origenX) / escala / factor;
+const rango = Math.abs(valorMax - valorMin);
 
-        const valorReal = (x - origenX) / escala / factor;
+// Determinar paso de escala amigable con decimales pares
+let paso;
+if (rango <= 2) paso = 0.2;
+else if (rango <= 5) paso = 0.5;
+else if (rango <= 10) paso = 1;
+else if (rango <= 20) paso = 2;
+else if (rango <= 50) paso = 5;
+else if (rango <= 100) paso = 10;
+else if (rango <= 200) paso = 20;
+else if (rango <= 500) paso = 50;
+else paso = Math.ceil(rango / 10 / 10) * 10;
 
-        p.fill(0);
-        p.noStroke();
-        p.textAlign(p.CENTER);
-        p.textSize(10);
-        p.text(valorReal.toFixed(1) + " " + unidadSalida, x, p.height - 15);
-      }
+// Encontrar el primer valor amigable
+const primerValor = Math.ceil(valorMin / paso) * paso;
+
+// Dibujar marcas de escala
+for (let valor = primerValor; valor <= valorMax; valor += paso) {
+  const x = valor * factor * escala + origenX;
+  
+  if (x >= margen && x <= p.width - margen) {
+    p.line(x, p.height - 35, x, p.height - 25);
+    
+    p.fill(0);
+    p.noStroke();
+    p.textAlign(p.CENTER);
+    p.textSize(10);
+    
+    // Formatear número para mostrar decimales apropiados
+    const decimales = paso < 1 ? 1 : 0;
+    p.text(valor.toFixed(decimales) + " " + unidadSalida, x, p.height - 15);
+  }
+}
 
       if (Math.abs(t1Base - t2Base) > 0.0001) {
         p.stroke("rgba(0,0,255,0.3)");
@@ -312,53 +331,12 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // NUEVA FUNCIÓN: Limpiar todos los campos de entrada y resultados
+// NUEVA FUNCIÓN: Limpiar todos los campos de entrada y resultados
+// NUEVA FUNCIÓN: Limpiar todos los campos reiniciando la página
 function limpiarTodosCampos() {
   try {
-    // Lista de todos los campos de entrada
-    const camposEntrada = [
-      'posicion_x1', 'posicion_x2', 
-      'velocidad_x1', 'velocidad_x2',
-      'tiempo_x1', 'tiempo_x2'
-    ];
-
-    // Lista de campos de resultado
-    const camposResultado = [
-      'tiempoEncuentro', 'resultadoEncuentros'
-    ];
-
-    // Limpiar campos de entrada
-    camposEntrada.forEach(id => {
-      const campo = document.getElementById(id);
-      if (campo) {
-        campo.value = '';
-        // Remover clases de validación
-        campo.classList.remove('input-valido', 'input-invalido');
-      }
-    });
-
-    // Limpiar campos de resultado
-    camposResultado.forEach(id => {
-      const campo = document.getElementById(id);
-      if (campo) {
-        campo.value = '';
-      }
-    });
-
-    // Limpiar selección de dirección
-    const radiosDireccion = document.querySelectorAll('input[name="direccion_movimiento"]');
-    radiosDireccion.forEach(radio => {
-      radio.checked = false;
-    });
-
-    // Limpiar datos del gráfico
-    datos = null;
-
-    // Limpiar canvas
-    if (myp5) {
-      myp5.background(255);
-    }
-
-    console.log("✅ Todos los campos han sido limpiados");
+    // Reiniciar la página completamente
+    window.location.reload();
     
   } catch (error) {
     console.error("Error al limpiar campos:", error);
@@ -565,6 +543,22 @@ function realizarCalculoEncuentro() {
     const v2Base = convertirAUnidadBase(v2, document.getElementById("unidad_velocidad_x2")?.value || "m/s");
     const t1Base = convertirAUnidadBase(t1, document.getElementById("unidad_tiempo_x1")?.value || "s");
     const t2Base = convertirAUnidadBase(t2, document.getElementById("unidad_tiempo_x2")?.value || "s");
+
+// NUEVO: Verificar si todos los valores son idénticos
+if (Math.abs(x1Base - x2Base) < 0.0001 && 
+    Math.abs(v1Base - v2Base) < 0.0001 && 
+    Math.abs(t1Base - t2Base) < 0.0001) {
+  alert("⚠️ VALORES IDÉNTICOS DETECTADOS\n\n" +
+        "Ambos objetos tienen los mismos valores, lo que hace imposible graficar un encuentro.\n\n" +
+        "✅ Para solucionarlo, cambia al menos uno de estos valores:\n" +
+        "• Las posiciones iniciales (deben ser diferentes)\n" +
+        "• Las velocidades (deben ser diferentes)\n" +
+        "• Los tiempos de inicio (pueden ser diferentes)");
+  return;
+}
+    
+
+
 
     // 5. AJUSTAR VELOCIDADES SEGÚN DIRECCIÓN
     let v1Adjusted = v1Base;
