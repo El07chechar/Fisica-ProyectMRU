@@ -3,26 +3,849 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MRU Venezuela</title>
+    <title>MRU VENEZUELA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Fredoka:wght@300..700&family=Manrope:wght@200..800&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Open Sans', sans-serif;
+        background: linear-gradient(135deg, #f7fafc 0%, #e2e8f0 100%);
+        min-height: 100vh;
+        color: #4a5568;
+        font-size: 16px;
+        line-height: 1.6;
+      }
+
+      header {
+        background: white;
+        padding: 1rem 0;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      nav ul {
+        display: flex;
+        justify-content: center;
+        list-style: none;
+        gap: 2rem;
+        flex-wrap: wrap;
+        padding: 0 1rem;
+      }
+
+      nav button {
+        background: #8B9DC3;
+        color: white;
+        border: none;
+        padding: 0.75rem 2rem;
+        border-radius: 25px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: inherit;
+        min-width: 120px;
+      }
+
+      nav button:hover {
+        background: #718096;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(139, 157, 195, 0.3);
+      }
+
+      .encuentros {
+        padding: 2rem;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .encuentros__titulo {
+        font-size: 1.5rem;
+        color: #333;
+        margin-bottom: 20px;
+        text-align: center;
+        font-weight: 700;
+      }
+
+      .encuentros__instrucciones {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 15px;
+        margin-bottom: 2rem;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      }
+
+      .encuentros__instrucciones p {
+        color: #718096;
+        font-size: 16px;
+        text-align: center;
+      }
+
+      .container-principal {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 2rem;
+        align-items: start;
+      }
+
+      .formulario-seccion {
+        background: white;
+        padding: 2rem;
+        border-radius: 15px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
+      }
+
+      .resultados-seccion {
+        background: white;
+        padding: 2rem;
+        border-radius: 15px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
+        position: sticky;
+        top: 120px;
+      }
+
+      .bloque-formulario {
+        border: none;
+        margin-bottom: 2rem;
+        background: #f8fafc;
+        padding: 1.5rem;
+        border-radius: 12px;
+        border: 1px solid #e2e8f0;
+      }
+
+      .bloque-formulario__titulo {
+        color: #2d3748;
+        font-size: 1.3rem;
+        margin-bottom: 1.5rem;
+        font-weight: 600;
+        text-align: center;
+      }
+
+      .autos-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      .campo-encuentro {
+        margin-bottom: 1.5rem;
+      }
+
+      .campo__subtitulo {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #4a5568;
+        font-weight: 600;
+        font-size: 15px;
+      }
+
+      .formulario__campo {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+      }
+
+      .campo-con-ayuda {
+        position: relative;
+        flex: 1;
+      }
+
+      .campo__valor {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        background: white;
+        color: #4a5568;
+      }
+
+      .campo__valor:focus {
+        outline: none;
+        border-color: #8B9DC3;
+        box-shadow: 0 0 0 3px rgba(139, 157, 195, 0.15);
+      }
+
+      .campo__select-options {
+        padding: 0.75rem;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        font-size: 14px;
+        background: white;
+        color: #4a5568;
+        min-width: 140px;
+      }
+
+      .campo__select-options:focus {
+        outline: none;
+        border-color: #8B9DC3;
+      }
+
+      .tooltip {
+        position: absolute;
+        top: -45px;
+        left: 0;
+        background: #2d3748;
+        color: white;
+        padding: 0.5rem;
+        border-radius: 6px;
+        font-size: 12px;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        z-index: 10;
+        white-space: nowrap;
+      }
+
+      .campo-con-ayuda:hover .tooltip {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .direccion-bloque__opciones {
+        display: flex;
+        gap: 2rem;
+        justify-content: center;
+      }
+
+      .opciones__direccion, .opciones-direccion {
+        text-align: center;
+        flex: 1;
+        max-width: 200px;
+      }
+
+      .opciones__direccion input, .opciones-direccion input {
+        display: none;
+      }
+
+      .opciones__direccion label, .opciones-direccion label {
+        display: block;
+        padding: 1rem;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: white;
+        height: 100%;
+      }
+
+      .opciones__direccion input:checked + label,
+      .opciones-direccion input:checked + label {
+        border-color: #8B9DC3;
+        background: rgba(139, 157, 195, 0.1);
+      }
+
+      .ilustracion {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        margin-bottom: 0.5rem;
+        font-size: 2rem;
+      }
+
+      .movil {
+        color: #8B9DC3;
+      }
+
+      .formulario__campo.unidad-salida {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        justify-content: center;
+        margin: 1.5rem 0;
+        flex-wrap: wrap;
+      }
+
+      .campo__texto {
+        color: #4a5568;
+        font-weight: 600;
+      }
+
+      .botones-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .boton-calcular, .boton-limpiar {
+        background: linear-gradient(135deg, #8B9DC3 0%, #718096 100%);
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 12px;
+        font-size: 18px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .boton-limpiar {
+        background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+      }
+
+      .boton-calcular:hover, .boton-limpiar:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(139, 157, 195, 0.3);
+      }
+
+      .boton-limpiar:hover {
+        box-shadow: 0 8px 25px rgba(229, 62, 62, 0.3);
+      }
+
+      .resultados__titulo, .visualizacion__titulo {
+        color: #2d3748;
+        font-size: 1.4rem;
+        margin-bottom: 1.5rem;
+        font-weight: 600;
+        text-align: center;
+      }
+
+      .resultado__item {
+        margin-bottom: 1.5rem;
+      }
+
+      .resultado__etiqueta {
+        margin-bottom: 0.5rem;
+      }
+
+      .resultado__etiqueta span {
+        color: #4a5568;
+        font-weight: 600;
+        font-size: 15px;
+      }
+
+      .resultado__value {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        font-size: 16px;
+        background: #f8fafc;
+        color: #4a5568;
+        font-weight: 500;
+      }
+
+      /* STYLES ESPECÍFICOS PARA EL CANVAS RESPONSIVE */
+      .visualizacion__container {
+        min-height: 300px;
+        background: white;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        margin-top: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #718096;
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+      }
+
+      /* Canvas responsive wrapper */
+      .canvas-wrapper {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Hacer que el canvas sea responsive */
+      .visualizacion__container canvas {
+        max-width: 100% !important;
+        max-height: 100% !important;
+        width: auto !important;
+        height: auto !important;
+        object-fit: contain;
+      }
+
+      /* Responsive Styles */
+      @media (max-width: 1200px) {
+        .container-principal {
+          grid-template-columns: 1fr;
+        }
+        
+        .resultados-seccion {
+          position: static;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .autos-container {
+          grid-template-columns: 1fr;
+        }
+        
+        .direccion-bloque__opciones {
+          flex-direction: column;
+          gap: 1rem;
+        }
+        
+        .encuentros {
+          padding: 1rem;
+        }
+
+        .formulario-seccion,
+        .resultados-seccion {
+          padding: 1.5rem;
+        }
+
+        .bloque-formulario {
+          padding: 1rem;
+        }
+
+        .botones-container {
+          grid-template-columns: 1fr;
+        }
+
+        .formulario__campo.unidad-salida {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        nav ul {
+          gap: 1rem;
+        }
+
+        nav button {
+          padding: 0.5rem 1.5rem;
+          font-size: 14px;
+          min-width: 100px;
+        }
+
+        /* Canvas responsive en móviles */
+        .visualizacion__container {
+          min-height: 250px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .encuentros {
+          padding: 0.5rem;
+        }
+
+        .formulario__campo {
+          flex-direction: column;
+          gap: 0.75rem;
+          align-items: stretch;
+        }
+
+        .campo__select-options {
+          min-width: auto;
+          width: 100%;
+        }
+
+        .ilustracion {
+          font-size: 1.5rem;
+          gap: 1rem;
+        }
+
+        .opciones__direccion label, 
+        .opciones-direccion label {
+          padding: 0.75rem;
+        }
+
+        .bloque-formulario__titulo {
+          font-size: 1.1rem;
+        }
+
+        .resultados__titulo, 
+        .visualizacion__titulo {
+          font-size: 1.2rem;
+        }
+
+        .boton-calcular, 
+        .boton-limpiar {
+          font-size: 16px;
+          padding: 0.875rem 1.5rem;
+        }
+
+        .visualizacion__container {
+          min-height: 200px;
+        }
+      }
+
+      @media (max-width: 360px) {
+        .encuentros__instrucciones {
+          padding: 1rem;
+        }
+
+        .encuentros__instrucciones p {
+          font-size: 14px;
+        }
+
+        .visualizacion__container {
+          min-height: 180px;
+        }
+      }
+    </style>
   </head>
   <body>
     <header>
       <nav>
         <ul>
-          <li>
-            <a href="index.html"><button type="button">Calcular</button></a>
-          </li>
-          <li>
-            <a href="encuentros.html"><button type="button">Encuentros</button></a>
-          </li>
-          <li>
-            <a href="graficas.html"><button type="button">Gráficas</button></a>
-          </li>
+          <li><a href="index.html"><button type="button">Calcular</button></a></li>
+          <li><a href="encuentros.html"><button type="button">Encuentros</button></a></li>
+          <li><a href="graficas.html"><button type="button">Gráficas</button></a></li>
         </ul>
       </nav>
     </header>
-    <main></main>
-    <aside></aside>
-    <footer></footer>
+
+    <main id="encuentros-id" class="encuentros">
+      <div class="encuentros__instrucciones">
+        <p> 
+          Complete los datos y presione "Calcular Encuentro" para ver cuándo y dónde se encontrarán los vehículos.
+          <br />
+          <strong>💡 Tip:</strong> Puede usar notación científica (ej: 1.5e3 = 1.5 × 10³= 1500)
+        </p>
+      </div>
+
+      <div class="container-principal">
+        <div class="formulario-seccion">
+          <form class="encuentros__formulario" id="formEncuentros" action="#canvasContainer">
+            
+            <div class="autos-container">
+              <fieldset class="bloque-formulario formulario--primer-movil">
+                <h3 class="bloque-formulario__titulo">🚗 Primer Auto</h3>
+                
+                <div class="campo-encuentro">
+                  <label for="posicion_x1" class="campo__subtitulo">¿Dónde inicia?</label>
+                  <div class="formulario__campo">
+                    <div class="campo-con-ayuda">
+                      <input
+                        type="text"
+                        id="posicion_x1"
+                        required
+                        class="campo__valor valor--posicion"
+                      />
+                      <div class="tooltip">
+                        Ejemplos: 1500 o 1.5e3<br>
+                        0.0002 o 2e-4
+                      </div>
+                    </div>
+                    <select
+                      id="unidad_posicion_x1"
+                      class="campo__select-options select-option--posicion"
+                    >
+                      <option value="m">metros</option>
+                      <option value="km">kilómetros</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="campo-encuentro">
+                  <label for="velocidad_x1" class="campo__subtitulo">¿A qué velocidad va?</label>
+                  <div class="formulario__campo">
+                    <div class="campo-con-ayuda">
+                      <input
+                        type="text"
+                        id="velocidad_x1"
+                        required
+                        class="campo__valor valor--velocidad"
+                      />
+                    </div>
+                    <select
+                      id="unidad_velocidad_x1"
+                      class="campo__select-options select-option--velocidad"
+                    >
+                      <option value="m/s">metros/segundo</option>
+                      <option value="km/h">km/hora</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="campo-encuentro">
+                  <label for="tiempo_x1" class="campo__subtitulo">¿Cuándo inicia?</label>
+                  <div class="formulario__campo">
+                    <div class="campo-con-ayuda">
+                      <input
+                        type="text"
+                        id="tiempo_x1"
+                        class="campo__valor valor--tiempo"
+                      />
+                    </div>
+                    <select
+                      id="unidad_tiempo_x1"
+                      class="campo__select-options select-option--tiempo-inicio"
+                    >
+                      <option value="s">segundos</option>
+                      <option value="min">minutos</option>
+                      <option value="h">horas</option>
+                    </select>
+                  </div>
+                </div>
+              </fieldset>
+
+              <fieldset class="bloque-formulario formulario--segundo-movil">
+                <h3 class="bloque-formulario__titulo">🚙 Segundo Auto</h3>
+                
+                <div class="campo-encuentro">
+                  <label for="posicion_x2" class="campo__subtitulo">¿Dónde inicia?</label>
+                  <div class="formulario__campo">
+                    <div class="campo-con-ayuda">
+                      <input
+                        type="text"
+                        id="posicion_x2"
+                        required
+                        class="campo__valor valor--posicion"
+                      />
+                    </div>
+                    <select
+                      id="unidad_posicion_x2"
+                      class="campo__select-options select-option--posicion"
+                    >
+                      <option value="m">metros</option>
+                      <option value="km">kilómetros</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="campo-encuentro">
+                  <label for="velocidad_x2" class="campo__subtitulo">¿A qué velocidad va?</label>
+                  <div class="formulario__campo">
+                    <div class="campo-con-ayuda">
+                      <input
+                        type="text"
+                        id="velocidad_x2"
+                        required
+                        class="campo__valor valor--velocidad"
+                      />
+                    </div>
+                    <select
+                      id="unidad_velocidad_x2"
+                      class="campo__select-options select-option--velocidad"
+                    >
+                      <option value="m/s">metros/segundo</option>
+                      <option value="km/h">km/hora</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="campo-encuentro">
+                  <label for="tiempo_x2" class="campo__subtitulo">¿Cuándo inicia?</label>
+                  <div class="formulario__campo">
+                    <div class="campo-con-ayuda">
+                      <input
+                        type="text"
+                        id="tiempo_x2"
+                        class="campo__valor valor--tiempo-inicio"
+                      />
+                    </div>
+                    <select
+                      id="unidad_tiempo_x2"
+                      class="campo__select-options select-option--tiempo"
+                    >
+                      <option value="s">segundos</option>
+                      <option value="min">minutos</option>
+                      <option value="h">horas</option>
+                    </select>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+
+            <fieldset class="bloque-formulario formulario--direccion-bloque">
+              <h3 class="bloque-formulario__titulo">🧭 Dirección del movimiento</h3>
+
+              <div class="direccion-bloque__opciones">
+                <div class="opciones__direccion">
+                  <input
+                    type="radio"
+                    id="opcion-opuestos"
+                    name="direccion_movimiento"
+                    value="opuestos"
+                  />
+                  <label for="opcion-opuestos">
+                    <div class="ilustracion opuestos">
+                      <div class="movil movil1">→</div>
+                      <div class="movil movil2">←</div>
+                    </div>
+                    <span>Van uno hacia el otro</span>
+                  </label>
+                </div>
+
+                <div class="opciones-direccion">
+                  <input
+                    type="radio"
+                    id="opcion-mismo"
+                    name="direccion_movimiento"
+                    value="mismo"
+                  />
+                  <label for="opcion-mismo">
+                    <div class="ilustracion mismo">
+                      <div class="movil movil1">→</div>
+                      <div class="movil movil2">→</div>
+                    </div>
+                    <span>Van en la misma dirección</span>
+                  </label>
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset class="bloque-formulario formulario--opciones-resultado">
+              <div class="formulario__campo unidad-salida">
+                <label for="unidadSalida" class="campo__texto">Mostrar resultados en:</label>
+                <select id="unidadSalida" class="campo__select-options">
+                  <option value="m">Metros</option>
+                  <option value="km">Kilómetros</option>
+                </select>
+              </div>
+            </fieldset>
+
+            <div class="botones-container">
+              <input type="submit" id="calcularEncuentroBtn" value="Calcular Encuentro" class="boton-calcular" />
+              <button type="button" id="limpiarCamposBtn" class="boton-limpiar">🗑️ Limpiar Campos</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="resultados-seccion">
+          <section class="encuentros__resultados">
+            <h3 class="resultados__titulo">📊 Resultados</h3>
+
+            <div class="resultado__item">
+              <div class="resultado__etiqueta">
+                <span>⏱️ Tiempo de encuentro:</span>
+              </div>
+              <input
+                type="text"
+                id="tiempoEncuentro"
+                readonly
+                placeholder="Esperando cálculo..."
+                class="resultado__value"
+              />
+            </div>
+
+            <div class="resultado__item">
+              <div class="resultado__etiqueta">
+                <span>📍 Posición de encuentro:</span>
+              </div>
+              <input
+                type="text"
+                id="resultadoEncuentros"
+                readonly
+                placeholder="Esperando cálculo..."
+                class="resultado__value"
+              />
+            </div>
+          </section>
+
+          <section class="encuentros__visualizacion">
+            <h3 class="visualizacion__titulo">🎯 Visualización</h3>
+            <div id="canvasContainer" class="visualizacion__container">
+              <!-- El canvas se insertará aquí -->
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+
+<script>
+  // Variables globales para manejo del canvas responsive
+  let canvasInstance = null;
+  let canvasContainer = null;
+
+  // Función para redimensionar el canvas
+  function resizeCanvas() {
+    if (canvasInstance && canvasContainer) {
+      const container = document.getElementById('canvasContainer');
+      if (container) {
+        const containerRect = container.getBoundingClientRect();
+        const maxWidth = Math.min(containerRect.width - 20, 400); // 20px de padding
+        const maxHeight = Math.min(containerRect.height - 20, 300);
+        if (typeof canvasInstance.resizeCanvas === 'function') {
+          canvasInstance.resizeCanvas(maxWidth, maxHeight);
+        }
+      }
+    }
+  }
+
+  // Redimensionar en cambios de tamaño de ventana
+  window.addEventListener('resize', function () {
+    clearTimeout(window.resizeTimeout);
+    window.resizeTimeout = setTimeout(resizeCanvas, 100);
+  });
+
+  // Botón para limpiar campos
+  document.getElementById('limpiarCamposBtn').addEventListener('click', function () {
+    // Limpiar inputs de texto
+    document.querySelectorAll('input[type="text"]').forEach(input => {
+      if (!input.readOnly) input.value = '';
+    });
+
+    // Limpiar radio buttons
+    document.querySelectorAll('input[type="radio"]').forEach(radio => {
+      radio.checked = false;
+    });
+
+    // Resetear selects
+    document.querySelectorAll('select').forEach(select => {
+      select.selectedIndex = 0;
+    });
+
+    // Limpiar resultados
+    document.getElementById('tiempoEncuentro').value = '';
+    document.getElementById('resultadoEncuentros').value = '';
+    document.getElementById('tiempoEncuentro').placeholder = 'Esperando cálculo...';
+    document.getElementById('resultadoEncuentros').placeholder = 'Esperando cálculo...';
+
+    // Limpiar canvas
+    const container = document.getElementById('canvasContainer');
+    if (container) {
+      const existingCanvas = container.querySelector('canvas');
+      if (existingCanvas) existingCanvas.remove();
+
+      container.innerHTML = '';
+      container.style.display = 'flex';
+      container.style.alignItems = 'center';
+      container.style.justifyContent = 'center';
+      container.style.color = '#718096';
+
+      canvasInstance = null;
+    }
+
+    if (typeof window.limpiarCanvas === 'function') {
+      window.limpiarCanvas();
+    }
+
+    console.log('Campos limpiados correctamente');
+  });
+
+  // Función global para establecer la instancia del canvas
+  window.setCanvasInstance = function (instance) {
+    canvasInstance = instance;
+    canvasContainer = document.getElementById('canvasContainer');
+    setTimeout(resizeCanvas, 100);
+  };
+</script>
+
+    <script src="js/encuentros.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+      window.onload = function () {
+        Swal.fire({
+          icon: "info",
+          title: "Bienvenido a la Calculadora de Encuentros MRU",
+          text: "Esta herramienta te permite calcular el punto y tiempo de encuentro entre dos objetos en movimiento rectilíneo uniforme (MRU). Solo necesitas ingresar los datos iniciales y la calculadora hará el resto.",
+          confirmButtonText: "¡Entendido!",
+          timer: 10000,
+          timerProgressBar: true
+        });
+      };
+    </script>
   </body>
 </html>

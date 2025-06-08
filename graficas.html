@@ -374,5 +374,16 @@
   document.getElementById('distanciaUnidad').addEventListener('change', calcular);
 </script>
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>window.onload = function () {
+      Swal.fire({
+        icon: "info",
+        title: "Bienvenido a la Calculadora Grafica de Movimiento MRU",
+        text: "Aquí podrás agregar tramos de movimiento y generar gráficas de velocidad y distancia.",
+        confirmButtonText: "¡Entendido!",
+        timer: 10000,
+        timerProgressBar: true
+      });
+    };</script>
   </body>
 </html>

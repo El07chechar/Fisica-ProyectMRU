@@ -8,7 +8,14 @@ function agregarTramo() {
   const v = parseFloat(document.getElementById("velocidad-grafica").value);
   const d = parseInt(document.getElementById("duracion-grafica").value);
   if (isNaN(v) || isNaN(d) || d <= 0) {
-    alert("Por favor ingresa una velocidad válida y una duración mayor a 0.");
+    Swal.fire({
+      icon: "warning",
+      title: "Datos inválidos",
+      text: "Por favor ingresa una velocidad válida y una duración mayor a 0.",
+      confirmButtonText: "Aceptar",
+      timer: 3000,
+      timerProgressBar: true
+    });
     return;
   }
   tramos.push({ velocidad: v, duracion: d });
@@ -56,7 +63,14 @@ function limpiarTodo() {
 
 function generarGraficas() {
   if (tramos.length === 0) {
-    alert("No hay tramos para graficar.");
+    Swal.fire({
+      icon: "warning",
+      title: "No hay tramos",
+      text: "Por favor, agrega al menos un tramo para generar las gráficas.",
+      confirmButtonText: "Aceptar",
+      timer: 3000,
+      timerProgressBar: true,
+    });
     return;
   }
 

@@ -269,7 +269,7 @@
   </head>
 
   <body>
-    <header>
+    <header id="calculadora-header">
       <nav>
         <ul>
           <li><a href="index.html"><button type="button">Calcular</button></a></li>
@@ -594,6 +594,20 @@ if (Math.abs(resultado) >= 1000 || Math.abs(resultado) <= 0.001) {
 
     return regexNumero.test(valor.trim());
   }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  // Mostrar un mensaje de bienvenida al cargar la página
+  window.onload = function () {
+    Swal.fire({
+      icon: "info",
+      title: "Bienvenido a la Calculadora de Movimiento MRU",
+      text: "Esta herramienta te permite calcular la velocidad, el tiempo o la distancia en un movimiento rectilíneo uniforme (MRU). Solo necesitas ingresar dos de los tres valores y la calculadora hará el resto.",
+      confirmButtonText: "¡Entendido!",
+      timer: 10000,
+      timerProgressBar: true
+    });
+  };
 </script>
   </body>
 </html>
