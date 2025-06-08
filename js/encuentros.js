@@ -116,43 +116,42 @@ document.addEventListener("DOMContentLoaded", function () {
             p.strokeWeight(1);
             p.line(margen, p.height - 30, p.width - margen, p.height - 30);
 
-            // Calcular rango de valores para crear escala amigable
-            const valorMin = (margen - origenX) / escala / factor;
-            const valorMax = (p.width - margen - origenX) / escala / factor;
-            const rango = Math.abs(valorMax - valorMin);
+            // Dibujar solo marcas de escala relevantes
+            // Dibujar solo marcas de escala relevantes con color
+            let valoresClave = [
+                { valor: x1, color: "blue", etiqueta: "Inicio Obj1" },
+                { valor: x2, color: "green", etiqueta: "Inicio Obj2" },
+                { valor: puntoEncuentro, color: "red", etiqueta: "Encuentro" }
+            ];
 
-            // Determinar paso de escala amigable con decimales pares
-            let paso;
-            if (rango <= 2) paso = 0.2;
-            else if (rango <= 5) paso = 0.5;
-            else if (rango <= 10) paso = 1;
-            else if (rango <= 20) paso = 2;
-            else if (rango <= 50) paso = 5;
-            else if (rango <= 100) paso = 10;
-            else if (rango <= 200) paso = 20;
-            else if (rango <= 500) paso = 50;
-            else paso = Math.ceil(rango / 10 / 10) * 10;
+            // Opcional: agregar 0 si aporta
+            if (![x1, x2, puntoEncuentro].includes(0)) {
+                valoresClave.push({ valor: 0, color: "black", etiqueta: null });
+            }
 
-            // Encontrar el primer valor amigable
-            const primerValor = Math.ceil(valorMin / paso) * paso;
+            // Eliminar duplicados (por valor) y ordenar
+            valoresClave = valoresClave
+                .filter((v, i, self) => self.findIndex(o => o.valor === v.valor) === i)
+                .sort((a, b) => a.valor - b.valor);
 
-            // Dibujar marcas de escala
-            for (let valor = primerValor; valor <= valorMax; valor += paso) {
-                const x = valor * factor * escala + origenX;
+            valoresClave.forEach(({ valor, color }) => {
+                const x = posicionEnCanvas(valor);
 
                 if (x >= margen && x <= p.width - margen) {
+                    p.stroke(150);
                     p.line(x, p.height - 35, x, p.height - 25);
 
-                    p.fill(0);
                     p.noStroke();
+                    p.fill(color);
                     p.textAlign(p.CENTER);
                     p.textSize(10);
 
-                    // Formatear número para mostrar decimales apropiados
-                    const decimales = paso < 1 ? 1 : 0;
-                    p.text(valor.toFixed(decimales) + " " + unidadSalida, x, p.height - 15);
+                    const valorDisplay = (valor * factor).toFixed(2);
+                    p.text(valorDisplay + " " + unidadSalida, x, p.height - 15);
                 }
-            }
+            });
+
+
 
             if (Math.abs(t1Base - t2Base) > 0.0001) {
                 p.stroke("rgba(0,0,255,0.3)");
@@ -667,13 +666,13 @@ function realizarCalculoEncuentro() {
     } catch (error) {
         console.error("Error en cálculo:", error);
         Swal.fire({
-  icon: 'warning',
-  title: 'Dato inválido',
-  text: "Error en el cálculo. Por favor, verifica los datos ingresados.",
-  confirmButtonText: 'Entendido',
-  timer: 5000, // se cierra automáticamente a los 5 segundos
-  timerProgressBar: true
-});
+            icon: 'warning',
+            title: 'Dato inválido',
+            text: "Error en el cálculo. Por favor, verifica los datos ingresados.",
+            confirmButtonText: 'Entendido',
+            timer: 5000, // se cierra automáticamente a los 5 segundos
+            timerProgressBar: true
+        });
         // NO tocar campos de entrada bajo ninguna circunstancia
     }
 }
