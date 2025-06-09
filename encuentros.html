@@ -791,6 +791,11 @@
     <!-- Aquí se inserta el canvas -->
   </div>
 
+  <button onclick="toggleFullScreen()" style="margin: 10px;" class="boton-calcular">
+  🖥️ Pantalla completa
+</button>
+
+
   <div id="legend" style="margin-top: 15px; font-family: Arial, sans-serif; font-size: 14px; line-height: 1.4;">
   <h3>Leyenda</h3>
 
@@ -959,6 +964,19 @@
           timerProgressBar: true,
         });
       };
+    </script>
+    <script>
+      function toggleFullScreen() {
+  const canvasElement = document.getElementById("canvasContainer");
+
+  if (!document.fullscreenElement) {
+    canvasElement.requestFullscreen().catch(err => {
+      alert(`Error al intentar activar pantalla completa: ${err.message}`);
+    });
+  } else {
+    document.exitFullscreen();
+  }
+}
     </script>
   </body>
 </html>
