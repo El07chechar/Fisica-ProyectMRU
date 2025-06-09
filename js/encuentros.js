@@ -22,9 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
         };
 
         p.draw = function () {
-
             p.background(255);
-
             if (!datos) return;
 
             let {
@@ -39,7 +37,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 t2Base,
                 encuentroEnTiempoCero
             } = datos;
-
 
             if (encuentroEnTiempoCero) {
                 let factor = unidadSalida === "km" ? 1 / 1000 : 1;
@@ -59,10 +56,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     title: 'Dato inválido',
                     text: mensaje,
                     confirmButtonText: 'Entendido',
-                    timer: 5000, // se cierra automáticamente a los 5 segundos
+                    timer: 5000,
                     timerProgressBar: true
                 });
-
 
                 datos = null;
                 return;
@@ -80,22 +76,9 @@ document.addEventListener("DOMContentLoaded", function () {
             let x2TiempoMaxDisplay = x2EnTiempoMaxPartida * factor;
 
             const margen = 50;
-            const minPos = Math.min(
-                x1Display,
-                x2Display,
-                x1TiempoMaxDisplay,
-                x2TiempoMaxDisplay,
-                puntoEncuentroDisplay
-            );
-            const maxPos = Math.max(
-                x1Display,
-                x2Display,
-                x1TiempoMaxDisplay,
-                x2TiempoMaxDisplay,
-                puntoEncuentroDisplay
-            );
+            const minPos = Math.min(x1Display, x2Display, x1TiempoMaxDisplay, x2TiempoMaxDisplay, puntoEncuentroDisplay);
+            const maxPos = Math.max(x1Display, x2Display, x1TiempoMaxDisplay, x2TiempoMaxDisplay, puntoEncuentroDisplay);
             const distanciaTotal = maxPos - minPos;
-
             const distanciaConMargen = distanciaTotal * 1.3;
             const escala = (p.width - 2 * margen) / distanciaConMargen;
             const origenX = margen - minPos * escala * 0.85;
@@ -106,63 +89,43 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const inicioX1 = posicionEnCanvas(x1);
             const inicioX2 = posicionEnCanvas(x2);
-
             const inicioX1Efectivo = posicionEnCanvas(x1EnTiempoMaxPartida);
             const inicioX2Efectivo = posicionEnCanvas(x2EnTiempoMaxPartida);
-
             const encuentroX = posicionEnCanvas(puntoEncuentro);
 
             p.stroke(200);
             p.strokeWeight(1);
             p.line(margen, p.height - 30, p.width - margen, p.height - 30);
 
-            // Dibujar solo marcas de escala relevantes
-            // Dibujar solo marcas de escala relevantes con color
             let valoresClave = [
-                { valor: x1, color: "blue", etiqueta: "Inicio Obj1" },
-                { valor: x2, color: "green", etiqueta: "Inicio Obj2" },
-                { valor: puntoEncuentro, color: "red", etiqueta: "Encuentro" }
+                { valor: x1, color: "blue" },
+                { valor: x2, color: "green" },
+                { valor: puntoEncuentro, color: "red" },
+                { valor: x1EnTiempoMaxPartida, color: "violet" },
+                { valor: x2EnTiempoMaxPartida, color: "violet" }
             ];
 
-            // Opcional: agregar 0 si aporta
-            if (![x1, x2, puntoEncuentro].includes(0)) {
-                valoresClave.push({ valor: 0, color: "black", etiqueta: null });
-            }
-
-            // Eliminar duplicados (por valor) y ordenar
-            valoresClave = valoresClave
-                .filter((v, i, self) => self.findIndex(o => o.valor === v.valor) === i)
+            valoresClave = valoresClave.filter((v, i, self) => self.findIndex(o => o.valor === v.valor) === i)
                 .sort((a, b) => a.valor - b.valor);
 
             valoresClave.forEach(({ valor, color }) => {
                 const x = posicionEnCanvas(valor);
-
                 if (x >= margen && x <= p.width - margen) {
                     p.stroke(150);
                     p.line(x, p.height - 35, x, p.height - 25);
-
                     p.noStroke();
                     p.fill(color);
                     p.textAlign(p.CENTER);
                     p.textSize(10);
-
-                    const valorDisplay = (valor * factor).toFixed(2);
-                    p.text(valorDisplay + " " + unidadSalida, x, p.height - 15);
+                    p.text((valor * factor).toFixed(2) + " " + unidadSalida, x, p.height - 15);
                 }
             });
 
-
-
             if (Math.abs(t1Base - t2Base) > 0.0001) {
+                p.drawingContext.setLineDash([5, 5]);
                 p.stroke("rgba(0,0,255,0.3)");
-                p.strokeWeight(2);
-                p.drawingContext.setLineDash([5, 5]);
                 p.line(inicioX1, 80, inicioX1Efectivo, 80);
-                p.drawingContext.setLineDash([]);
-
                 p.stroke("rgba(0,255,0,0.3)");
-                p.strokeWeight(2);
-                p.drawingContext.setLineDash([5, 5]);
                 p.line(inicioX2, 120, inicioX2Efectivo, 120);
                 p.drawingContext.setLineDash([]);
             }
@@ -170,9 +133,7 @@ document.addEventListener("DOMContentLoaded", function () {
             p.stroke("blue");
             p.strokeWeight(4);
             p.line(inicioX1Efectivo, 80, encuentroX, 80);
-
             p.stroke("green");
-            p.strokeWeight(4);
             p.line(inicioX2Efectivo, 120, encuentroX, 120);
 
             p.noStroke();
@@ -181,43 +142,27 @@ document.addEventListener("DOMContentLoaded", function () {
             p.fill("green");
             p.text("🚙 Posición inicial Obj2", inicioX2, 140);
 
+            p.noStroke();
             p.fill("blue");
-            p.stroke("black");
-            p.strokeWeight(1);
             p.ellipse(inicioX1, 80, 8, 8);
-
             p.fill("green");
-            p.stroke("black");
-            p.strokeWeight(1);
             p.ellipse(inicioX2, 120, 8, 8);
 
-            if (Math.abs(t1Base - t2Base) > 0.0001) {
-                p.fill("darkblue");
-                p.stroke("black");
-                p.strokeWeight(1);
-                p.ellipse(inicioX1Efectivo, 80, 6, 6);
-
-                p.fill("darkgreen");
-                p.stroke("black");
-                p.strokeWeight(1);
-                p.ellipse(inicioX2Efectivo, 120, 6, 6);
-            }
+            p.fill("orange");
+            p.ellipse(inicioX1Efectivo, 80, 8, 8);
+            p.ellipse(inicioX1Efectivo, 120, 8, 8);
+            p.fill("yellow");
+            p.ellipse(inicioX2Efectivo, 80, 8, 8);
+            p.ellipse(inicioX2Efectivo, 120, 8, 8);
 
             p.fill("red");
-            p.stroke("black");
-            p.strokeWeight(2);
             p.ellipse(encuentroX, 100, 12, 12);
 
-            p.noStroke();
             p.fill("black");
             p.textAlign(p.CENTER);
             p.text("Punto de encuentro", encuentroX, 160);
             p.text(`t = ${tiempoEncuentro.toFixed(2)} s`, encuentroX, 175);
-            p.text(
-                `x = ${puntoEncuentroDisplay.toFixed(2)} ${unidadSalida}`,
-                encuentroX,
-                190
-            );
+            p.text(`x = ${puntoEncuentroDisplay.toFixed(2)} ${unidadSalida}`, encuentroX, 190);
 
             p.stroke("red");
             p.strokeWeight(2);
@@ -239,10 +184,20 @@ document.addEventListener("DOMContentLoaded", function () {
             p.fill("black");
             p.text("Posición inicial Obj2", p.width - 125, 78);
 
-            p.fill("red");
+            p.fill("orange");
             p.ellipse(p.width - 140, 95, 8, 8);
             p.fill("black");
-            p.text("Punto de encuentro", p.width - 125, 98);
+            p.text("Inicio efectivo Obj1", p.width - 125, 98);
+
+            p.fill("yellow");
+            p.ellipse(p.width - 140, 115, 8, 8);
+            p.fill("black");
+            p.text("Inicio efectivo Obj2", p.width - 125, 118);
+
+            p.fill("red");
+            p.ellipse(p.width - 140, 135, 8, 8);
+            p.fill("black");
+            p.text("Punto de encuentro", p.width - 125, 138);
 
             drawArrow(inicioX1Efectivo + 20, 80, v1 > 0 ? 10 : -10, "blue");
             drawArrow(inicioX2Efectivo + 20, 120, v2 > 0 ? 10 : -10, "green");
@@ -252,9 +207,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const arrowSize = 5;
             p.stroke(color);
             p.strokeWeight(2);
-
             p.line(x, y, x + length, y);
-
             if (length > 0) {
                 p.line(x + length, y, x + length - arrowSize, y - arrowSize);
                 p.line(x + length, y, x + length - arrowSize, y + arrowSize);
@@ -266,6 +219,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     myp5 = new p5(sketch, "canvasContainer");
+
 
     // MEJORADO: Validación visual sin modificar contenido + prevenir recarga
     const camposNumericos = [
