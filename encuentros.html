@@ -792,49 +792,70 @@
   </div>
 
   <div id="legend" style="margin-top: 15px; font-family: Arial, sans-serif; font-size: 14px; line-height: 1.4;">
-    <h3>Leyenda</h3>
+  <h3>Leyenda</h3>
 
-    <div style="display: flex; align-items: center; margin-bottom: 8px;">
-      <div style="width: 16px; height: 16px; background-color: blue; border-radius: 50%; margin-right: 8px;"></div>
-      Posición inicial Obj1
-    </div>
-
-    <div style="display: flex; align-items: center; margin-bottom: 8px;">
-      <div style="width: 16px; height: 16px; background-color: green; border-radius: 50%; margin-right: 8px;"></div>
-      Posición inicial Obj2
-    </div>
-
-    <div style="display: flex; align-items: center; margin-bottom: 8px;">
-      <div style="width: 12px; height: 12px; background-color: orange; border-radius: 50%; margin-right: 8px;"></div>
-      Inicio efectivo Obj2
-    </div>
-
-    <div style="display: flex; align-items: center; margin-bottom: 8px;">
-      <div style="width: 12px; height: 12px; background-color: yellow; border-radius: 50%; margin-right: 8px; border: 1px solid #ccc;"></div>
-      Inicio efectivo Obj1
-    </div>
-
-    <div style="display: flex; align-items: center; margin-bottom: 8px;">
-      <div style="width: 20px; height: 12px; background-color: red; margin-right: 8px;"></div>
-      Punto de encuentro
-    </div>
-
-    <div style="display: flex; align-items: center;">
-      <svg width="20" height="10" style="margin-right: 8px;">
-        <line x1="0" y1="5" x2="20" y2="5" stroke="blue" stroke-width="4" />
-        <polygon points="18,0 20,5 18,10" fill="blue" />
-      </svg>
-      Dirección Obj1
-    </div>
-
-    <div style="display: flex; align-items: center;">
-      <svg width="20" height="10" style="margin-right: 8px;">
-        <line x1="0" y1="5" x2="20" y2="5" stroke="green" stroke-width="4" />
-        <polygon points="18,0 20,5 18,10" fill="green" />
-      </svg>
-      Dirección Obj2
-    </div>
+  <div style="display: flex; align-items: center; margin-bottom: 8px;">
+    <div style="width: 16px; height: 16px; background-color: blue; border-radius: 50%; margin-right: 8px;"></div>
+    Posición inicial Obj1
   </div>
+
+  <div style="display: flex; align-items: center; margin-bottom: 8px;">
+    <div style="width: 16px; height: 16px; background-color: green; border-radius: 50%; margin-right: 8px;"></div>
+    Posición inicial Obj2
+  </div>
+
+  <div style="display: flex; align-items: center; margin-bottom: 8px;">
+    <div style="width: 12px; height: 12px; background-color: orange; border-radius: 50%; margin-right: 8px;"></div>
+    Inicio efectivo Obj2
+  </div>
+
+  <div style="display: flex; align-items: center; margin-bottom: 8px;">
+    <div style="width: 12px; height: 12px; background-color: yellow; border-radius: 50%; margin-right: 8px; border: 1px solid #ccc;"></div>
+    Inicio efectivo Obj1
+  </div>
+
+  <div style="display: flex; align-items: center; margin-bottom: 8px;">
+    <div style="width: 20px; height: 12px; background-color: red; margin-right: 8px;"></div>
+    Punto de encuentro
+  </div>
+
+  <div style="display: flex; align-items: center; margin-bottom: 8px;">
+    <svg width="20" height="10" style="margin-right: 8px;">
+      <line x1="0" y1="5" x2="20" y2="5" stroke="blue" stroke-width="4" />
+      <polygon points="18,0 20,5 18,10" fill="blue" />
+    </svg>
+    Dirección Obj1
+  </div>
+
+  <div style="display: flex; align-items: center; margin-bottom: 8px;">
+    <svg width="20" height="10" style="margin-right: 8px;">
+      <line x1="0" y1="5" x2="20" y2="5" stroke="green" stroke-width="4" />
+      <polygon points="18,0 20,5 18,10" fill="green" />
+    </svg>
+    Dirección Obj2
+  </div>
+
+  <div style="display: flex; align-items: center; margin-bottom: 8px;">
+    <div style="width: 20px; height: 0; border-top: 2px dashed blue; margin-right: 8px;"></div>
+    Línea punteada horizontal (Obj1): recorrido previo al inicio del Obj2
+  </div>
+
+  <div style="display: flex; align-items: center; margin-bottom: 8px;">
+    <div style="width: 20px; height: 0; border-top: 2px dashed green; margin-right: 8px;"></div>
+    Línea punteada horizontal (Obj2): recorrido previo al inicio del Obj1
+  </div>
+
+  <div style="display: flex; align-items: center; margin-bottom: 8px;">
+    <div style="width: 0; height: 20px; border-left: 2px dashed orange; margin-right: 8px;"></div>
+    Línea vertical punteada: inicio efectivo del Obj2
+  </div>
+
+  <div style="display: flex; align-items: center;">
+    <div style="width: 0; height: 20px; border-left: 2px dashed yellow; margin-right: 8px;"></div>
+    Línea vertical punteada: inicio efectivo del Obj1
+  </div>
+</div>
+
 </section>
 
         </div>

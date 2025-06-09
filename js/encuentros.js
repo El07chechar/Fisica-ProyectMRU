@@ -122,19 +122,17 @@ document.addEventListener("DOMContentLoaded", function () {
             });
 
             if (Math.abs(t1Base - t2Base) > 0.0001) {
-                p.stroke("rgba(0,0,200,0.6)"); // Más oscura
+                p.stroke("rgba(0,0,200,0.6)");
                 p.strokeWeight(2);
                 p.drawingContext.setLineDash([5, 5]);
                 p.line(inicioX1, 80, inicioX1Efectivo, 80);
                 p.drawingContext.setLineDash([]);
 
-                // Línea punteada Obj2
-                p.stroke("rgba(0,150,0,0.6)"); // Más oscura
+                p.stroke("rgba(0,150,0,0.6)");
                 p.strokeWeight(2);
                 p.drawingContext.setLineDash([5, 5]);
                 p.line(inicioX2, 120, inicioX2Efectivo, 120);
                 p.drawingContext.setLineDash([]);
-
             }
 
             p.stroke("blue");
@@ -150,7 +148,6 @@ document.addEventListener("DOMContentLoaded", function () {
             p.fill("black");
             p.text(`Parte en t = ${t1Base.toFixed(2)} s`, inicioX1, 75);
 
-            // Texto y tiempo debajo de Obj2
             p.fill("green");
             p.text("🚙 Posición inicial Obj2", inicioX2, 140);
             p.fill("black");
@@ -159,19 +156,28 @@ document.addEventListener("DOMContentLoaded", function () {
             p.fill("blue");
             p.stroke("black");
             p.strokeWeight(1);
-            p.ellipse(inicioX1, 80, 10, 10); // Aumentado de 8 a 10
+            p.ellipse(inicioX1, 80, 10, 10);
 
             p.fill("green");
             p.stroke("black");
             p.strokeWeight(1);
-            p.ellipse(inicioX2, 120, 10, 10); // Aumentado de 8 a 10
+            p.ellipse(inicioX2, 120, 10, 10);
 
+            // ✅ Punto único de inicio efectivo Obj1
             p.fill("orange");
             p.ellipse(inicioX1Efectivo, 80, 8, 8);
-            p.ellipse(inicioX1Efectivo, 120, 8, 8);
+
+            // ✅ Punto único de inicio efectivo Obj2
             p.fill("yellow");
-            p.ellipse(inicioX2Efectivo, 80, 8, 8);
             p.ellipse(inicioX2Efectivo, 120, 8, 8);
+
+            // ✅ Líneas verticales para comparar
+            p.stroke("orange");
+            p.drawingContext.setLineDash([4, 4]);
+            p.line(inicioX1Efectivo, 60, inicioX1Efectivo, 140);
+            p.stroke("yellow");
+            p.line(inicioX2Efectivo, 60, inicioX2Efectivo, 140);
+            p.drawingContext.setLineDash([]);
 
             p.fill("red");
             p.ellipse(encuentroX, 100, 12, 12);
