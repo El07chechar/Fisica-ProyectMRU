@@ -509,6 +509,7 @@ function realizarCalculoEncuentro() {
 
         const direccion = direccionElement.value;
         const unidadSalida = document.getElementById("unidadSalida")?.value || "m";
+        const unidadSalidaTiempo = document.getElementById("unidadSalidaTiempo")?.value || "s";
 
         // 4. CONVERTIR A UNIDADES BASE
         const x1Base = convertirAUnidadBase(x1, document.getElementById("unidad_posicion_x1")?.value || "m");
@@ -606,8 +607,15 @@ function realizarCalculoEncuentro() {
 
         // 9. ✅ ÉXITO: Actualizar SOLO resultados (nunca campos de entrada)
         actualizarResultados(tiempoEncuentro, puntoEncuentro, unidadSalida, {
-            x1: x1Base, x2: x2Base, v1: v1Adjusted, v2: v2Adjusted,
-            t1Base, t2Base, direccion, encuentroEnTiempoCero // NUEVO: Pasar el flag
+            x1: x1Base,
+            x2: x2Base,
+            v1: v1Adjusted,
+            v2: v2Adjusted,
+            t1Base,
+            t2Base,
+            direccion,
+            encuentroEnTiempoCero, // NUEVO: Flag
+            unidadSalidaTiempo     // ✅ PASO 3: Nueva propiedad agregada
         });
 
     } catch (error) {
@@ -627,8 +635,19 @@ function realizarCalculoEncuentro() {
 // FUNCIÓN 100% SEGURA: Solo actualiza resultados, nunca campos de entrada
 function actualizarResultados(tiempoEncuentro, puntoEncuentro, unidadSalida, datosCalculo) {
     try {
-        // Formatear resultados
-        const tiempoFormateado = formatearNumero(tiempoEncuentro);
+        let tiempoConvertido = tiempoEncuentro;
+        switch (datosCalculo.unidadSalidaTiempo) {
+            case "min":
+                tiempoConvertido = tiempoEncuentro / 60;
+                break;
+            case "h":
+                tiempoConvertido = tiempoEncuentro / 3600;
+                break;
+            case "s":
+            default:
+                tiempoConvertido = tiempoEncuentro;
+        }
+        const tiempoFormateado = formatearNumero(tiempoConvertido);
         const factorConversion = unidadSalida === "km" ? 0.001 : 1;
         const puntoEncuentroFormateado = formatearNumero(puntoEncuentro * factorConversion);
 
@@ -641,7 +660,9 @@ function actualizarResultados(tiempoEncuentro, puntoEncuentro, unidadSalida, dat
             if (datosCalculo.encuentroEnTiempoCero) {
                 campoTiempo.value = `${tiempoFormateado} s (Encuentro inmediato)`;
             } else {
-                campoTiempo.value = `${tiempoFormateado} s`;
+                campoTiempo.value = `${tiempoFormateado} ${datosCalculo.unidadSalidaTiempo}` +
+                    (datosCalculo.encuentroEnTiempoCero ? " (Encuentro inmediato)" : "");
+
             }
         }
 
