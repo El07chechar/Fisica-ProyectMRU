@@ -2,7 +2,7 @@
 
 **Nombre del Proyecto:** Súper Calculadora de Movimiento Rectilíneo Uniforme (MRU)  
 **Equipo:** César Pérez, Agustin Fleitas, Matias Bignone, Facundo Ferreira
-**Versión:** 4.2.3  
+**Versión:** 1.1
 **Fecha de inicio:** Lunes 7 de abril de 2025 
 
 ---
