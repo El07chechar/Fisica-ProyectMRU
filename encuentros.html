@@ -439,6 +439,10 @@
         .visualizacion__container {
           min-height: 250px;
         }
+        .direccion-bloque__opciones {
+          flex-direction: column;
+          align-items: center;
+        }
       }
 
       @media (max-width: 480px) {
@@ -485,6 +489,10 @@
         .visualizacion__container {
           min-height: 200px;
         }
+        .direccion-bloque__opciones {
+          flex-direction: column;
+          align-items: center;
+        }
       }
 
       @media (max-width: 360px) {
@@ -498,6 +506,11 @@
 
         .visualizacion__container {
           min-height: 180px;
+        }
+
+        .direccion-bloque__opciones {
+          flex-direction: column;
+          align-items: center;
         }
       }
     </style>
@@ -784,85 +797,202 @@
             </div>
           </section>
 
-<section class="encuentros__visualizacion">
-  <h3 class="visualizacion__titulo">🎯 Visualización</h3>
+          <section class="encuentros__visualizacion">
+            <h3 class="visualizacion__titulo">🎯 Visualización</h3>
 
-  <div id="canvasContainer" class="visualizacion__container" style="width: 100%;">
-    <!-- Aquí se inserta el canvas -->
-  </div>
+            <div
+              id="canvasContainer"
+              class="visualizacion__container"
+              style="width: 100%"
+            >
+              <!-- Aquí se inserta el canvas -->
+            </div>
 
-  <button onclick="toggleFullScreen()" style="margin: 10px;" class="boton-calcular">
-  🖥️ Pantalla completa
-</button>
+            <button
+              onclick="toggleFullScreen()"
+              style="margin: 10px"
+              class="boton-calcular"
+            >
+              🖥️ Pantalla completa
+            </button>
 
+            <div
+              id="legend"
+              style="
+                margin-top: 15px;
+                font-family: Arial, sans-serif;
+                font-size: 14px;
+                line-height: 1.4;
+              "
+            >
+              <h3>Leyenda</h3>
 
-  <div id="legend" style="margin-top: 15px; font-family: Arial, sans-serif; font-size: 14px; line-height: 1.4;">
-  <h3>Leyenda</h3>
+              <div
+                style="display: flex; align-items: center; margin-bottom: 8px"
+              >
+                <div
+                  style="
+                    width: 16px;
+                    height: 16px;
+                    background-color: blue;
+                    border-radius: 50%;
+                    margin-right: 8px;
+                  "
+                ></div>
+                Posición inicial Obj1
+              </div>
 
-  <div style="display: flex; align-items: center; margin-bottom: 8px;">
-    <div style="width: 16px; height: 16px; background-color: blue; border-radius: 50%; margin-right: 8px;"></div>
-    Posición inicial Obj1
-  </div>
+              <div
+                style="display: flex; align-items: center; margin-bottom: 8px"
+              >
+                <div
+                  style="
+                    width: 16px;
+                    height: 16px;
+                    background-color: green;
+                    border-radius: 50%;
+                    margin-right: 8px;
+                  "
+                ></div>
+                Posición inicial Obj2
+              </div>
 
-  <div style="display: flex; align-items: center; margin-bottom: 8px;">
-    <div style="width: 16px; height: 16px; background-color: green; border-radius: 50%; margin-right: 8px;"></div>
-    Posición inicial Obj2
-  </div>
+              <div
+                style="display: flex; align-items: center; margin-bottom: 8px"
+              >
+                <div
+                  style="
+                    width: 12px;
+                    height: 12px;
+                    background-color: orange;
+                    border-radius: 50%;
+                    margin-right: 8px;
+                  "
+                ></div>
+                Inicio efectivo Obj2
+              </div>
 
-  <div style="display: flex; align-items: center; margin-bottom: 8px;">
-    <div style="width: 12px; height: 12px; background-color: orange; border-radius: 50%; margin-right: 8px;"></div>
-    Inicio efectivo Obj2
-  </div>
+              <div
+                style="display: flex; align-items: center; margin-bottom: 8px"
+              >
+                <div
+                  style="
+                    width: 12px;
+                    height: 12px;
+                    background-color: yellow;
+                    border-radius: 50%;
+                    margin-right: 8px;
+                    border: 1px solid #ccc;
+                  "
+                ></div>
+                Inicio efectivo Obj1
+              </div>
 
-  <div style="display: flex; align-items: center; margin-bottom: 8px;">
-    <div style="width: 12px; height: 12px; background-color: yellow; border-radius: 50%; margin-right: 8px; border: 1px solid #ccc;"></div>
-    Inicio efectivo Obj1
-  </div>
+              <div
+                style="display: flex; align-items: center; margin-bottom: 8px"
+              >
+                <div
+                  style="
+                    width: 20px;
+                    height: 12px;
+                    background-color: red;
+                    margin-right: 8px;
+                  "
+                ></div>
+                Punto de encuentro
+              </div>
 
-  <div style="display: flex; align-items: center; margin-bottom: 8px;">
-    <div style="width: 20px; height: 12px; background-color: red; margin-right: 8px;"></div>
-    Punto de encuentro
-  </div>
+              <div
+                style="display: flex; align-items: center; margin-bottom: 8px"
+              >
+                <svg width="20" height="10" style="margin-right: 8px">
+                  <line
+                    x1="0"
+                    y1="5"
+                    x2="20"
+                    y2="5"
+                    stroke="blue"
+                    stroke-width="4"
+                  />
+                  <polygon points="18,0 20,5 18,10" fill="blue" />
+                </svg>
+                Dirección Obj1
+              </div>
 
-  <div style="display: flex; align-items: center; margin-bottom: 8px;">
-    <svg width="20" height="10" style="margin-right: 8px;">
-      <line x1="0" y1="5" x2="20" y2="5" stroke="blue" stroke-width="4" />
-      <polygon points="18,0 20,5 18,10" fill="blue" />
-    </svg>
-    Dirección Obj1
-  </div>
+              <div
+                style="display: flex; align-items: center; margin-bottom: 8px"
+              >
+                <svg width="20" height="10" style="margin-right: 8px">
+                  <line
+                    x1="0"
+                    y1="5"
+                    x2="20"
+                    y2="5"
+                    stroke="green"
+                    stroke-width="4"
+                  />
+                  <polygon points="18,0 20,5 18,10" fill="green" />
+                </svg>
+                Dirección Obj2
+              </div>
 
-  <div style="display: flex; align-items: center; margin-bottom: 8px;">
-    <svg width="20" height="10" style="margin-right: 8px;">
-      <line x1="0" y1="5" x2="20" y2="5" stroke="green" stroke-width="4" />
-      <polygon points="18,0 20,5 18,10" fill="green" />
-    </svg>
-    Dirección Obj2
-  </div>
+              <div
+                style="display: flex; align-items: center; margin-bottom: 8px"
+              >
+                <div
+                  style="
+                    width: 20px;
+                    height: 0;
+                    border-top: 2px dashed blue;
+                    margin-right: 8px;
+                  "
+                ></div>
+                Línea punteada horizontal (Obj1): recorrido previo al inicio del
+                Obj2
+              </div>
 
-  <div style="display: flex; align-items: center; margin-bottom: 8px;">
-    <div style="width: 20px; height: 0; border-top: 2px dashed blue; margin-right: 8px;"></div>
-    Línea punteada horizontal (Obj1): recorrido previo al inicio del Obj2
-  </div>
+              <div
+                style="display: flex; align-items: center; margin-bottom: 8px"
+              >
+                <div
+                  style="
+                    width: 20px;
+                    height: 0;
+                    border-top: 2px dashed green;
+                    margin-right: 8px;
+                  "
+                ></div>
+                Línea punteada horizontal (Obj2): recorrido previo al inicio del
+                Obj1
+              </div>
 
-  <div style="display: flex; align-items: center; margin-bottom: 8px;">
-    <div style="width: 20px; height: 0; border-top: 2px dashed green; margin-right: 8px;"></div>
-    Línea punteada horizontal (Obj2): recorrido previo al inicio del Obj1
-  </div>
+              <div
+                style="display: flex; align-items: center; margin-bottom: 8px"
+              >
+                <div
+                  style="
+                    width: 0;
+                    height: 20px;
+                    border-left: 2px dashed orange;
+                    margin-right: 8px;
+                  "
+                ></div>
+                Línea vertical punteada: inicio efectivo del Obj2
+              </div>
 
-  <div style="display: flex; align-items: center; margin-bottom: 8px;">
-    <div style="width: 0; height: 20px; border-left: 2px dashed orange; margin-right: 8px;"></div>
-    Línea vertical punteada: inicio efectivo del Obj2
-  </div>
-
-  <div style="display: flex; align-items: center;">
-    <div style="width: 0; height: 20px; border-left: 2px dashed yellow; margin-right: 8px;"></div>
-    Línea vertical punteada: inicio efectivo del Obj1
-  </div>
-</div>
-
-</section>
-
+              <div style="display: flex; align-items: center">
+                <div
+                  style="
+                    width: 0;
+                    height: 20px;
+                    border-left: 2px dashed yellow;
+                    margin-right: 8px;
+                  "
+                ></div>
+                Línea vertical punteada: inicio efectivo del Obj1
+              </div>
+            </div>
+          </section>
         </div>
       </div>
     </main>
@@ -877,11 +1007,10 @@
         if (canvasInstance && canvasContainer) {
           const container = document.getElementById("canvasContainer");
           if (container) {
-            const containerRect = container.getBoundingClientRect();
-            const maxWidth = Math.min(containerRect.width - 20, 400); // 20px de padding
-            const maxHeight = Math.min(containerRect.height - 20, 300);
+            const width = container.offsetWidth;
+            const height = container.offsetHeight;
             if (typeof canvasInstance.resizeCanvas === "function") {
-              canvasInstance.resizeCanvas(maxWidth, maxHeight);
+              canvasInstance.resizeCanvas(width, height);
             }
           }
         }
@@ -967,16 +1096,23 @@
     </script>
     <script>
       function toggleFullScreen() {
-  const canvasElement = document.getElementById("canvasContainer");
+        const canvasElement = document.getElementById("canvasContainer");
 
-  if (!document.fullscreenElement) {
-    canvasElement.requestFullscreen().catch(err => {
-      alert(`Error al intentar activar pantalla completa: ${err.message}`);
-    });
-  } else {
-    document.exitFullscreen();
-  }
-}
+        if (!document.fullscreenElement) {
+          canvasElement
+            .requestFullscreen()
+            .then(() => {
+              setTimeout(resizeCanvas, 300); // Esperar un poco y redimensionar después
+            })
+            .catch((err) => {
+              alert(
+                `Error al intentar activar pantalla completa: ${err.message}`
+              );
+            });
+        } else {
+          document.exitFullscreen();
+        }
+      }
     </script>
   </body>
 </html>

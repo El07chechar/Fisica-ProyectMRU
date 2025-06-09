@@ -4,26 +4,39 @@ let datos;
 document.addEventListener("DOMContentLoaded", function () {
     const sketch = function (p) {
         p.setup = function () {
-            const container = document.getElementById("canvasContainer");
-            const canvasWidth = container.offsetWidth;
-            const canvasHeight = container.offsetHeight || 250;
-            p.createCanvas(canvasWidth, canvasHeight);
+            const container = document.querySelector(".visualizacion__container"); // si es tu contenedor
+            let w = container.clientWidth;
+            let h = container.clientHeight;
+
+            // Opcional: tamaño mínimo para que no quede muy chico
+            if (w < 400) w = 400;
+            if (h < 300) h = 300;
+
+            p.createCanvas(w, h);
             p.textFont("Helvetica");
             p.textSize(15);
             p.noLoop();
         };
 
         p.windowResized = function () {
-            const container = document.getElementById("canvasContainer");
-            const newWidth = container.offsetWidth;
-            const newHeight = container.offsetHeight || 250;
-            p.resizeCanvas(newWidth, newHeight);
+            const container = document.querySelector(".visualizacion__container");
+            let w = container.clientWidth;
+            let h = container.clientHeight;
+
+            if (w < 400) w = 400;
+            if (h < 300) h = 300;
+
+            p.resizeCanvas(w, h);
             if (datos) p.draw();
         };
 
         p.draw = function () {
             p.background(255);
             if (!datos) return;
+
+            // Calculamos el factor de escala respecto a un ancho base (800)
+            const baseWidth = 800;
+            const scaleFactor = p.width / baseWidth;
 
             let {
                 x1,
@@ -35,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 unidadSalida,
                 t1Base,
                 t2Base,
-                encuentroEnTiempoCero
+                encuentroEnTiempoCero,
             } = datos;
 
             if (encuentroEnTiempoCero) {
@@ -44,7 +57,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 let mensaje = `🔴 ENCUENTRO INMEDIATO DETECTADO\n\n`;
                 mensaje += `Los objetos ya se encuentran en la misma posición al inicio del movimiento.\n\n`;
-                mensaje += `📍 Posición del encuentro: ${posicionDisplay.toFixed(2)} ${unidadSalida}\n`;
+                mensaje += `📍 Posición del encuentro: ${posicionDisplay.toFixed(
+                    2
+                )} ${unidadSalida}\n`;
                 mensaje += `⏰ Tiempo: ${tiempoEncuentro.toFixed(2)} s\n\n`;
                 mensaje += `✅ Para evitar esto, puedes:\n`;
                 mensaje += `• Cambiar las posiciones iniciales de los objetos\n`;
@@ -52,12 +67,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 mensaje += `• Ajustar las velocidades`;
 
                 Swal.fire({
-                    icon: 'warning',
-                    title: 'Dato inválido',
+                    icon: "warning",
+                    title: "Dato inválido",
                     text: mensaje,
-                    confirmButtonText: 'Entendido',
+                    confirmButtonText: "Entendido",
                     timer: 5000,
-                    timerProgressBar: true
+                    timerProgressBar: true,
                 });
 
                 datos = null;
@@ -69,15 +84,29 @@ document.addEventListener("DOMContentLoaded", function () {
             let x2Display = x2 * factor;
             let puntoEncuentroDisplay = puntoEncuentro * factor;
 
-            let x1EnTiempoMaxPartida = x1 + v1 * (Math.max(t1Base, t2Base) - t1Base);
-            let x2EnTiempoMaxPartida = x2 + v2 * (Math.max(t1Base, t2Base) - t2Base);
+            let x1EnTiempoMaxPartida =
+                x1 + v1 * (Math.max(t1Base, t2Base) - t1Base);
+            let x2EnTiempoMaxPartida =
+                x2 + v2 * (Math.max(t1Base, t2Base) - t2Base);
 
             let x1TiempoMaxDisplay = x1EnTiempoMaxPartida * factor;
             let x2TiempoMaxDisplay = x2EnTiempoMaxPartida * factor;
 
-            const margen = 50;
-            const minPos = Math.min(x1Display, x2Display, x1TiempoMaxDisplay, x2TiempoMaxDisplay, puntoEncuentroDisplay);
-            const maxPos = Math.max(x1Display, x2Display, x1TiempoMaxDisplay, x2TiempoMaxDisplay, puntoEncuentroDisplay);
+            const margen = 50 * scaleFactor;
+            const minPos = Math.min(
+                x1Display,
+                x2Display,
+                x1TiempoMaxDisplay,
+                x2TiempoMaxDisplay,
+                puntoEncuentroDisplay
+            );
+            const maxPos = Math.max(
+                x1Display,
+                x2Display,
+                x1TiempoMaxDisplay,
+                x2TiempoMaxDisplay,
+                puntoEncuentroDisplay
+            );
             const distanciaTotal = maxPos - minPos;
             const distanciaConMargen = distanciaTotal * 1.3;
             const escala = (p.width - 2 * margen) / distanciaConMargen;
@@ -93,125 +122,130 @@ document.addEventListener("DOMContentLoaded", function () {
             const inicioX2Efectivo = posicionEnCanvas(x2EnTiempoMaxPartida);
             const encuentroX = posicionEnCanvas(puntoEncuentro);
 
+            // Línea base (horizontal)
             p.stroke(200);
-            p.strokeWeight(1);
-            p.line(margen, p.height - 30, p.width - margen, p.height - 30);
+            p.strokeWeight(1 * scaleFactor);
+            p.line(margen, p.height - 30 * scaleFactor, p.width - margen, p.height - 30 * scaleFactor);
 
             let valoresClave = [
                 { valor: x1, color: "blue" },
                 { valor: x2, color: "green" },
                 { valor: puntoEncuentro, color: "red" },
                 { valor: x1EnTiempoMaxPartida, color: "violet" },
-                { valor: x2EnTiempoMaxPartida, color: "violet" }
+                { valor: x2EnTiempoMaxPartida, color: "violet" },
             ];
 
-            valoresClave = valoresClave.filter((v, i, self) => self.findIndex(o => o.valor === v.valor) === i)
+            valoresClave = valoresClave
+                .filter((v, i, self) => self.findIndex((o) => o.valor === v.valor) === i)
                 .sort((a, b) => a.valor - b.valor);
 
             valoresClave.forEach(({ valor, color }) => {
                 const x = posicionEnCanvas(valor);
                 if (x >= margen && x <= p.width - margen) {
                     p.stroke(150);
-                    p.line(x, p.height - 35, x, p.height - 25);
+                    p.line(x, p.height - 35 * scaleFactor, x, p.height - 25 * scaleFactor);
                     p.noStroke();
                     p.fill(color);
                     p.textAlign(p.CENTER);
-                    p.textSize(10);
-                    p.text((valor * factor).toFixed(2) + " " + unidadSalida, x, p.height - 15);
+                    p.textSize(10 * scaleFactor);
+                    p.text((valor * factor).toFixed(2) + " " + unidadSalida, x, p.height - 15 * scaleFactor);
                 }
             });
 
             if (Math.abs(t1Base - t2Base) > 0.0001) {
                 p.stroke("rgba(0,0,200,0.6)");
-                p.strokeWeight(2);
-                p.drawingContext.setLineDash([5, 5]);
-                p.line(inicioX1, 80, inicioX1Efectivo, 80);
+                p.strokeWeight(2 * scaleFactor);
+                p.drawingContext.setLineDash([5 * scaleFactor, 5 * scaleFactor]);
+                p.line(inicioX1, 80 * scaleFactor, inicioX1Efectivo, 80 * scaleFactor);
                 p.drawingContext.setLineDash([]);
 
                 p.stroke("rgba(0,150,0,0.6)");
-                p.strokeWeight(2);
-                p.drawingContext.setLineDash([5, 5]);
-                p.line(inicioX2, 120, inicioX2Efectivo, 120);
+                p.strokeWeight(2 * scaleFactor);
+                p.drawingContext.setLineDash([5 * scaleFactor, 5 * scaleFactor]);
+                p.line(inicioX2, 120 * scaleFactor, inicioX2Efectivo, 120 * scaleFactor);
                 p.drawingContext.setLineDash([]);
             }
 
             p.stroke("blue");
-            p.strokeWeight(4);
-            p.line(inicioX1Efectivo, 80, encuentroX, 80);
+            p.strokeWeight(4 * scaleFactor);
+            p.line(inicioX1Efectivo, 80 * scaleFactor, encuentroX, 80 * scaleFactor);
             p.stroke("green");
-            p.line(inicioX2Efectivo, 120, encuentroX, 120);
+            p.line(inicioX2Efectivo, 120 * scaleFactor, encuentroX, 120 * scaleFactor);
 
             p.textAlign(p.CENTER);
             p.noStroke();
             p.fill("blue");
-            p.text("🚗 Posición inicial Obj1", inicioX1, 60);
+            p.text("🚗 Posición inicial Obj1", inicioX1, 60 * scaleFactor);
             p.fill("black");
-            p.text(`Parte en t = ${t1Base.toFixed(2)} s`, inicioX1, 75);
+            p.text(`Parte en t = ${t1Base.toFixed(2)} s`, inicioX1, 75 * scaleFactor);
 
             p.fill("green");
-            p.text("🚙 Posición inicial Obj2", inicioX2, 140);
+            p.text("🚙 Posición inicial Obj2", inicioX2, 140 * scaleFactor);
             p.fill("black");
-            p.text(`Parte en t = ${t2Base.toFixed(2)} s`, inicioX2, 155);
+            p.text(`Parte en t = ${t2Base.toFixed(2)} s`, inicioX2, 155 * scaleFactor);
 
             p.fill("blue");
             p.stroke("black");
-            p.strokeWeight(1);
-            p.ellipse(inicioX1, 80, 10, 10);
+            p.strokeWeight(1 * scaleFactor);
+            p.ellipse(inicioX1, 80 * scaleFactor, 10 * scaleFactor, 10 * scaleFactor);
 
             p.fill("green");
             p.stroke("black");
-            p.strokeWeight(1);
-            p.ellipse(inicioX2, 120, 10, 10);
+            p.strokeWeight(1 * scaleFactor);
+            p.ellipse(inicioX2, 120 * scaleFactor, 10 * scaleFactor, 10 * scaleFactor);
 
-            // ✅ Punto único de inicio efectivo Obj1
+            // Punto único de inicio efectivo Obj1
             p.fill("orange");
-            p.ellipse(inicioX1Efectivo, 80, 8, 8);
+            p.ellipse(inicioX1Efectivo, 80 * scaleFactor, 8 * scaleFactor, 8 * scaleFactor);
 
-            // ✅ Punto único de inicio efectivo Obj2
+            // Punto único de inicio efectivo Obj2
             p.fill("yellow");
-            p.ellipse(inicioX2Efectivo, 120, 8, 8);
+            p.ellipse(inicioX2Efectivo, 120 * scaleFactor, 8 * scaleFactor, 8 * scaleFactor);
 
-            // ✅ Líneas verticales para comparar
+            // Líneas verticales para comparar
             p.stroke("orange");
-            p.drawingContext.setLineDash([4, 4]);
-            p.line(inicioX1Efectivo, 60, inicioX1Efectivo, 140);
+            p.drawingContext.setLineDash([4 * scaleFactor, 4 * scaleFactor]);
+            p.line(inicioX1Efectivo, 60 * scaleFactor, inicioX1Efectivo, 140 * scaleFactor);
             p.stroke("yellow");
-            p.line(inicioX2Efectivo, 60, inicioX2Efectivo, 140);
+            p.line(inicioX2Efectivo, 60 * scaleFactor, inicioX2Efectivo, 140 * scaleFactor);
             p.drawingContext.setLineDash([]);
 
             p.fill("red");
-            p.ellipse(encuentroX, 100, 12, 12);
+            p.ellipse(encuentroX, 100 * scaleFactor, 12 * scaleFactor, 12 * scaleFactor);
 
             p.fill("black");
             p.textAlign(p.CENTER);
-            p.text("Punto de encuentro", encuentroX, 160);
-            p.text(`t = ${tiempoEncuentro.toFixed(2)} s`, encuentroX, 175);
-            p.text(`x = ${puntoEncuentroDisplay.toFixed(2)} ${unidadSalida}`, encuentroX, 190);
+            p.text("Punto de encuentro", encuentroX, 160 * scaleFactor);
+            p.text(`t = ${tiempoEncuentro.toFixed(2)} s`, encuentroX, 175 * scaleFactor);
+            p.text(`x = ${puntoEncuentroDisplay.toFixed(2)} ${unidadSalida}`, encuentroX, 190 * scaleFactor);
 
             p.stroke("red");
-            p.strokeWeight(2);
-            p.line(encuentroX, 70, encuentroX, 130);
+            p.strokeWeight(2 * scaleFactor);
+            p.line(encuentroX, 70 * scaleFactor, encuentroX, 130 * scaleFactor);
 
-            drawArrow(inicioX1Efectivo + 20, 80, v1 > 0 ? 10 : -10, "blue");
-            drawArrow(inicioX2Efectivo + 20, 120, v2 > 0 ? 10 : -10, "green");
-        };
+            drawArrow(inicioX1Efectivo + 20 * scaleFactor, 80 * scaleFactor, v1 > 0 ? 10 * scaleFactor : -10 * scaleFactor, "blue");
+            drawArrow(inicioX2Efectivo + 20 * scaleFactor, 120 * scaleFactor, v2 > 0 ? 10 * scaleFactor : -10 * scaleFactor, "green");
 
-        function drawArrow(x, y, length, color) {
-            const arrowSize = 5;
-            p.stroke(color);
-            p.strokeWeight(2);
-            p.line(x, y, x + length, y);
-            if (length > 0) {
-                p.line(x + length, y, x + length - arrowSize, y - arrowSize);
-                p.line(x + length, y, x + length - arrowSize, y + arrowSize);
-            } else {
-                p.line(x + length, y, x + length + arrowSize, y - arrowSize);
-                p.line(x + length, y, x + length + arrowSize, y + arrowSize);
+            function drawArrow(x, y, len, col) {
+                p.stroke(col);
+                p.fill(col);
+                p.strokeWeight(2 * scaleFactor);
+                p.line(x, y, x + len, y);
+                if (len > 0) {
+                    p.line(x + len, y, x + len - 4 * scaleFactor, y - 4 * scaleFactor);
+                    p.line(x + len, y, x + len - 4 * scaleFactor, y + 4 * scaleFactor);
+                } else {
+                    p.line(x + len, y, x + len + 4 * scaleFactor, y - 4 * scaleFactor);
+                    p.line(x + len, y, x + len + 4 * scaleFactor, y + 4 * scaleFactor);
+                }
             }
-        }
+        };
     };
 
     myp5 = new p5(sketch, "canvasContainer");
+
+
+
 
 
     // MEJORADO: Validación visual sin modificar contenido + prevenir recarga
@@ -677,5 +711,12 @@ function formatearNumero(numero) {
         return numero.toExponential(3);
     } else {
         return numero.toFixed(3);
+    }
+}
+
+function dibujarMovimiento(datosEntrada) {
+    datos = datosEntrada;
+    if (myp5) {
+        myp5.redraw();
     }
 }
