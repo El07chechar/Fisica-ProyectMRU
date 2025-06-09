@@ -4,9 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MRU VENEZUELA</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Fredoka:wght@300..700&family=Manrope:wght@200..800&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Fredoka:wght@300..700&family=Manrope:wght@200..800&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+      rel="stylesheet"
+    />
     <style>
       * {
         margin: 0;
@@ -15,7 +18,7 @@
       }
 
       body {
-        font-family: 'Open Sans', sans-serif;
+        font-family: "Open Sans", sans-serif;
         background: linear-gradient(135deg, #f7fafc 0%, #e2e8f0 100%);
         min-height: 100vh;
         color: #4a5568;
@@ -26,7 +29,7 @@
       header {
         background: white;
         padding: 1rem 0;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
         position: sticky;
         top: 0;
         z-index: 100;
@@ -42,7 +45,7 @@
       }
 
       nav button {
-        background: #8B9DC3;
+        background: #8b9dc3;
         color: white;
         border: none;
         padding: 0.75rem 2rem;
@@ -175,7 +178,7 @@
 
       .campo__valor:focus {
         outline: none;
-        border-color: #8B9DC3;
+        border-color: #8b9dc3;
         box-shadow: 0 0 0 3px rgba(139, 157, 195, 0.15);
       }
 
@@ -191,7 +194,7 @@
 
       .campo__select-options:focus {
         outline: none;
-        border-color: #8B9DC3;
+        border-color: #8b9dc3;
       }
 
       .tooltip {
@@ -221,17 +224,20 @@
         justify-content: center;
       }
 
-      .opciones__direccion, .opciones-direccion {
+      .opciones__direccion,
+      .opciones-direccion {
         text-align: center;
         flex: 1;
         max-width: 200px;
       }
 
-      .opciones__direccion input, .opciones-direccion input {
+      .opciones__direccion input,
+      .opciones-direccion input {
         display: none;
       }
 
-      .opciones__direccion label, .opciones-direccion label {
+      .opciones__direccion label,
+      .opciones-direccion label {
         display: block;
         padding: 1rem;
         border: 2px solid #e2e8f0;
@@ -244,7 +250,7 @@
 
       .opciones__direccion input:checked + label,
       .opciones-direccion input:checked + label {
-        border-color: #8B9DC3;
+        border-color: #8b9dc3;
         background: rgba(139, 157, 195, 0.1);
       }
 
@@ -257,7 +263,7 @@
       }
 
       .movil {
-        color: #8B9DC3;
+        color: #8b9dc3;
       }
 
       .formulario__campo.unidad-salida {
@@ -281,8 +287,9 @@
         margin-top: 1rem;
       }
 
-      .boton-calcular, .boton-limpiar {
-        background: linear-gradient(135deg, #8B9DC3 0%, #718096 100%);
+      .boton-calcular,
+      .boton-limpiar {
+        background: linear-gradient(135deg, #8b9dc3 0%, #718096 100%);
         color: white;
         border: none;
         padding: 1rem 2rem;
@@ -297,7 +304,8 @@
         background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
       }
 
-      .boton-calcular:hover, .boton-limpiar:hover {
+      .boton-calcular:hover,
+      .boton-limpiar:hover {
         transform: translateY(-2px);
         box-shadow: 0 8px 25px rgba(139, 157, 195, 0.3);
       }
@@ -306,7 +314,8 @@
         box-shadow: 0 8px 25px rgba(229, 62, 62, 0.3);
       }
 
-      .resultados__titulo, .visualizacion__titulo {
+      .resultados__titulo,
+      .visualizacion__titulo {
         color: #2d3748;
         font-size: 1.4rem;
         margin-bottom: 1.5rem;
@@ -378,7 +387,7 @@
         .container-principal {
           grid-template-columns: 1fr;
         }
-        
+
         .resultados-seccion {
           position: static;
         }
@@ -388,12 +397,12 @@
         .autos-container {
           grid-template-columns: 1fr;
         }
-        
+
         .direccion-bloque__opciones {
           flex-direction: column;
           gap: 1rem;
         }
-        
+
         .encuentros {
           padding: 1rem;
         }
@@ -453,7 +462,7 @@
           gap: 1rem;
         }
 
-        .opciones__direccion label, 
+        .opciones__direccion label,
         .opciones-direccion label {
           padding: 0.75rem;
         }
@@ -462,12 +471,12 @@
           font-size: 1.1rem;
         }
 
-        .resultados__titulo, 
+        .resultados__titulo,
         .visualizacion__titulo {
           font-size: 1.2rem;
         }
 
-        .boton-calcular, 
+        .boton-calcular,
         .boton-limpiar {
           font-size: 16px;
           padding: 0.875rem 1.5rem;
@@ -497,32 +506,47 @@
     <header>
       <nav>
         <ul>
-          <li><a href="index.html"><button type="button">Calcular</button></a></li>
-          <li><a href="encuentros.html"><button type="button">Encuentros</button></a></li>
-          <li><a href="graficas.html"><button type="button">Gráficas</button></a></li>
+          <li>
+            <a href="index.html"><button type="button">Calcular</button></a>
+          </li>
+          <li>
+            <a href="encuentros.html"
+              ><button type="button">Encuentros</button></a
+            >
+          </li>
+          <li>
+            <a href="graficas.html"><button type="button">Gráficas</button></a>
+          </li>
         </ul>
       </nav>
     </header>
 
     <main id="encuentros-id" class="encuentros">
       <div class="encuentros__instrucciones">
-        <p> 
-          Complete los datos y presione "Calcular Encuentro" para ver cuándo y dónde se encontrarán los vehículos.
+        <p>
+          Complete los datos y presione "Calcular Encuentro" para ver cuándo y
+          dónde se encontrarán los vehículos.
           <br />
-          <strong>💡 Tip:</strong> Puede usar notación científica (ej: 1.5e3 = 1.5 × 10³= 1500)
+          <strong>💡 Tip:</strong> Puede usar notación científica (ej: 1.5e3 =
+          1.5 × 10³= 1500)
         </p>
       </div>
 
       <div class="container-principal">
         <div class="formulario-seccion">
-          <form class="encuentros__formulario" id="formEncuentros" action="#canvasContainer">
-            
+          <form
+            class="encuentros__formulario"
+            id="formEncuentros"
+            action="#canvasContainer"
+          >
             <div class="autos-container">
               <fieldset class="bloque-formulario formulario--primer-movil">
                 <h3 class="bloque-formulario__titulo">🚗 Primer Auto</h3>
-                
+
                 <div class="campo-encuentro">
-                  <label for="posicion_x1" class="campo__subtitulo">¿Dónde inicia?</label>
+                  <label for="posicion_x1" class="campo__subtitulo"
+                    >¿Dónde inicia?</label
+                  >
                   <div class="formulario__campo">
                     <div class="campo-con-ayuda">
                       <input
@@ -543,7 +567,9 @@
                 </div>
 
                 <div class="campo-encuentro">
-                  <label for="velocidad_x1" class="campo__subtitulo">¿A qué velocidad va?</label>
+                  <label for="velocidad_x1" class="campo__subtitulo"
+                    >¿A qué velocidad va?</label
+                  >
                   <div class="formulario__campo">
                     <div class="campo-con-ayuda">
                       <input
@@ -564,7 +590,9 @@
                 </div>
 
                 <div class="campo-encuentro">
-                  <label for="tiempo_x1" class="campo__subtitulo">¿Cuándo inicia?</label>
+                  <label for="tiempo_x1" class="campo__subtitulo"
+                    >¿Cuándo inicia?</label
+                  >
                   <div class="formulario__campo">
                     <div class="campo-con-ayuda">
                       <input
@@ -587,9 +615,11 @@
 
               <fieldset class="bloque-formulario formulario--segundo-movil">
                 <h3 class="bloque-formulario__titulo">🚙 Segundo Auto</h3>
-                
+
                 <div class="campo-encuentro">
-                  <label for="posicion_x2" class="campo__subtitulo">¿Dónde inicia?</label>
+                  <label for="posicion_x2" class="campo__subtitulo"
+                    >¿Dónde inicia?</label
+                  >
                   <div class="formulario__campo">
                     <div class="campo-con-ayuda">
                       <input
@@ -610,7 +640,9 @@
                 </div>
 
                 <div class="campo-encuentro">
-                  <label for="velocidad_x2" class="campo__subtitulo">¿A qué velocidad va?</label>
+                  <label for="velocidad_x2" class="campo__subtitulo"
+                    >¿A qué velocidad va?</label
+                  >
                   <div class="formulario__campo">
                     <div class="campo-con-ayuda">
                       <input
@@ -631,7 +663,9 @@
                 </div>
 
                 <div class="campo-encuentro">
-                  <label for="tiempo_x2" class="campo__subtitulo">¿Cuándo inicia?</label>
+                  <label for="tiempo_x2" class="campo__subtitulo"
+                    >¿Cuándo inicia?</label
+                  >
                   <div class="formulario__campo">
                     <div class="campo-con-ayuda">
                       <input
@@ -654,7 +688,9 @@
             </div>
 
             <fieldset class="bloque-formulario formulario--direccion-bloque">
-              <h3 class="bloque-formulario__titulo">🧭 Dirección del movimiento</h3>
+              <h3 class="bloque-formulario__titulo">
+                🧭 Dirección del movimiento
+              </h3>
 
               <div class="direccion-bloque__opciones">
                 <div class="opciones__direccion">
@@ -693,7 +729,9 @@
 
             <fieldset class="bloque-formulario formulario--opciones-resultado">
               <div class="formulario__campo unidad-salida">
-                <label for="unidadSalida" class="campo__texto">Mostrar resultados en:</label>
+                <label for="unidadSalida" class="campo__texto"
+                  >Mostrar resultados en:</label
+                >
                 <select id="unidadSalida" class="campo__select-options">
                   <option value="m">Metros</option>
                   <option value="km">Kilómetros</option>
@@ -702,8 +740,15 @@
             </fieldset>
 
             <div class="botones-container">
-              <input type="submit" id="calcularEncuentroBtn" value="Calcular Encuentro" class="boton-calcular" />
-              <button type="button" id="limpiarCamposBtn" class="boton-limpiar">🗑️ Limpiar Campos</button>
+              <input
+                type="submit"
+                id="calcularEncuentroBtn"
+                value="Calcular Encuentro"
+                class="boton-calcular"
+              />
+              <button type="button" id="limpiarCamposBtn" class="boton-limpiar">
+                🗑️ Limpiar Campos
+              </button>
             </div>
           </form>
         </div>
@@ -739,94 +784,145 @@
             </div>
           </section>
 
-          <section class="encuentros__visualizacion">
-            <h3 class="visualizacion__titulo">🎯 Visualización</h3>
-            <div id="canvasContainer" class="visualizacion__container">
-              <!-- El canvas se insertará aquí -->
-            </div>
-          </section>
+<section class="encuentros__visualizacion">
+  <h3 class="visualizacion__titulo">🎯 Visualización</h3>
+
+  <div id="canvasContainer" class="visualizacion__container" style="width: 100%;">
+    <!-- Aquí se inserta el canvas -->
+  </div>
+
+  <div id="legend" style="margin-top: 15px; font-family: Arial, sans-serif; font-size: 14px; line-height: 1.4;">
+    <h3>Leyenda</h3>
+
+    <div style="display: flex; align-items: center; margin-bottom: 8px;">
+      <div style="width: 16px; height: 16px; background-color: blue; border-radius: 50%; margin-right: 8px;"></div>
+      Posición inicial Obj1
+    </div>
+
+    <div style="display: flex; align-items: center; margin-bottom: 8px;">
+      <div style="width: 16px; height: 16px; background-color: green; border-radius: 50%; margin-right: 8px;"></div>
+      Posición inicial Obj2
+    </div>
+
+    <div style="display: flex; align-items: center; margin-bottom: 8px;">
+      <div style="width: 12px; height: 12px; background-color: orange; border-radius: 50%; margin-right: 8px;"></div>
+      Inicio efectivo Obj2
+    </div>
+
+    <div style="display: flex; align-items: center; margin-bottom: 8px;">
+      <div style="width: 12px; height: 12px; background-color: yellow; border-radius: 50%; margin-right: 8px; border: 1px solid #ccc;"></div>
+      Inicio efectivo Obj1
+    </div>
+
+    <div style="display: flex; align-items: center; margin-bottom: 8px;">
+      <div style="width: 20px; height: 12px; background-color: red; margin-right: 8px;"></div>
+      Punto de encuentro
+    </div>
+
+    <div style="display: flex; align-items: center;">
+      <svg width="20" height="10" style="margin-right: 8px;">
+        <line x1="0" y1="5" x2="20" y2="5" stroke="blue" stroke-width="4" />
+        <polygon points="18,0 20,5 18,10" fill="blue" />
+      </svg>
+      Dirección Obj1
+    </div>
+
+    <div style="display: flex; align-items: center;">
+      <svg width="20" height="10" style="margin-right: 8px;">
+        <line x1="0" y1="5" x2="20" y2="5" stroke="green" stroke-width="4" />
+        <polygon points="18,0 20,5 18,10" fill="green" />
+      </svg>
+      Dirección Obj2
+    </div>
+  </div>
+</section>
+
         </div>
       </div>
     </main>
 
-<script>
-  // Variables globales para manejo del canvas responsive
-  let canvasInstance = null;
-  let canvasContainer = null;
+    <script>
+      // Variables globales para manejo del canvas responsive
+      let canvasInstance = null;
+      let canvasContainer = null;
 
-  // Función para redimensionar el canvas
-  function resizeCanvas() {
-    if (canvasInstance && canvasContainer) {
-      const container = document.getElementById('canvasContainer');
-      if (container) {
-        const containerRect = container.getBoundingClientRect();
-        const maxWidth = Math.min(containerRect.width - 20, 400); // 20px de padding
-        const maxHeight = Math.min(containerRect.height - 20, 300);
-        if (typeof canvasInstance.resizeCanvas === 'function') {
-          canvasInstance.resizeCanvas(maxWidth, maxHeight);
+      // Función para redimensionar el canvas
+      function resizeCanvas() {
+        if (canvasInstance && canvasContainer) {
+          const container = document.getElementById("canvasContainer");
+          if (container) {
+            const containerRect = container.getBoundingClientRect();
+            const maxWidth = Math.min(containerRect.width - 20, 400); // 20px de padding
+            const maxHeight = Math.min(containerRect.height - 20, 300);
+            if (typeof canvasInstance.resizeCanvas === "function") {
+              canvasInstance.resizeCanvas(maxWidth, maxHeight);
+            }
+          }
         }
       }
-    }
-  }
 
-  // Redimensionar en cambios de tamaño de ventana
-  window.addEventListener('resize', function () {
-    clearTimeout(window.resizeTimeout);
-    window.resizeTimeout = setTimeout(resizeCanvas, 100);
-  });
+      // Redimensionar en cambios de tamaño de ventana
+      window.addEventListener("resize", function () {
+        clearTimeout(window.resizeTimeout);
+        window.resizeTimeout = setTimeout(resizeCanvas, 100);
+      });
 
-  // Botón para limpiar campos
-  document.getElementById('limpiarCamposBtn').addEventListener('click', function () {
-    // Limpiar inputs de texto
-    document.querySelectorAll('input[type="text"]').forEach(input => {
-      if (!input.readOnly) input.value = '';
-    });
+      // Botón para limpiar campos
+      document
+        .getElementById("limpiarCamposBtn")
+        .addEventListener("click", function () {
+          // Limpiar inputs de texto
+          document.querySelectorAll('input[type="text"]').forEach((input) => {
+            if (!input.readOnly) input.value = "";
+          });
 
-    // Limpiar radio buttons
-    document.querySelectorAll('input[type="radio"]').forEach(radio => {
-      radio.checked = false;
-    });
+          // Limpiar radio buttons
+          document.querySelectorAll('input[type="radio"]').forEach((radio) => {
+            radio.checked = false;
+          });
 
-    // Resetear selects
-    document.querySelectorAll('select').forEach(select => {
-      select.selectedIndex = 0;
-    });
+          // Resetear selects
+          document.querySelectorAll("select").forEach((select) => {
+            select.selectedIndex = 0;
+          });
 
-    // Limpiar resultados
-    document.getElementById('tiempoEncuentro').value = '';
-    document.getElementById('resultadoEncuentros').value = '';
-    document.getElementById('tiempoEncuentro').placeholder = 'Esperando cálculo...';
-    document.getElementById('resultadoEncuentros').placeholder = 'Esperando cálculo...';
+          // Limpiar resultados
+          document.getElementById("tiempoEncuentro").value = "";
+          document.getElementById("resultadoEncuentros").value = "";
+          document.getElementById("tiempoEncuentro").placeholder =
+            "Esperando cálculo...";
+          document.getElementById("resultadoEncuentros").placeholder =
+            "Esperando cálculo...";
 
-    // Limpiar canvas
-    const container = document.getElementById('canvasContainer');
-    if (container) {
-      const existingCanvas = container.querySelector('canvas');
-      if (existingCanvas) existingCanvas.remove();
+          // Limpiar canvas
+          const container = document.getElementById("canvasContainer");
+          if (container) {
+            const existingCanvas = container.querySelector("canvas");
+            if (existingCanvas) existingCanvas.remove();
 
-      container.innerHTML = '';
-      container.style.display = 'flex';
-      container.style.alignItems = 'center';
-      container.style.justifyContent = 'center';
-      container.style.color = '#718096';
+            container.innerHTML = "";
+            container.style.display = "flex";
+            container.style.alignItems = "center";
+            container.style.justifyContent = "center";
+            container.style.color = "#718096";
 
-      canvasInstance = null;
-    }
+            canvasInstance = null;
+          }
 
-    if (typeof window.limpiarCanvas === 'function') {
-      window.limpiarCanvas();
-    }
+          if (typeof window.limpiarCanvas === "function") {
+            window.limpiarCanvas();
+          }
 
-    console.log('Campos limpiados correctamente');
-  });
+          console.log("Campos limpiados correctamente");
+        });
 
-  // Función global para establecer la instancia del canvas
-  window.setCanvasInstance = function (instance) {
-    canvasInstance = instance;
-    canvasContainer = document.getElementById('canvasContainer');
-    setTimeout(resizeCanvas, 100);
-  };
-</script>
+      // Función global para establecer la instancia del canvas
+      window.setCanvasInstance = function (instance) {
+        canvasInstance = instance;
+        canvasContainer = document.getElementById("canvasContainer");
+        setTimeout(resizeCanvas, 100);
+      };
+    </script>
 
     <script src="js/encuentros.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
@@ -839,7 +935,7 @@
           text: "Esta herramienta te permite calcular el punto y tiempo de encuentro entre dos objetos en movimiento rectilíneo uniforme (MRU). Solo necesitas ingresar los datos iniciales y la calculadora hará el resto.",
           confirmButtonText: "¡Entendido!",
           timer: 10000,
-          timerProgressBar: true
+          timerProgressBar: true,
         });
       };
     </script>

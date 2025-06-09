@@ -122,12 +122,19 @@ document.addEventListener("DOMContentLoaded", function () {
             });
 
             if (Math.abs(t1Base - t2Base) > 0.0001) {
+                p.stroke("rgba(0,0,200,0.6)"); // Más oscura
+                p.strokeWeight(2);
                 p.drawingContext.setLineDash([5, 5]);
-                p.stroke("rgba(0,0,255,0.3)");
                 p.line(inicioX1, 80, inicioX1Efectivo, 80);
-                p.stroke("rgba(0,255,0,0.3)");
+                p.drawingContext.setLineDash([]);
+
+                // Línea punteada Obj2
+                p.stroke("rgba(0,150,0,0.6)"); // Más oscura
+                p.strokeWeight(2);
+                p.drawingContext.setLineDash([5, 5]);
                 p.line(inicioX2, 120, inicioX2Efectivo, 120);
                 p.drawingContext.setLineDash([]);
+
             }
 
             p.stroke("blue");
@@ -136,17 +143,28 @@ document.addEventListener("DOMContentLoaded", function () {
             p.stroke("green");
             p.line(inicioX2Efectivo, 120, encuentroX, 120);
 
+            p.textAlign(p.CENTER);
             p.noStroke();
             p.fill("blue");
             p.text("🚗 Posición inicial Obj1", inicioX1, 60);
+            p.fill("black");
+            p.text(`Parte en t = ${t1Base.toFixed(2)} s`, inicioX1, 75);
+
+            // Texto y tiempo debajo de Obj2
             p.fill("green");
             p.text("🚙 Posición inicial Obj2", inicioX2, 140);
+            p.fill("black");
+            p.text(`Parte en t = ${t2Base.toFixed(2)} s`, inicioX2, 155);
 
-            p.noStroke();
             p.fill("blue");
-            p.ellipse(inicioX1, 80, 8, 8);
+            p.stroke("black");
+            p.strokeWeight(1);
+            p.ellipse(inicioX1, 80, 10, 10); // Aumentado de 8 a 10
+
             p.fill("green");
-            p.ellipse(inicioX2, 120, 8, 8);
+            p.stroke("black");
+            p.strokeWeight(1);
+            p.ellipse(inicioX2, 120, 10, 10); // Aumentado de 8 a 10
 
             p.fill("orange");
             p.ellipse(inicioX1Efectivo, 80, 8, 8);
@@ -167,37 +185,6 @@ document.addEventListener("DOMContentLoaded", function () {
             p.stroke("red");
             p.strokeWeight(2);
             p.line(encuentroX, 70, encuentroX, 130);
-
-            p.noStroke();
-            p.fill("black");
-            p.textAlign(p.LEFT);
-            p.textSize(12);
-            p.text("Leyenda:", p.width - 150, 40);
-
-            p.fill("blue");
-            p.ellipse(p.width - 140, 55, 8, 8);
-            p.fill("black");
-            p.text("Posición inicial Obj1", p.width - 125, 58);
-
-            p.fill("green");
-            p.ellipse(p.width - 140, 75, 8, 8);
-            p.fill("black");
-            p.text("Posición inicial Obj2", p.width - 125, 78);
-
-            p.fill("orange");
-            p.ellipse(p.width - 140, 95, 8, 8);
-            p.fill("black");
-            p.text("Inicio efectivo Obj1", p.width - 125, 98);
-
-            p.fill("yellow");
-            p.ellipse(p.width - 140, 115, 8, 8);
-            p.fill("black");
-            p.text("Inicio efectivo Obj2", p.width - 125, 118);
-
-            p.fill("red");
-            p.ellipse(p.width - 140, 135, 8, 8);
-            p.fill("black");
-            p.text("Punto de encuentro", p.width - 125, 138);
 
             drawArrow(inicioX1Efectivo + 20, 80, v1 > 0 ? 10 : -10, "blue");
             drawArrow(inicioX2Efectivo + 20, 120, v2 > 0 ? 10 : -10, "green");
